@@ -1,0 +1,90 @@
+name: 🎮 Windows WinRT Builds
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # MSBUILD
+  lint_vs_proj_files:
+    name: Lint VS Project Files
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Verify VS Project Files
+        run: .github\workflows\scripts\windows\validate-vs-filters.ps1
+
+  winrt-build-avx2:
+    name: Building WinRT (AVX2)
+    needs: lint_vs_proj_files
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+        
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Setup NuGet.exe
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-version: latest  
+
+      - name: Download Patches
+        shell: cmd
+        run: |
+          cd bin/resources
+          aria2c -Z "https://github.com/PCSX2/pcsx2_patches/releases/tag/latest/download/patches.zip"
+
+      - name: Build project
+        run: |
+          msbuild PCSX2_winrt.sln /m /p:Platform=x64 /p:Configuration="Release WinRT AVX2" /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="xbsx2_TemporaryKey.pfx" /t:restore,build /p:RestorePackagesConfig=true
+
+      - name: Upload Builds
+        uses: actions/upload-artifact@v3
+        with:
+          name: XBSX2.0 Nightly Build (AVX2)
+          path: AppPackages/xbsx2
+
+  winrt-build-sse4:
+    name: Building WinRT (SSE4)
+    needs: lint_vs_proj_files
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+        
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Setup NuGet.exe
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-version: latest  
+
+      - name: Download Patches
+        shell: cmd
+        run: |
+          cd bin/resources
+          aria2c -Z "https://github.com/PCSX2/pcsx2_patches/releases/tag/latest/download/patches.zip"
+
+      - name: Build project
+        run: |
+          msbuild PCSX2_winrt.sln /m /p:Platform=x64 /p:Configuration="Release WinRT" /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="xbsx2_TemporaryKey.pfx" /t:restore,build /p:RestorePackagesConfig=true
+
+      - name: Upload Builds
+        uses: actions/upload-artifact@v3
+        with:
+          name: XBSX2.0 Nightly Build (SSE4)
+          path: AppPackages/xbsx2
