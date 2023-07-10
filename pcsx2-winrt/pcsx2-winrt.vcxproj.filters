@@ -167,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="pcsx2-winrt_TemporaryKey.pfx" />
+    <None Include="xbsx2_TemporaryKey.pfx" />
     <None Include="PropertySheet.props" />
     <None Include="resources\patches.zip">
       <Filter>resources</Filter>

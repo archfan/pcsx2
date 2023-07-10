@@ -369,7 +369,7 @@
     <None Include="GS\Renderers\Vulkan\VKEntryPoints.inl">
       <Filter>System\Ps2\GS\Renderers\Vulkan</Filter>
     </None>
-    <None Include="packages.config" />
+    <None Include="..\pcsx2-winrt\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Patch.cpp">
