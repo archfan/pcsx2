@@ -30,6 +30,7 @@ target_sources(common PRIVATE
 	Semaphore.cpp
 	SettingsWrapper.cpp
 	StringUtil.cpp
+	TextureDecompress.cpp
 	Timer.cpp
 	ThreadPool.cpp
 	WAVWriter.cpp
@@ -60,10 +61,10 @@ target_sources(common PRIVATE
 
 # x86emitter headers
 target_sources(common PRIVATE
-	Align.h
 	AlignedMalloc.h
 	Assertions.h
 	boost_spsc_queue.hpp
+	BitUtils.h
 	ByteSwap.h
 	Console.h
 	CrashHandler.h
@@ -94,6 +95,7 @@ target_sources(common PRIVATE
 	SettingsWrapper.h
 	StringUtil.h
 	Timer.h
+	TextureDecompress.h
 	Threading.h
 	ThreadPool.h
 	TraceLog.h

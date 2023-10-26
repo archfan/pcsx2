@@ -1,5 +1,5 @@
 /*  PCSX2 - PS2 Emulator for PCs
- *  Copyright (C) 2002-2021 PCSX2 Dev Team
+ *  Copyright (C) 2002-2023 PCSX2 Dev Team
  *
  *  PCSX2 is free software: you can redistribute it and/or modify it under the terms
  *  of the GNU Lesser General Public License as published by the Free Software Found-
@@ -22,12 +22,13 @@
 #include "GS/GSUtil.h"
 #include "Host.h"
 
-#include "common/Align.h"
+#include "common/BitUtils.h"
 #include "common/Path.h"
 #include "common/StringUtil.h"
 
 #include "imgui.h"
 
+#include <bit>
 #include <fstream>
 #include <sstream>
 #include <VersionHelpers.h>
@@ -1219,7 +1220,8 @@ void GSDevice11::StretchRect(GSTexture* sTex, const GSVector4& sRect, GSTexture*
 {
 	pxAssert(dTex->IsDepthStencil() == HasDepthOutput(shader));
 	pxAssert(linear ? SupportsBilinear(shader) : SupportsNearest(shader));
-	StretchRect(sTex, sRect, dTex, dRect, m_convert.ps[static_cast<int>(shader)].get(), nullptr, linear);
+	StretchRect(sTex, sRect, dTex, dRect, m_convert.ps[static_cast<int>(shader)].get(), nullptr,
+		m_convert.bs[ShaderConvertWriteMask(shader)].get(), linear);
 }
 
 void GSDevice11::StretchRect(GSTexture* sTex, const GSVector4& sRect, GSTexture* dTex, const GSVector4& dRect, ID3D11PixelShader* ps, ID3D11Buffer* ps_cb, bool linear)
@@ -1735,7 +1737,7 @@ void GSDevice11::RenderImGui()
 		// This mess is because the vertex size isn't the same...
 		u32 vertex_offset;
 		{
-			static_assert(Common::IsPow2(sizeof(GSVertexPT1)));
+			static_assert(std::has_single_bit(sizeof(GSVertexPT1)));
 
 			D3D11_MAP type = D3D11_MAP_WRITE_NO_OVERWRITE;
 

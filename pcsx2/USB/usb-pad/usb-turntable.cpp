@@ -282,6 +282,17 @@ namespace usb_pad
 		return nullptr;
 	}
 
+	bool DJTurntableDevice::Freeze(USBDevice* dev, StateWrapper& sw) const
+	{
+		TurntableState* s = USB_CONTAINER_OF(dev, TurntableState, dev);
+		
+		if (!sw.DoMarker("DJTurntableDevice"))
+			return false;
+
+		sw.Do(&s->data.euphoria_led_state);
+		return !sw.HasError();
+	}
+
 	void DJTurntableDevice::UpdateSettings(USBDevice* dev, SettingsInterface& si) const
 	{
 		USB_CONTAINER_OF(dev, TurntableState, dev)->UpdateSettings(si, TypeName());
@@ -430,7 +441,7 @@ namespace usb_pad
 		}
 	}
 
-	gsl::span<const InputBindingInfo> DJTurntableDevice::Bindings(u32 subtype) const
+	std::span<const InputBindingInfo> DJTurntableDevice::Bindings(u32 subtype) const
 	{
 		static constexpr const InputBindingInfo bindings[] = {
 			{"DPadUp", TRANSLATE_NOOP("USB", "D-Pad Up"), InputBindingInfo::Type::Button, CID_DJ_DPAD_UP, GenericInputBinding::DPadUp},
@@ -463,7 +474,7 @@ namespace usb_pad
 		return bindings;
 	}
 
-	gsl::span<const SettingInfo> DJTurntableDevice::Settings(u32 subtype) const
+	std::span<const SettingInfo> DJTurntableDevice::Settings(u32 subtype) const
 	{
 		static constexpr const SettingInfo info[] = {
 			{SettingInfo::Type::Float, "TurntableMultiplier", TRANSLATE_NOOP("USB", "Turntable Multiplier"),

@@ -29,10 +29,7 @@
 #include "ImGui/ImGuiFullscreen.h"
 #include "ImGui/ImGuiManager.h"
 #include "Input/InputManager.h"
-#include "MemoryCardFile.h"
 #include "MTGS.h"
-#include "PAD/Host/PAD.h"
-#include "Sio.h"
 #include "USB/USB.h"
 #include "VMManager.h"
 #include "ps2/BiosTools.h"
@@ -49,6 +46,10 @@
 #include "common/StringUtil.h"
 #include "common/Threading.h"
 #include "common/Timer.h"
+
+#include "SIO/Memcard/MemoryCardFile.h"
+#include "SIO/Pad/Pad.h"
+#include "SIO/Sio.h"
 
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -85,8 +86,8 @@ using ImGuiFullscreen::UIPrimaryLightColor;
 using ImGuiFullscreen::UIPrimaryLineColor;
 using ImGuiFullscreen::UIPrimaryTextColor;
 using ImGuiFullscreen::UISecondaryColor;
-using ImGuiFullscreen::UISecondaryDarkColor;
-using ImGuiFullscreen::UISecondaryLightColor;
+using ImGuiFullscreen::UISecondaryWeakColor;
+using ImGuiFullscreen::UISecondaryStrongColor;
 using ImGuiFullscreen::UISecondaryTextColor;
 using ImGuiFullscreen::UITextHighlightColor;
 
@@ -2285,7 +2286,7 @@ void FullscreenUI::StartAutomaticBinding(u32 port)
 					Host::RunOnCPUThread([port, name = std::move(names[index])]() {
 						auto lock = Host::GetSettingsLock();
 						SettingsInterface* bsi = GetEditingSettingsInterface();
-						const bool result = PAD::MapController(*bsi, port, InputManager::GetGenericBindingMapping(name));
+						const bool result = Pad::MapController(*bsi, port, InputManager::GetGenericBindingMapping(name));
 						SetSettingsChanged(bsi);
 
 
@@ -3369,7 +3370,7 @@ void FullscreenUI::DrawGraphicsSettingsPage()
 			1, 100, "%d", shadeboost_active);
 
 		static constexpr const char* s_tv_shaders[] = {
-			"None (Default)", "Scanline Filter", "Diagonal Filter", "Triangular Filter", "Wave Filter", "Lottes CRT"};
+			"None (Default)", "Scanline Filter", "Diagonal Filter", "Triangular Filter", "Wave Filter", "Lottes CRT", "4xRGSS", "NxAGSS"};
 		DrawIntListSetting(
 			bsi, "TV Shaders", "Selects post-processing TV shader.", "EmuCore/GS", "TVShader", 0, s_tv_shaders, std::size(s_tv_shaders));
 	}
@@ -3668,7 +3669,7 @@ void FullscreenUI::CopyGlobalControllerSettingsToGame()
 	SettingsInterface* dsi = GetEditingSettingsInterface(true);
 	SettingsInterface* ssi = GetEditingSettingsInterface(false);
 
-	PAD::CopyConfiguration(dsi, *ssi, true, true, false);
+	Pad::CopyConfiguration(dsi, *ssi, true, true, false);
 	USB::CopyConfiguration(dsi, *ssi, true, true);
 	SetSettingsChanged(dsi);
 
@@ -3679,15 +3680,15 @@ void FullscreenUI::ResetControllerSettings()
 {
 	SettingsInterface* dsi = GetEditingSettingsInterface();
 
-	PAD::SetDefaultControllerConfig(*dsi);
-	PAD::SetDefaultHotkeyConfig(*dsi);
+	Pad::SetDefaultControllerConfig(*dsi);
+	Pad::SetDefaultHotkeyConfig(*dsi);
 	USB::SetDefaultConfiguration(dsi);
 	ShowToast(std::string(), "Controller settings reset to default.");
 }
 
 void FullscreenUI::DoLoadInputProfile()
 {
-	std::vector<std::string> profiles(PAD::GetInputProfileNames());
+	std::vector<std::string> profiles = Pad::GetInputProfileNames();
 	if (profiles.empty())
 	{
 		ShowToast(std::string(), "No input profiles available.");
@@ -3713,7 +3714,7 @@ void FullscreenUI::DoLoadInputProfile()
 
 			auto lock = Host::GetSettingsLock();
 			SettingsInterface* dsi = GetEditingSettingsInterface();
-			PAD::CopyConfiguration(dsi, ssi, true, true, IsEditingGameSettings(dsi));
+			Pad::CopyConfiguration(dsi, ssi, true, true, IsEditingGameSettings(dsi));
 			USB::CopyConfiguration(dsi, ssi, true, true);
 			SetSettingsChanged(dsi);
 			ShowToast(std::string(), fmt::format("Input profile '{}' loaded.", title));
@@ -3727,7 +3728,7 @@ void FullscreenUI::DoSaveInputProfile(const std::string& name)
 
 	auto lock = Host::GetSettingsLock();
 	SettingsInterface* ssi = GetEditingSettingsInterface();
-	PAD::CopyConfiguration(&dsi, *ssi, true, true, IsEditingGameSettings(ssi));
+	Pad::CopyConfiguration(&dsi, *ssi, true, true, IsEditingGameSettings(ssi));
 	USB::CopyConfiguration(&dsi, *ssi, true, true);
 	if (dsi.Save())
 		ShowToast(std::string(), fmt::format("Input profile '{}' saved.", name));
@@ -3737,7 +3738,7 @@ void FullscreenUI::DoSaveInputProfile(const std::string& name)
 
 void FullscreenUI::DoSaveInputProfile()
 {
-	std::vector<std::string> profiles(PAD::GetInputProfileNames());
+	std::vector<std::string> profiles = Pad::GetInputProfileNames();
 
 	ImGuiFullscreen::ChoiceDialogOptions coptions;
 	coptions.reserve(profiles.size() + 1);
@@ -3854,8 +3855,8 @@ void FullscreenUI::DrawControllerSettingsPage()
 
 	// we reorder things a little to make it look less silly for mtap
 	static constexpr const std::array<char, 4> mtap_slot_names = {{'A', 'B', 'C', 'D'}};
-	static constexpr const std::array<u32, PAD::NUM_CONTROLLER_PORTS> mtap_port_order = {{0, 2, 3, 4, 1, 5, 6, 7}};
-	static constexpr const std::array<const char*, PAD::NUM_CONTROLLER_PORTS> sections = {
+	static constexpr const std::array<u32, Pad::NUM_CONTROLLER_PORTS> mtap_port_order = {{0, 2, 3, 4, 1, 5, 6, 7}};
+	static constexpr const std::array<const char*, Pad::NUM_CONTROLLER_PORTS> sections = {
 		{"Pad1", "Pad2", "Pad3", "Pad4", "Pad5", "Pad6", "Pad7", "Pad8"}};
 
 	// create the ports
@@ -3873,11 +3874,11 @@ void FullscreenUI::DrawControllerSettingsPage()
 				.c_str());
 
 		const char* section = sections[global_slot];
-		const std::string type(bsi->GetStringValue(section, "Type", PAD::GetDefaultPadType(global_slot)));
-		const PAD::ControllerInfo* ci = PAD::GetControllerInfo(type);
+		const std::string type(bsi->GetStringValue(section, "Type", Pad::GetDefaultPadType(global_slot)));
+		const Pad::ControllerInfo* ci = Pad::GetControllerInfo(type);
 		if (MenuButton(ICON_FA_GAMEPAD " Controller Type", ci ? ci->display_name : "Unknown"))
 		{
-			const std::vector<std::pair<const char*, const char*>> raw_options = PAD::GetControllerTypeNames();
+			const std::vector<std::pair<const char*, const char*>> raw_options = Pad::GetControllerTypeNames();
 			ImGuiFullscreen::ChoiceDialogOptions options;
 			options.reserve(raw_options.size());
 			for (auto& it : raw_options)
@@ -3898,7 +3899,7 @@ void FullscreenUI::DrawControllerSettingsPage()
 				});
 		}
 
-		if (!ci || ci->num_bindings == 0)
+		if (!ci || ci->bindings.empty())
 		{
 			ImGui::PopID();
 			continue;
@@ -3907,20 +3908,17 @@ void FullscreenUI::DrawControllerSettingsPage()
 		if (MenuButton(ICON_FA_MAGIC " Automatic Mapping", "Attempts to map the selected port to a chosen controller."))
 			StartAutomaticBinding(global_slot);
 
-		for (u32 i = 0; i < ci->num_bindings; i++)
-		{
-			const InputBindingInfo& bi = ci->bindings[i];
-			DrawInputBindingButton(bsi, bi.bind_type, section, bi.name, bi.display_name, true);
-		}
+		for (const InputBindingInfo& bi : ci->bindings)
+			DrawInputBindingButton(bsi, bi.bind_type, section, bi.name, Host::TranslateToCString("Pad", bi.display_name), true);
 
 		MenuHeading((mtap_enabled[mtap_port] ?
 						 fmt::format(ICON_FA_MICROCHIP " Controller Port {}{} Macros", mtap_port + 1, mtap_slot_names[mtap_slot]) :
 						 fmt::format(ICON_FA_MICROCHIP " Controller Port {} Macros", mtap_port + 1))
 						.c_str());
 
-		static bool macro_button_expanded[PAD::NUM_CONTROLLER_PORTS][PAD::NUM_MACRO_BUTTONS_PER_CONTROLLER] = {};
+		static bool macro_button_expanded[Pad::NUM_CONTROLLER_PORTS][Pad::NUM_MACRO_BUTTONS_PER_CONTROLLER] = {};
 
-		for (u32 macro_index = 0; macro_index < PAD::NUM_MACRO_BUTTONS_PER_CONTROLLER; macro_index++)
+		for (u32 macro_index = 0; macro_index < Pad::NUM_MACRO_BUTTONS_PER_CONTROLLER; macro_index++)
 		{
 			bool& expanded = macro_button_expanded[global_slot][macro_index];
 			expanded ^= MenuHeadingButton(fmt::format(ICON_FA_MICROCHIP " Macro Button {}", macro_index + 1).c_str(),
@@ -3936,25 +3934,23 @@ void FullscreenUI::DrawControllerSettingsPage()
 			{
 				std::vector<std::string_view> buttons_split(StringUtil::SplitString(binds_string, '&', true));
 				ImGuiFullscreen::ChoiceDialogOptions options;
-				for (u32 i = 0; i < ci->num_bindings; i++)
+				for (const InputBindingInfo& bi : ci->bindings)
 				{
-					const InputBindingInfo& bi = ci->bindings[i];
 					if (bi.bind_type != InputBindingInfo::Type::Button && bi.bind_type != InputBindingInfo::Type::Axis &&
 						bi.bind_type != InputBindingInfo::Type::HalfAxis)
 					{
 						continue;
 					}
-					options.emplace_back(bi.display_name, std::any_of(buttons_split.begin(), buttons_split.end(),
-															  [bi](const std::string_view& it) { return (it == bi.name); }));
+					options.emplace_back(Host::TranslateToCString("Pad", bi.display_name), std::any_of(buttons_split.begin(), buttons_split.end(),
+																							   [bi](const std::string_view& it) { return (it == bi.name); }));
 				}
 
 				OpenChoiceDialog(fmt::format("Select Macro {} Binds", macro_index + 1).c_str(), true, std::move(options),
 					[section, macro_index, ci](s32 index, const std::string& title, bool checked) {
 						// convert display name back to bind name
 						std::string_view to_modify;
-						for (u32 j = 0; j < ci->num_bindings; j++)
+						for (const InputBindingInfo& bi : ci->bindings)
 						{
-							const InputBindingInfo& bi = ci->bindings[j];
 							if (bi.display_name == title)
 							{
 								to_modify = bi.name;
@@ -4004,6 +4000,10 @@ void FullscreenUI::DrawControllerSettingsPage()
 			DrawFloatSpinBoxSetting(bsi, ICON_FA_ARROW_DOWN " Pressure", "Determines how much pressure is simulated when macro is active.",
 				section, pressure_key.c_str(), 1.0f, 0.01f, 1.0f, 0.01f, 100.0f, "%.0f%%");
 
+			const std::string deadzone_key(fmt::format("Macro{}Deadzone", macro_index + 1));
+			DrawFloatSpinBoxSetting(bsi, ICON_FA_ARROW_DOWN " Pressure", "Determines the pressure required to activate the macro.",
+				section, deadzone_key.c_str(), 0.0f, 0.00f, 1.0f, 0.01f, 100.0f, "%.0f%%");
+
 			ImGui::SetNextWindowSize(LayoutScale(500.0f, 180.0f));
 			ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
@@ -4038,18 +4038,15 @@ void FullscreenUI::DrawControllerSettingsPage()
 			ImGui::PopFont();
 		}
 
-		if (ci->num_settings > 0)
+		if (!ci->settings.empty())
 		{
 			MenuHeading((mtap_enabled[mtap_port] ?
 							 fmt::format(ICON_FA_SLIDERS_H " Controller Port {}{} Settings", mtap_port + 1, mtap_slot_names[mtap_slot]) :
 							 fmt::format(ICON_FA_SLIDERS_H " Controller Port {} Settings", mtap_port + 1))
 							.c_str());
 
-			for (u32 i = 0; i < ci->num_settings; i++)
-			{
-				const SettingInfo& si = ci->settings[i];
+			for (const SettingInfo& si : ci->settings)
 				DrawSettingInfoSetting(bsi, section, si.name, si);
-			}
 		}
 
 		ImGui::PopID();
@@ -4091,7 +4088,7 @@ void FullscreenUI::DrawControllerSettingsPage()
 		}
 
 		const u32 subtype = USB::GetConfigSubType(*bsi, port, type);
-		const gsl::span<const char*> subtypes(USB::GetDeviceSubtypes(type));
+		const std::span<const char*> subtypes(USB::GetDeviceSubtypes(type));
 		if (!subtypes.empty())
 		{
 			const char* subtype_name = USB::GetDeviceSubtypeName(type, subtype);
@@ -4116,7 +4113,7 @@ void FullscreenUI::DrawControllerSettingsPage()
 			}
 		}
 
-		const gsl::span<const InputBindingInfo> bindings(USB::GetDeviceBindings(type, subtype));
+		const std::span<const InputBindingInfo> bindings(USB::GetDeviceBindings(type, subtype));
 		if (!bindings.empty())
 		{
 			MenuHeading(fmt::format(ICON_FA_KEYBOARD " {} Bindings", USB::GetDeviceName(type)).c_str());
@@ -4129,10 +4126,13 @@ void FullscreenUI::DrawControllerSettingsPage()
 
 			const std::string section(USB::GetConfigSection(port));
 			for (const InputBindingInfo& bi : bindings)
-				DrawInputBindingButton(bsi, bi.bind_type, section.c_str(), USB::GetConfigSubKey(type, bi.name).c_str(), bi.display_name);
+			{
+				DrawInputBindingButton(bsi, bi.bind_type, section.c_str(), USB::GetConfigSubKey(type, bi.name).c_str(),
+					Host::TranslateToCString("USB", bi.display_name));
+			}
 		}
 
-		const gsl::span<const SettingInfo> settings(USB::GetDeviceSettings(type, subtype));
+		const std::span<const SettingInfo> settings(USB::GetDeviceSettings(type, subtype));
 		if (!settings.empty())
 		{
 			MenuHeading(fmt::format(ICON_FA_SLIDERS_H " {} Settings", USB::GetDeviceName(type)).c_str());
@@ -4429,7 +4429,8 @@ void FullscreenUI::DrawPauseMenu(MainWindowType type)
 {
 	ImDrawList* dl = ImGui::GetBackgroundDrawList();
 	const ImVec2 display_size(ImGui::GetIO().DisplaySize);
-	dl->AddRectFilled(ImVec2(0.0f, 0.0f), display_size, IM_COL32(0x21, 0x21, 0x21, 200));
+	const ImU32 text_color = IM_COL32(UIBackgroundTextColor.x * 255, UIBackgroundTextColor.y * 255, UIBackgroundTextColor.z * 255, 255);
+	dl->AddRectFilled(ImVec2(0.0f, 0.0f), display_size, IM_COL32(UIBackgroundColor.x * 255, UIBackgroundColor.y * 255, UIBackgroundColor.z * 255, 200));
 
 	// title info
 	{
@@ -4460,13 +4461,13 @@ void FullscreenUI::DrawPauseMenu(MainWindowType type)
 
 		float rp_height = 0.0f;
 
-		DrawShadowedText(dl, g_large_font, title_pos, IM_COL32(255, 255, 255, 255), s_current_game_title.c_str());
+		DrawShadowedText(dl, g_large_font, title_pos, text_color, s_current_game_title.c_str());
 		if (!path_string.empty())
 		{
 			DrawShadowedText(
-				dl, g_medium_font, path_pos, IM_COL32(255, 255, 255, 255), path_string.data(), path_string.data() + path_string.length());
+				dl, g_medium_font, path_pos, text_color, path_string.data(), path_string.data() + path_string.length());
 		}
-		DrawShadowedText(dl, g_medium_font, subtitle_pos, IM_COL32(255, 255, 255, 255), s_current_game_subtitle.c_str());
+		DrawShadowedText(dl, g_medium_font, subtitle_pos, text_color, s_current_game_subtitle.c_str());
 
 #ifdef ENABLE_ACHIEVEMENTS
 		if (has_rich_presence)
@@ -4489,7 +4490,7 @@ void FullscreenUI::DrawPauseMenu(MainWindowType type)
 				path_pos.y -= rp_height;
 				subtitle_pos.y -= rp_height;
 
-				DrawShadowedText(dl, g_medium_font, rp_pos, IM_COL32(255, 255, 255, 255), rp.data(), rp.data() + rp.size(), wrap_width);
+				DrawShadowedText(dl, g_medium_font, rp_pos, text_color, rp.data(), rp.data() + rp.size(), wrap_width);
 			}
 		}
 #endif
@@ -4518,7 +4519,7 @@ void FullscreenUI::DrawPauseMenu(MainWindowType type)
 
 		const ImVec2 time_size(g_large_font->CalcTextSizeA(g_large_font->FontSize, std::numeric_limits<float>::max(), -1.0f, buf));
 		const ImVec2 time_pos(display_size.x - LayoutScale(10.0f) - time_size.x, LayoutScale(10.0f));
-		DrawShadowedText(dl, g_large_font, time_pos, IM_COL32(255, 255, 255, 255), buf);
+		DrawShadowedText(dl, g_large_font, time_pos, text_color, buf);
 
 		if (!s_current_disc_serial.empty())
 		{
@@ -4531,13 +4532,13 @@ void FullscreenUI::DrawPauseMenu(MainWindowType type)
 			const ImVec2 session_size(g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(), -1.0f, buf));
 			const ImVec2 session_pos(
 				display_size.x - LayoutScale(10.0f) - session_size.x, time_pos.y + g_large_font->FontSize + LayoutScale(4.0f));
-			DrawShadowedText(dl, g_medium_font, session_pos, IM_COL32(255, 255, 255, 255), buf);
+			DrawShadowedText(dl, g_medium_font, session_pos, text_color, buf);
 
 			std::snprintf(buf, std::size(buf), "All Time: %s", played_time_str.c_str());
 			const ImVec2 total_size(g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(), -1.0f, buf));
 			const ImVec2 total_pos(
 				display_size.x - LayoutScale(10.0f) - total_size.x, session_pos.y + g_medium_font->FontSize + LayoutScale(4.0f));
-			DrawShadowedText(dl, g_medium_font, total_pos, IM_COL32(255, 255, 255, 255), buf);
+			DrawShadowedText(dl, g_medium_font, total_pos, text_color, buf);
 		}
 	}
 

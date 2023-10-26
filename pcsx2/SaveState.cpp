@@ -28,9 +28,11 @@
 #include "Host.h"
 #include "MTGS.h"
 #include "MTVU.h"
-#include "PAD/Host/PAD.h"
+#include "SIO/Pad/Pad.h"
 #include "Patch.h"
 #include "R3000A.h"
+#include "SIO/Sio0.h"
+#include "SIO/Sio2.h"
 #include "SPU2/spu2.h"
 #include "SaveState.h"
 #include "StateWrapper.h"
@@ -237,8 +239,42 @@ bool SaveStateBase::FreezeInternals()
 	FreezeMem(iopMem->Sif, sizeof(iopMem->Sif));		// iop's sif memory (not really needed, but oh well)
 
 	okay = okay && psxRcntFreeze();
-	okay = okay && sioFreeze();
-	okay = okay && sio2Freeze();
+
+	// TODO: move all the others over to StateWrapper too...
+	if (!okay)
+		return false;
+	{
+		// This is horrible. We need to move the rest over...
+		std::optional<StateWrapper::VectorMemoryStream> save_stream;
+		std::optional<StateWrapper::ReadOnlyMemoryStream> load_stream;
+		if (IsSaving())
+			save_stream.emplace();
+		else
+			load_stream.emplace(&m_memory[m_idx], static_cast<int>(m_memory.size()) - m_idx);
+
+		StateWrapper sw(IsSaving() ? static_cast<StateWrapper::IStream*>(&save_stream.value()) :
+									 static_cast<StateWrapper::IStream*>(&load_stream.value()),
+			IsSaving() ? StateWrapper::Mode::Write : StateWrapper::Mode::Read, g_SaveVersion);
+
+		okay = okay && g_Sio0.DoState(sw);
+		okay = okay && g_Sio2.DoState(sw);
+		if (!okay || !sw.IsGood())
+			return false;
+
+		if (IsSaving())
+		{
+			FreezeMem(const_cast<u8*>(save_stream->GetBuffer().data()), save_stream->GetPosition());
+		}
+		else
+		{
+			const int new_idx = m_idx + static_cast<int>(load_stream->GetPosition());
+			if (static_cast<size_t>(new_idx) >= m_memory.size())
+				return false;
+
+			m_idx = new_idx;
+		}
+	}
+
 	okay = okay && cdrFreeze();
 	okay = okay && cdvdFreeze();
 
@@ -315,7 +351,6 @@ static int SysState_MTGSFreeze(FreezeAction mode, freezeData* fP)
 }
 
 static constexpr SysState_Component SPU2_{ "SPU2", SPU2freeze };
-static constexpr SysState_Component PAD_{ "PAD", PADfreeze };
 static constexpr SysState_Component GS{ "GS", SysState_MTGSFreeze };
 
 static bool SysState_ComponentFreezeIn(zip_file_t* zf, SysState_Component comp)
@@ -600,8 +635,8 @@ public:
 	~SavestateEntry_PAD() override = default;
 
 	const char* GetFilename() const override { return "PAD.bin"; }
-	bool FreezeIn(zip_file_t* zf) const override { return SysState_ComponentFreezeIn(zf, PAD_); }
-	bool FreezeOut(SaveStateBase& writer) const override { return SysState_ComponentFreezeOut(writer, PAD_); }
+	bool FreezeIn(zip_file_t* zf) const override { return SysState_ComponentFreezeInNew(zf, "PAD", &Pad::Freeze); }
+	bool FreezeOut(SaveStateBase& writer) const override { return SysState_ComponentFreezeOutNew(writer, "PAD", 16 * 1024, &Pad::Freeze); }
 	bool IsRequired() const override { return true; }
 };
 

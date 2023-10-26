@@ -44,10 +44,11 @@
 #include <thread>
 #include <mutex>
 
-static constexpr std::array<PresentShader, 6> s_tv_shader_indices = {
+static constexpr std::array<PresentShader, 8> s_tv_shader_indices = {
 	PresentShader::COPY, PresentShader::SCANLINE,
 	PresentShader::DIAGONAL_FILTER, PresentShader::TRIANGULAR_FILTER,
-	PresentShader::COMPLEX_FILTER, PresentShader::LOTTES_FILTER};
+	PresentShader::COMPLEX_FILTER, PresentShader::LOTTES_FILTER,
+	PresentShader::SUPERSAMPLE_4xRGSS, PresentShader::SUPERSAMPLE_AUTO};
 
 static std::deque<std::thread> s_screenshot_threads;
 static std::mutex s_screenshot_threads_mutex;
@@ -79,17 +80,6 @@ void GSRenderer::Reset(bool hardware_reset)
 		g_gs_device->ClearCurrent();
 
 	GSState::Reset(hardware_reset);
-
-	// Restart video capture if it's been started.
-	// Otherwise we get a buildup of audio frames from the CPU thread.
-	if (hardware_reset && GSCapture::IsCapturing())
-	{
-		std::string next_filename = GSCapture::GetNextCaptureFileName();
-		const GSVector2i size = GSCapture::GetSize();
-		Console.Warning(fmt::format("Restarting video capture to {}.", next_filename));
-		EndCapture();
-		BeginCapture(std::move(next_filename), size);
-	}
 }
 
 void GSRenderer::Destroy()
@@ -442,7 +432,7 @@ static void CompressAndWriteScreenshot(std::string filename, u32 width, u32 heig
 	if (!GSDumpReplayer::IsRunner())
 	{
 		Host::AddIconOSDMessage(key, ICON_FA_CAMERA,
-			fmt::format(TRANSLATE_SV("GS", "Saving screenshot to '{}'."), Path::GetFileName(filename)), 60.0f);
+			fmt::format(TRANSLATE_FS("GS", "Saving screenshot to '{}'."), Path::GetFileName(filename)), 60.0f);
 	}
 
 	// maybe std::async would be better here.. but it's definitely worth threading, large screenshots take a while to compress.
@@ -454,14 +444,14 @@ static void CompressAndWriteScreenshot(std::string filename, u32 width, u32 heig
 			if (!GSDumpReplayer::IsRunner())
 			{
 				Host::AddIconOSDMessage(std::move(key), ICON_FA_CAMERA,
-					fmt::format(TRANSLATE_SV("GS", "Saved screenshot to '{}'."), Path::GetFileName(filename)),
+					fmt::format(TRANSLATE_FS("GS", "Saved screenshot to '{}'."), Path::GetFileName(filename)),
 					Host::OSD_INFO_DURATION);
 			}
 		}
 		else
 		{
 			Host::AddIconOSDMessage(std::move(key), ICON_FA_CAMERA,
-				fmt::format(TRANSLATE_SV("GS", "Failed to save screenshot to '{}'."), Path::GetFileName(filename),
+				fmt::format(TRANSLATE_FS("GS", "Failed to save screenshot to '{}'."), Path::GetFileName(filename),
 					Host::OSD_ERROR_DURATION));
 		}
 
@@ -709,7 +699,7 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 			delete[] fd.data;
 
 			Host::AddKeyedOSDMessage("GSDump",
-				fmt::format(TRANSLATE_SV("GS", "Saving {0} GS dump {1} to '{2}'"),
+				fmt::format(TRANSLATE_FS("GS", "Saving {0} GS dump {1} to '{2}'"),
 					(m_dump_frames == 1) ? "single frame" : "multi-frame", compression_str,
 					Path::GetFileName(m_dump->GetPath())),
 				Host::OSD_INFO_DURATION);
@@ -741,7 +731,7 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 		if (m_dump->VSync(field, last, m_regs))
 		{
 			Host::AddKeyedOSDMessage("GSDump",
-				fmt::format(TRANSLATE_SV("GS", "Saved GS dump to '{}'."), Path::GetFileName(m_dump->GetPath())),
+				fmt::format(TRANSLATE_FS("GS", "Saved GS dump to '{}'."), Path::GetFileName(m_dump->GetPath())),
 				Host::OSD_INFO_DURATION);
 			m_dump.reset();
 		}
