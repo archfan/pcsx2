@@ -55,6 +55,7 @@ target_sources(pcsx2-qt PRIVATE
 	Settings/BIOSSettingsWidget.ui
 	Settings/ControllerBindingWidget.ui
 	Settings/ControllerBindingWidget_DualShock2.ui
+	Settings/ControllerBindingWidget_Guitar.ui
 	Settings/ControllerBindingWidgets.cpp
 	Settings/ControllerBindingWidgets.h
 	Settings/ControllerLEDSettingsDialog.ui
@@ -204,8 +205,23 @@ if(WIN32)
 	set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_SOURCE_DIR}/bin/translations")
 	qt_add_lrelease(pcsx2-qt TS_FILES ${TS_FILES})
 elseif(APPLE)
-	# Hopefully macdeployqt will pick these up.
-	qt_add_lrelease(pcsx2-qt TS_FILES ${TS_FILES})
+	qt_add_lrelease(pcsx2-qt TS_FILES ${TS_FILES} QM_FILES_OUTPUT_VARIABLE QM_FILES)
+	set(PCSX2_MACOS_LOCALIZATIONS)
+	foreach (TS_FILE IN LISTS TS_FILES)
+		get_filename_component(TS_FILE_NAME ${TS_FILE} NAME)
+		set(regex "^pcsx2-qt_([a-zA-Z0-9\\-]+)\\.ts$")
+		if (TS_FILE_NAME MATCHES ${regex})
+			string(REGEX REPLACE ${regex} "\\1" language ${TS_FILE_NAME})
+			string(REPLACE "-" "_" language ${language})
+			set(PCSX2_MACOS_LOCALIZATIONS "${PCSX2_MACOS_LOCALIZATIONS}\n\t\t<string>${language}</string>")
+		else()
+			message(WARNING "Unrecognized ts file ${TS_FILE_NAME}")
+		endif()
+	endforeach()
+	foreach (QM_FILE IN LISTS QM_FILES)
+		target_sources(pcsx2-qt PRIVATE ${QM_FILE})
+		set_source_files_properties(${QM_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/translations/)
+	endforeach()
 else()
 	# TODO: Copy base translations.
 	qt_add_lrelease(pcsx2-qt TS_FILES ${TS_FILES} QM_FILES_OUTPUT_VARIABLE QM_FILES)

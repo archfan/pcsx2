@@ -74,9 +74,14 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\bin\resources\shaders\opengl\imgui.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
+    <None Include="..\bin\resources\shaders\opengl\present.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\vulkan\convert.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
+    <None Include="..\bin\resources\shaders\vulkan\imgui.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\vulkan\interlace.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\vulkan\merge.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
+    <None Include="..\bin\resources\shaders\vulkan\present.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
+    <None Include="..\bin\resources\shaders\vulkan\shadeboost.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\vulkan\tfx.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\opengl\convert.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
     <None Include="..\bin\resources\shaders\opengl\interlace.glsl" Condition="!$(Configuration.Contains(WinRT))"/>
@@ -92,6 +97,8 @@
     <None Include="..\bin\resources\shaders\dx11\tfx.fx" />
     <None Include="..\pcsx2-winrt\packages.config" Condition="$(Configuration.Contains(WinRT))"/>
     <None Include="GS\Renderers\Vulkan\VKEntryPoints.inl" Condition="!$(Configuration.Contains(WinRT))"/>
+    <None Include="..\bin\resources\shaders\dx11\imgui.fx" />
+    <None Include="..\bin\resources\shaders\dx11\present.fx" />
     <None Include="Docs\License.txt" />
     <None Include="ps2\eeHwTraceLog.inl" />
     <None Include="x86\microVU_Alloc.inl" />
@@ -120,6 +127,7 @@
     <ClCompile Include="CDVD\CsoFileReader.cpp" />
     <ClCompile Include="CDVD\GzippedFileReader.cpp" />
     <ClCompile Include="CDVD\IsoReader.cpp" />
+    <ClCompile Include="CDVD\IsoHasher.cpp" />
     <ClCompile Include="CDVD\OutputIsoFile.cpp" />
     <ClCompile Include="CDVD\ThreadedFileReader.cpp" />
     <ClCompile Include="CDVD\Linux\DriveUtility.cpp">
@@ -187,7 +195,6 @@
     <ClCompile Include="GameList.cpp" />
     <ClCompile Include="GS\Renderers\DX11\D3D11ShaderCache.cpp" />
     <ClCompile Include="GS\Renderers\DX12\D3D12Builders.cpp" />
-    <ClCompile Include="GS\Renderers\DX12\D3D12Context.cpp" />
     <ClCompile Include="GS\Renderers\DX12\D3D12DescriptorHeapManager.cpp" />
     <ClCompile Include="GS\Renderers\DX12\D3D12ShaderCache.cpp" />
     <ClCompile Include="GS\Renderers\DX12\D3D12StreamBuffer.cpp" />
@@ -209,9 +216,6 @@
     <ClCompile Include="GS\Renderers\Vulkan\VKBuilders.cpp">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GS\Renderers\Vulkan\VKContext.cpp">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="GS\Renderers\Vulkan\VKLoader.cpp">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClCompile>
@@ -222,9 +226,6 @@
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GS\Renderers\Vulkan\VKSwapChain.cpp">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GS\Renderers\Vulkan\VKUtil.cpp">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GS\Renderers\Vulkan\vk_mem_alloc.cpp">
@@ -264,21 +265,26 @@
     <ClCompile Include="IopGte.cpp" />
     <ClCompile Include="LayeredSettingsInterface.cpp" />
     <ClCompile Include="LogSink.cpp" />
-    <ClCompile Include="MemoryCardProtocol.cpp" />
-    <ClCompile Include="MultitapProtocol.cpp" />
-    <ClCompile Include="PAD\Host\KeyStatus.cpp" />
-    <ClCompile Include="PAD\Host\PAD.cpp" />
-    <ClCompile Include="PAD\Host\StateManagement.cpp" />
     <ClCompile Include="PINE.cpp" />
     <ClCompile Include="FW.cpp" />
-    <ClCompile Include="MemoryCardFile.cpp" />
-    <ClCompile Include="MemoryCardFolder.cpp" />
     <ClCompile Include="PerformanceMetrics.cpp" />
     <ClCompile Include="Recording\InputRecording.cpp" />
     <ClCompile Include="Recording\InputRecordingControls.cpp" />
     <ClCompile Include="Recording\InputRecordingFile.cpp" />
     <ClCompile Include="Recording\PadData.cpp" />
     <ClCompile Include="Recording\Utilities\InputRecordingLogger.cpp" />
+    <ClCompile Include="SIO\Memcard\MemoryCardFile.cpp" />
+    <ClCompile Include="SIO\Memcard\MemoryCardFolder.cpp" />
+    <ClCompile Include="SIO\Memcard\MemoryCardProtocol.cpp" />
+    <ClCompile Include="SIO\Multitap\MultitapProtocol.cpp" />
+    <ClCompile Include="SIO\Pad\PadBase.cpp" />
+    <ClCompile Include="SIO\Pad\Pad.cpp" />
+    <ClCompile Include="SIO\Pad\PadDualshock2.cpp" />
+    <ClCompile Include="SIO\Pad\PadGuitar.cpp" />
+    <ClCompile Include="SIO\Pad\PadNotConnected.cpp" />
+    <ClCompile Include="SIO\Sio.cpp" />
+    <ClCompile Include="SIO\Sio0.cpp" />
+    <ClCompile Include="SIO\Sio2.cpp" />
     <ClCompile Include="SPU2\Debug.cpp" />
     <ClCompile Include="SPU2\Dma.cpp" />
     <ClCompile Include="SPU2\DplIIdecoder.cpp" />
@@ -472,7 +478,6 @@
     <ClCompile Include="R3000A.cpp" />
     <ClCompile Include="R3000AInterpreter.cpp" />
     <ClCompile Include="R3000AOpcodeTables.cpp" />
-    <ClCompile Include="Sio.cpp" />
     <ClCompile Include="x86\iR3000A.cpp" />
     <ClCompile Include="x86\iR3000Atables.cpp" />
     <ClCompile Include="IopHw.cpp" />
@@ -524,6 +529,7 @@
     <ClInclude Include="CDVD\ChdFileReader.h" />
     <ClInclude Include="CDVD\GzippedFileReader.h" />
     <ClInclude Include="CDVD\IsoReader.h" />
+    <ClInclude Include="CDVD\IsoHasher.h" />
     <ClInclude Include="CDVD\ThreadedFileReader.h" />
     <ClInclude Include="CDVD\zlib_indexed.h" />
     <ClInclude Include="DebugTools\Breakpoints.h" />
@@ -580,7 +586,6 @@
     <ClInclude Include="GameList.h" />
     <ClInclude Include="GS\Renderers\DX11\D3D11ShaderCache.h" />
     <ClInclude Include="GS\Renderers\DX12\D3D12Builders.h" />
-    <ClInclude Include="GS\Renderers\DX12\D3D12Context.h" />
     <ClInclude Include="GS\Renderers\DX12\D3D12DescriptorHeapManager.h" />
     <ClInclude Include="GS\Renderers\DX12\D3D12ShaderCache.h" />
     <ClInclude Include="GS\Renderers\DX12\D3D12StreamBuffer.h" />
@@ -603,9 +608,6 @@
     <ClInclude Include="GS\Renderers\Vulkan\VKBuilders.h">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="GS\Renderers\Vulkan\VKContext.h">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="GS\Renderers\Vulkan\VKEntryPoints.h">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClInclude>
@@ -619,9 +621,6 @@
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GS\Renderers\Vulkan\VKSwapChain.h">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="GS\Renderers\Vulkan\VKUtil.h">
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ImGui\FullscreenUI.h" />
@@ -656,16 +655,8 @@
     <ClInclude Include="IPU\mpeg2_vlc.h" />
     <ClInclude Include="LayeredSettingsInterface.h" />
     <ClInclude Include="LogSink.h" />
-    <ClInclude Include="MemoryCardProtocol.h" />
-    <ClInclude Include="MultitapProtocol.h" />
-    <ClInclude Include="PAD\Host\Global.h" />
-    <ClInclude Include="PAD\Host\KeyStatus.h" />
-    <ClInclude Include="PAD\Host\PAD.h" />
-    <ClInclude Include="PAD\Host\StateManagement.h" />
     <ClInclude Include="PINE.h" />
     <ClInclude Include="FW.h" />
-    <ClInclude Include="MemoryCardFile.h" />
-    <ClInclude Include="MemoryCardFolder.h" />
     <ClInclude Include="PerformanceMetrics.h" />
     <ClInclude Include="Recording\InputRecording.h" />
     <ClInclude Include="Recording\InputRecordingControls.h" />
@@ -673,7 +664,20 @@
     <ClInclude Include="Recording\PadData.h" />
     <ClInclude Include="Recording\Utilities\InputRecordingLogger.h" />
     <ClInclude Include="ShaderCacheVersion.h" />
-    <ClInclude Include="SioTypes.h" />
+    <ClInclude Include="SIO\Memcard\MemoryCardFile.h" />
+    <ClInclude Include="SIO\Memcard\MemoryCardFolder.h" />
+    <ClInclude Include="SIO\Memcard\MemoryCardProtocol.h" />
+    <ClInclude Include="SIO\Multitap\MultitapProtocol.h" />
+    <ClInclude Include="SIO\Pad\PadBase.h" />
+    <ClInclude Include="SIO\Pad\Pad.h" />
+    <ClInclude Include="SIO\Pad\PadDualshock2.h" />
+    <ClInclude Include="SIO\Pad\PadGuitar.h" />
+    <ClInclude Include="SIO\Pad\PadNotConnected.h" />
+    <ClInclude Include="SIO\Pad\PadTypes.h" />
+    <ClInclude Include="SIO\Sio.h" />
+    <ClInclude Include="SIO\Sio0.h" />
+    <ClInclude Include="SIO\Sio2.h" />
+    <ClInclude Include="SIO\SioTypes.h" />
     <ClInclude Include="SPU2\Debug.h" />
     <ClInclude Include="SPU2\Dma.h" />
     <ClInclude Include="SPU2\Global.h" />
@@ -690,7 +694,6 @@
     <ClInclude Include="GS\GS.h" />
     <ClInclude Include="GS\GSExtra.h" />
     <ClInclude Include="GS\GSGL.h" />
-    <ClInclude Include="GS\GSIntrin.h" />
     <ClInclude Include="GS\GSRegs.h" />
     <ClInclude Include="GS\GSAlignedClass.h" />
     <ClInclude Include="GS\GSBlock.h" />
@@ -842,7 +845,6 @@
     <ClInclude Include="IopDma.h" />
     <ClInclude Include="IopMem.h" />
     <ClInclude Include="R3000A.h" />
-    <ClInclude Include="Sio.h" />
     <ClInclude Include="x86\iR3000A.h" />
     <ClInclude Include="IopHw.h" />
     <ClInclude Include="ps2\Iop\IopHw_Internal.h" />

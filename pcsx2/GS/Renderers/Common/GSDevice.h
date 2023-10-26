@@ -37,6 +37,7 @@ enum class ShaderConvert
 	FLOAT32_TO_16_BITS,
 	FLOAT32_TO_32_BITS,
 	FLOAT32_TO_RGBA8,
+	FLOAT32_TO_RGB8,
 	FLOAT16_TO_RGB5A1,
 	RGBA8_TO_FLOAT32,
 	RGBA8_TO_FLOAT24,
@@ -123,6 +124,17 @@ static inline bool SupportsBilinear(ShaderConvert shader)
 	}
 }
 
+static inline u32 ShaderConvertWriteMask(ShaderConvert shader)
+{
+	switch (shader)
+	{
+		case ShaderConvert::FLOAT32_TO_RGB8:
+			return 0x7;
+		default:
+			return 0xf;
+	}
+}
+
 enum class PresentShader
 {
 	COPY = 0,
@@ -131,6 +143,8 @@ enum class PresentShader
 	TRIANGULAR_FILTER,
 	COMPLEX_FILTER,
 	LOTTES_FILTER,
+	SUPERSAMPLE_4xRGSS,
+	SUPERSAMPLE_AUTO,
 	Count
 };
 

@@ -363,6 +363,17 @@ void GSclose()
 void GSreset(bool hardware_reset)
 {
 	g_gs_renderer->Reset(hardware_reset);
+
+	// Restart video capture if it's been started.
+	// Otherwise we get a buildup of audio frames from the CPU thread.
+	if (hardware_reset && GSCapture::IsCapturing())
+	{
+		std::string next_filename = GSCapture::GetNextCaptureFileName();
+		const GSVector2i size = GSCapture::GetSize();
+		Console.Warning(fmt::format("Restarting video capture to {}.", next_filename));
+		g_gs_renderer->EndCapture();
+		g_gs_renderer->BeginCapture(std::move(next_filename), size);
+	}
 }
 
 void GSgifSoftReset(u32 mask)
@@ -924,11 +935,67 @@ void GSFreeWrappedMemory(void* ptr, size_t size, size_t repeat)
 
 #endif
 
+std::pair<u8, u8> GSGetRGBA8AlphaMinMax(const void* data, u32 width, u32 height, u32 stride)
+{
+	GSVector4i minc = GSVector4i::xffffffff();
+	GSVector4i maxc = GSVector4i::zero();
+
+	const u8* ptr = static_cast<const u8*>(data);
+	if ((width % 4) == 0)
+	{
+		for (u32 r = 0; r < height; r++)
+		{
+			const u8* rptr = ptr;
+			for (u32 c = 0; c < width; c += 4)
+			{
+				const GSVector4i v = GSVector4i::load<false>(rptr);
+				rptr += sizeof(GSVector4i);
+				minc = minc.min_u32(v);
+				maxc = maxc.max_u32(v);
+			}
+
+			ptr += stride;
+		}
+	}
+	else
+	{
+		const u32 aligned_width = Common::AlignDownPow2(width, 4);
+		static constexpr const GSVector4i masks[3][2] = {
+			{GSVector4i::cxpr(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0), GSVector4i::cxpr(0, 0, 0, 0xFFFFFFFF)},
+			{GSVector4i::cxpr(0xFFFFFFFF, 0xFFFFFFFF, 0, 0), GSVector4i::cxpr(0, 0, 0xFFFFFFFF, 0xFFFFFFFF)},
+			{GSVector4i::cxpr(0xFFFFFFFF, 0, 0, 0), GSVector4i::cxpr(0, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)},
+		};
+		const GSVector4i last_mask_and = masks[(width & 3) - 1][0];
+		const GSVector4i last_mask_or = masks[(width & 3) - 1][1];
+
+		for (u32 r = 0; r < height; r++)
+		{
+			const u8* rptr = ptr;
+			for (u32 c = 0; c < aligned_width; c += 4)
+			{
+				const GSVector4i v = GSVector4i::load<false>(rptr);
+				rptr += sizeof(GSVector4i);
+				minc = minc.min_u32(v);
+				maxc = maxc.max_u32(v);
+			}
+
+			const GSVector4i v = GSVector4i::load<false>(rptr);
+			minc = minc.min_u32(v | last_mask_or);
+			maxc = maxc.max_u32(v & last_mask_and);
+
+			ptr += stride;
+		}
+	}
+
+	return std::make_pair<u8, u8>(static_cast<u8>(minc.minv_u32() >> 24),
+		static_cast<u8>(maxc.maxv_u32() >> 24));
+}
+
 static void HotkeyAdjustUpscaleMultiplier(s32 delta)
 {
 	const u32 new_multiplier = static_cast<u32>(std::clamp(static_cast<s32>(EmuConfig.GS.UpscaleMultiplier) + delta, 1, 8));
 	Host::AddKeyedOSDMessage("UpscaleMultiplierChanged",
-		fmt::format(TRANSLATE_SV("GS", "Upscale multiplier set to {}x."), new_multiplier), Host::OSD_QUICK_DURATION);
+		fmt::format(TRANSLATE_FS("GS", "Upscale multiplier set to {}x."), new_multiplier), Host::OSD_QUICK_DURATION);
 	EmuConfig.GS.UpscaleMultiplier = new_multiplier;
 
 	// this is pretty slow. we only really need to flush the TC and recompile shaders.
@@ -1007,7 +1074,7 @@ BEGIN_HOTKEY_LIST(g_gs_hotkeys){"Screenshot", TRANSLATE_NOOP("Hotkeys", "Graphic
 			EmuConfig.CurrentAspectRatio = static_cast<AspectRatioType>(
 				(static_cast<int>(EmuConfig.CurrentAspectRatio) + 1) % static_cast<int>(AspectRatioType::MaxCount));
 			Host::AddKeyedOSDMessage("CycleAspectRatio",
-				fmt::format(TRANSLATE_SV("Hotkeys", "Aspect ratio set to '{}'."),
+				fmt::format(TRANSLATE_FS("Hotkeys", "Aspect ratio set to '{}'."),
 					Pcsx2Config::GSOptions::AspectRatioNames[static_cast<int>(EmuConfig.CurrentAspectRatio)]),
 				Host::OSD_QUICK_DURATION);
 		}},
@@ -1023,7 +1090,7 @@ BEGIN_HOTKEY_LIST(g_gs_hotkeys){"Screenshot", TRANSLATE_NOOP("Hotkeys", "Graphic
 			const HWMipmapLevel new_level =
 				static_cast<HWMipmapLevel>(((static_cast<s32>(EmuConfig.GS.HWMipmap) + 2) % CYCLE_COUNT) - 1);
 			Host::AddKeyedOSDMessage("CycleMipmapMode",
-				fmt::format(TRANSLATE_SV("Hotkeys", "Hardware mipmapping set to '{}'."),
+				fmt::format(TRANSLATE_FS("Hotkeys", "Hardware mipmapping set to '{}'."),
 					option_names[static_cast<s32>(new_level) + 1]),
 				Host::OSD_QUICK_DURATION);
 			EmuConfig.GS.HWMipmap = new_level;
@@ -1056,7 +1123,7 @@ BEGIN_HOTKEY_LIST(g_gs_hotkeys){"Screenshot", TRANSLATE_NOOP("Hotkeys", "Graphic
 				(static_cast<s32>(EmuConfig.GS.InterlaceMode) + 1) % static_cast<s32>(GSInterlaceMode::Count));
 			Host::AddKeyedOSDMessage("CycleInterlaceMode",
 				fmt::format(
-					TRANSLATE_SV("Hotkeys", "Deinterlace mode set to '{}'."), option_names[static_cast<s32>(new_mode)]),
+					TRANSLATE_FS("Hotkeys", "Deinterlace mode set to '{}'."), option_names[static_cast<s32>(new_mode)]),
 				Host::OSD_QUICK_DURATION);
 			EmuConfig.GS.InterlaceMode = new_mode;
 

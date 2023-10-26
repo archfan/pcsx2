@@ -620,7 +620,7 @@ bool GSDeviceOGL::CheckFeatures(bool& buggy_pbo)
 {
 	bool vendor_id_amd = false;
 	bool vendor_id_nvidia = false;
-	bool vendor_id_intel = false;
+	//bool vendor_id_intel = false;
 
 	const char* vendor = (const char*)glGetString(GL_VENDOR);
 	if (std::strstr(vendor, "Advanced Micro Devices") || std::strstr(vendor, "ATI Technologies Inc.") ||
@@ -637,7 +637,7 @@ bool GSDeviceOGL::CheckFeatures(bool& buggy_pbo)
 	else if (std::strstr(vendor, "Intel"))
 	{
 		Console.WriteLn(Color_StrongBlue, "OGL: Intel GPU detected.");
-		vendor_id_intel = true;
+		//vendor_id_intel = true;
 	}
 
 	GLint major_gl = 0;
@@ -1454,7 +1454,7 @@ void GSDeviceOGL::StretchRect(GSTexture* sTex, const GSVector4& sRect, GSTexture
 {
 	pxAssert(dTex->IsDepthStencil() == HasDepthOutput(shader));
 	pxAssert(linear ? SupportsBilinear(shader) : SupportsNearest(shader));
-	StretchRect(sTex, sRect, dTex, dRect, m_convert.ps[(int)shader], linear);
+	StretchRect(sTex, sRect, dTex, dRect, m_convert.ps[(int)shader], false, OMColorMaskSelector(ShaderConvertWriteMask(shader)), linear);
 }
 
 void GSDeviceOGL::StretchRect(GSTexture* sTex, const GSVector4& sRect, GSTexture* dTex, const GSVector4& dRect, const GLProgram& ps, bool linear)
