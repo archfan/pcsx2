@@ -20,17 +20,6 @@ jobs:
       - name: Verify VS Project Files
         run: .github\workflows\scripts\windows\validate-vs-filters.ps1
 
-  build_qt_sse4:
-    needs: lint_vs_proj_files
-    name: "SSE4"
-    if: github.repository != 'PCSX2/pcsx2' || github.event_name == 'pull_request'
-    uses: ./.github/workflows/windows_build_qt.yml
-    with:
-      jobName: Qt
-      configuration: Release
-      simd: "SSE4"
-    secrets: inherit
-
   build_qt_avx2:
     needs: lint_vs_proj_files
     name: "AVX2"
@@ -49,17 +38,6 @@ jobs:
       jobName: Qt
       configuration: CMake
       buildSystem: cmake
-    secrets: inherit
-
-  build_qt_clang_sse4:
-    needs: lint_vs_proj_files
-    name: "SSE4"
-    if: github.repository != 'PCSX2/pcsx2' || github.event_name == 'pull_request'
-    uses: ./.github/workflows/windows_build_qt.yml
-    with:
-      jobName: Qt Clang
-      configuration: Release Clang
-      simd: "SSE4"
     secrets: inherit
 
   build_qt_clang_avx2:
