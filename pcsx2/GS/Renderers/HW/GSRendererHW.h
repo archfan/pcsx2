@@ -86,14 +86,15 @@ private:
 	void SetupIA(float target_scale, float sx, float sy);
 	void EmulateTextureShuffleAndFbmask(GSTextureCache::Target* rt);
 	bool EmulateChannelShuffle(GSTextureCache::Target* src, bool test_only);
-	void EmulateBlending(bool& DATE_PRIMID, bool& DATE_BARRIER, bool& blending_alpha_pass);
+	void EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DATE_PRIMID, bool& DATE_BARRIER, bool& blending_alpha_pass);
 
 	void EmulateTextureSampler(const GSTextureCache::Target* rt, const GSTextureCache::Target* ds,
 		GSTextureCache::Source* tex, const TextureMinMaxResult& tmm, GSTexture*& src_copy);
 	void HandleTextureHazards(const GSTextureCache::Target* rt, const GSTextureCache::Target* ds,
 		const GSTextureCache::Source* tex, const TextureMinMaxResult& tmm, GSTextureCache::SourceRegion& source_region,
 		bool& target_region, GSVector2i& unscaled_size, float& scale, GSTexture*& src_copy);
-	bool CanUseTexIsFB(const GSTextureCache::Target* rt, const GSTextureCache::Source* tex) const;
+	bool CanUseTexIsFB(const GSTextureCache::Target* rt, const GSTextureCache::Source* tex,
+		const TextureMinMaxResult& tmm);
 
 	void EmulateZbuffer(const GSTextureCache::Target* ds);
 	void EmulateATST(float& AREF, GSHWDrawConfig::PSSelector& ps, bool pass_2);
@@ -103,6 +104,7 @@ private:
 	bool IsPossibleChannelShuffle() const;
 	bool IsSplitTextureShuffle();
 	GSVector4i GetSplitTextureShuffleDrawRect() const;
+	u32 GetEffectiveTextureShuffleFbmsk() const;
 
 	static GSVector4i GetDrawRectForPages(u32 bw, u32 psm, u32 num_pages);
 	bool TryToResolveSinglePageFramebuffer(GIFRegFRAME& FRAME, bool only_next_draw);
@@ -194,6 +196,7 @@ public:
 	GSVector4i ComputeBoundingBox(const GSVector2i& rtsize, float rtscale);
 	void MergeSprite(GSTextureCache::Source* tex);
 	float GetTextureScaleFactor() override;
+	GSVector2i GetValidSize(const GSTextureCache::Source* tex = nullptr);
 	GSVector2i GetTargetSize(const GSTextureCache::Source* tex = nullptr);
 
 	void Reset(bool hardware_reset) override;

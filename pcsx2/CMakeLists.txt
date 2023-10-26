@@ -120,14 +120,10 @@ set(pcsx2Sources
 	PINE.cpp
 	Mdec.cpp
 	Memory.cpp
-	MemoryCardFile.cpp
-	MemoryCardFolder.cpp
-	MemoryCardProtocol.cpp
 	MMI.cpp
 	MTGS.cpp
 	MTVU.cpp
 	MultipartFileReader.cpp
-	MultitapProtocol.cpp
 	Patch.cpp
 	Pcsx2Config.cpp
 	PerformanceMetrics.cpp
@@ -144,7 +140,13 @@ set(pcsx2Sources
 	Sif0.cpp
 	Sif1.cpp
 	sif2.cpp
-	Sio.cpp
+	SIO/Sio.cpp
+	SIO/Sio2.cpp
+	SIO/Sio0.cpp
+	SIO/Multitap/MultitapProtocol.cpp
+	SIO/Memcard/MemoryCardFile.cpp
+	SIO/Memcard/MemoryCardFolder.cpp
+	SIO/Memcard/MemoryCardProtocol.cpp
 	SourceLog.cpp
 	SPR.cpp
 	StateWrapper.cpp
@@ -205,11 +207,7 @@ set(pcsx2Headers
 	MTGS.h
 	MTVU.h
 	Memory.h
-	MemoryCardFile.h
-	MemoryCardFolder.h
-	MemoryCardProtocol.h
 	MemoryTypes.h
-	MultitapProtocol.h
 	Patch.h
 	PCSX2Base.h
 	PerformanceMetrics.h
@@ -222,7 +220,14 @@ set(pcsx2Headers
 	Sifcmd.h
 	Sif.h
 	SingleRegisterTypes.h
-	Sio.h
+	SIO/Sio.h
+	SIO/Sio2.h
+	SIO/Sio0.h
+	SIO/SioTypes.h
+	SIO/Multitap/MultitapProtocol.h
+	SIO/Memcard/MemoryCardFile.h
+	SIO/Memcard/MemoryCardFolder.h
+	SIO/Memcard/MemoryCardProtocol.h
 	SPR.h
 	StateWrapper.h
 	SysForwardDefs.h
@@ -247,6 +252,7 @@ set(pcsx2CDVDSources
 	CDVD/CDVDisoReader.cpp
 	CDVD/CDVDdiscThread.cpp
 	CDVD/InputIsoFile.cpp
+	CDVD/IsoHasher.cpp
 	CDVD/IsoReader.cpp
 	CDVD/OutputIsoFile.cpp
 	CDVD/ChunksCache.cpp
@@ -271,6 +277,7 @@ set(pcsx2CDVDHeaders
 	CDVD/GzippedFileReader.h
 	CDVD/ThreadedFileReader.h
 	CDVD/IsoFileFormats.h
+	CDVD/IsoHasher.h
 	CDVD/IsoReader.h
 	CDVD/zlib_indexed.h
 	)
@@ -475,15 +482,19 @@ endif()
 
 # Host PAD
 set(pcsx2PADSources
-	PAD/Host/KeyStatus.cpp
-	PAD/Host/PAD.cpp
-	PAD/Host/StateManagement.cpp
+	SIO/Pad/Pad.cpp
+	SIO/Pad/PadBase.cpp
+	SIO/Pad/PadDualshock2.cpp
+	SIO/Pad/PadGuitar.cpp
+	SIO/Pad/PadNotConnected.cpp
 )
 set(pcsx2PADHeaders
-	PAD/Host/Global.h
-	PAD/Host/KeyStatus.h
-	PAD/Host/PAD.h
-	PAD/Host/StateManagement.h
+	SIO/Pad/Pad.h
+	SIO/Pad/PadBase.h
+	SIO/Pad/PadDualshock2.h
+	SIO/Pad/PadGuitar.h
+	SIO/Pad/PadNotConnected.h
+	SIO/Pad/PadTypes.h
 )
 
 # GS sources
@@ -549,7 +560,6 @@ set(pcsx2GSHeaders
 	GS/GSDump.h
 	GS/GSExtra.h
 	GS/GSGL.h
-	GS/GSIntrin.h
 	GS/GSRegs.h
 	GS/GS.h
 	GS/GSLocalMemory.h
@@ -654,25 +664,21 @@ if(USE_VULKAN)
 		GS/Renderers/Vulkan/GSTextureVK.cpp
 		GS/Renderers/Vulkan/vk_mem_alloc.cpp
 		GS/Renderers/Vulkan/VKBuilders.cpp
-		GS/Renderers/Vulkan/VKContext.cpp
 		GS/Renderers/Vulkan/VKLoader.cpp
 		GS/Renderers/Vulkan/VKShaderCache.cpp
 		GS/Renderers/Vulkan/VKStreamBuffer.cpp
 		GS/Renderers/Vulkan/VKSwapChain.cpp
-		GS/Renderers/Vulkan/VKUtil.cpp
 	)
 	list(APPEND pcsx2GSHeaders
 		GS/Renderers/Vulkan/GSDeviceVK.h
 		GS/Renderers/Vulkan/GSTextureVK.h
 		GS/Renderers/Vulkan/VKBuilders.h
-		GS/Renderers/Vulkan/VKContext.h
 		GS/Renderers/Vulkan/VKEntryPoints.h
 		GS/Renderers/Vulkan/VKEntryPoints.inl
 		GS/Renderers/Vulkan/VKLoader.h
 		GS/Renderers/Vulkan/VKShaderCache.h
 		GS/Renderers/Vulkan/VKStreamBuffer.h
 		GS/Renderers/Vulkan/VKSwapChain.h
-		GS/Renderers/Vulkan/VKUtil.h
 	)
 	target_link_libraries(PCSX2_FLAGS INTERFACE Vulkan-Headers glslang)
 endif()
@@ -712,7 +718,6 @@ if(WIN32)
 		GS/Renderers/DX11/GSTexture11.cpp
 		GS/Renderers/DX11/GSTextureFX11.cpp
 		GS/Renderers/DX12/D3D12Builders.cpp
-		GS/Renderers/DX12/D3D12Context.cpp
 		GS/Renderers/DX12/D3D12DescriptorHeapManager.cpp
 		GS/Renderers/DX12/D3D12ShaderCache.cpp
 		GS/Renderers/DX12/D3D12StreamBuffer.cpp
@@ -725,7 +730,6 @@ if(WIN32)
 		GS/Renderers/DX11/GSDevice11.h
 		GS/Renderers/DX11/GSTexture11.h
 		GS/Renderers/DX12/D3D12Builders.h
-		GS/Renderers/DX12/D3D12Context.h
 		GS/Renderers/DX12/D3D12DescriptorHeapManager.h
 		GS/Renderers/DX12/D3D12ShaderCache.h
 		GS/Renderers/DX12/D3D12StreamBuffer.h

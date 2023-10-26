@@ -20,7 +20,7 @@
 #include "GS/GS.h"
 #include "Host.h"
 
-#include "common/Align.h"
+#include "common/BitUtils.h"
 #include "common/StringUtil.h"
 
 #include "imgui.h"
@@ -42,6 +42,7 @@ const char* shaderName(ShaderConvert value)
 		case ShaderConvert::FLOAT32_TO_16_BITS:     return "ps_convert_float32_32bits";
 		case ShaderConvert::FLOAT32_TO_32_BITS:     return "ps_convert_float32_32bits";
 		case ShaderConvert::FLOAT32_TO_RGBA8:       return "ps_convert_float32_rgba8";
+		case ShaderConvert::FLOAT32_TO_RGB8:        return "ps_convert_float32_rgba8";
 		case ShaderConvert::FLOAT16_TO_RGB5A1:      return "ps_convert_float16_rgb5a1";
 		case ShaderConvert::RGBA8_TO_FLOAT32:       return "ps_convert_rgba8_float32";
 		case ShaderConvert::RGBA8_TO_FLOAT24:       return "ps_convert_rgba8_float24";
@@ -68,12 +69,14 @@ const char* shaderName(PresentShader value)
 	switch (value)
 	{
 			// clang-format off
-		case PresentShader::COPY:              return "ps_copy";
-		case PresentShader::SCANLINE:          return "ps_filter_scanlines";
-		case PresentShader::DIAGONAL_FILTER:   return "ps_filter_diagonal";
-		case PresentShader::TRIANGULAR_FILTER: return "ps_filter_triangular";
-		case PresentShader::COMPLEX_FILTER:    return "ps_filter_complex";
-		case PresentShader::LOTTES_FILTER:     return "ps_filter_lottes";
+		case PresentShader::COPY:               return "ps_copy";
+		case PresentShader::SCANLINE:           return "ps_filter_scanlines";
+		case PresentShader::DIAGONAL_FILTER:    return "ps_filter_diagonal";
+		case PresentShader::TRIANGULAR_FILTER:  return "ps_filter_triangular";
+		case PresentShader::COMPLEX_FILTER:     return "ps_filter_complex";
+		case PresentShader::LOTTES_FILTER:      return "ps_filter_lottes";
+		case PresentShader::SUPERSAMPLE_4xRGSS: return "ps_4x_rgss";
+		case PresentShader::SUPERSAMPLE_AUTO:   return "ps_automagical_supersampling";
 			// clang-format on
 		default:
 			ASSERT(0);

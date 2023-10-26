@@ -134,9 +134,6 @@ private:
 
 	} m_tr;
 
-private:
-	void CalcAlphaMinMax();
-
 protected:
 	GSVertex m_v = {};
 	float m_q = 1.0f;
@@ -179,7 +176,7 @@ protected:
 	GSVertexTrace::VertexAlpha& GetAlphaMinMax()
 	{
 		if (!m_vt.m_alpha.valid)
-			CalcAlphaMinMax();
+			CalcAlphaMinMax(0, 255);
 		return m_vt.m_alpha;
 	}
 	struct TextureMinMaxResult
@@ -202,6 +199,7 @@ protected:
 	bool IsMipMapDraw();
 	bool IsMipMapActive();
 	bool IsCoverageAlpha();
+	void CalcAlphaMinMax(const int tex_min, const int tex_max);
 
 public:
 	struct GSUploadQueue
@@ -230,7 +228,6 @@ public:
 	bool m_isPackedUV_HackFlag = false;
 	bool m_channel_shuffle = false;
 	u8 m_scanmask_used = 0;
-	u8 m_force_preload = 0;
 	u32 m_dirty_gs_regs = 0;
 	int m_backed_up_ctx = 0;
 	std::vector<GSUploadQueue> m_draw_transfers;
@@ -421,6 +418,7 @@ public:
 
 	void DumpVertices(const std::string& filename);
 
+	bool TrianglesAreQuads() const;
 	PRIM_OVERLAP PrimitiveOverlap();
 	GIFRegTEX0 GetTex0Layer(u32 lod);
 };

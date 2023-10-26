@@ -26,13 +26,6 @@ const CRC::Game CRC::m_games[] =
 {
 	// Note: IDs 0x7ACF7E03, 0x7D4EA48F, 0x37C53760 - shouldn't be added as it's from the multiloaders when packing games.
 	{0x00000000, NoTitle /* NoRegion */},
-	{0x6F8545DB, ICO /* US */},
-	{0x48CDF317, ICO /* US */}, // Demo
-	{0xB01A4C95, ICO /* JP */},
-	{0x2DF2C1EA, ICO /* KO */},
-	{0x5C991F4E, ICO /* EU */},
-	{0x788D8B4F, ICO /* EU */},
-	{0x29C28734, ICO /* CH */},
 	{0xFC46EA61, Tekken5 /* JP */},
 	{0x1F88EE37, Tekken5 /* EU */},
 	{0x1F88BECD, Tekken5 /* EU */}, // language selector...
@@ -46,14 +39,6 @@ const CRC::Game CRC::m_games[] =
 	{0x47BA9034, SMTNocturne /* JP */}, // SMTNocturne Maniacs Chronicle
 	{0xD3FFC263, SMTNocturne /* KO */},
 	{0x84D1A8DA, SMTNocturne /* KO */},
-	{0xE21404E2, GetawayGames /* US */}, // Getaway
-	{0xE8249852, GetawayGames /* JP */}, // Getaway
-	{0x458485EF, GetawayGames /* EU */}, // Getaway
-	{0x5DFBE144, GetawayGames /* EU */}, // Getaway
-	{0xE78971DF, GetawayGames /* US */}, // GetawayBlackMonday
-	{0x342D97FA, GetawayGames /* US */}, // GetawayBlackMonday Demo
-	{0xE8C0AD1A, GetawayGames /* JP */}, // GetawayBlackMonday
-	{0x09C3DF79, GetawayGames /* EU */}, // GetawayBlackMonday
 };
 
 const CRC::Game& CRC::Lookup(u32 crc)

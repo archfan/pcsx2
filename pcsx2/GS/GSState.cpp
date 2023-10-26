@@ -19,6 +19,7 @@
 #include "GS/GSGL.h"
 #include "GS/GSPerfMon.h"
 #include "GS/GSUtil.h"
+#include "common/BitUtils.h"
 #include "common/Path.h"
 #include "common/StringUtil.h"
 
@@ -2531,7 +2532,7 @@ int GSState::Defrost(const freezeData* fd)
 
 	Flush(GSFlushReason::LOADSTATE);
 
-	Reset(false);
+	Reset(true);
 
 	ReadState(&m_env.PRIM, data);
 
@@ -2719,6 +2720,55 @@ void GSState::GrowVertexBuffer()
 	m_index.buff = index;
 }
 
+bool GSState::TrianglesAreQuads() const
+{
+	// If this is a quad, there should only be two distinct values for both X and Y, which
+	// also happen to be the minimum/maximum bounds of the primitive.
+	const GSVertex* const v = m_vertex.buff;
+	for (u32 idx = 0; idx < m_index.tail; idx += 6)
+	{
+		const u16* const i = m_index.buff + idx;
+
+		// Degenerate triangles should've been culled already, so we can check indices.
+		u32 extra_verts = 0;
+		for (u32 j = 3; j < 6; j++)
+		{
+			const u16 idx = i[j];
+			if (idx != i[0] && idx != i[1] && idx != i[2])
+				extra_verts++;
+		}
+		if (extra_verts == 1)
+			return true;
+
+		// As a fallback, they might've used different vertices with a tri list, not strip.
+		// Note that this won't work unless the quad is axis-aligned.
+		u16 distinct_x_values[2] = {v[i[0]].XYZ.X};
+		u16 distinct_y_values[2] = {v[i[0]].XYZ.Y};
+		u32 num_distinct_x_values = 1, num_distinct_y_values = 1;
+		for (u32 j = 1; j < 6; j++)
+		{
+			const GSVertex& jv = v[i[j]];
+			if (jv.XYZ.X != distinct_x_values[0] && jv.XYZ.X != distinct_x_values[1])
+			{
+				if (num_distinct_x_values > 1)
+					return false;
+
+				distinct_x_values[num_distinct_x_values++] = jv.XYZ.X;
+			}
+
+			if (jv.XYZ.Y != distinct_y_values[0] && jv.XYZ.Y != distinct_y_values[1])
+			{
+				if (num_distinct_y_values > 1)
+					return false;
+
+				distinct_y_values[num_distinct_y_values++] = jv.XYZ.Y;
+			}
+		}
+	}
+
+	return true;
+}
+
 GSState::PRIM_OVERLAP GSState::PrimitiveOverlap()
 {
 	// Either 1 triangle or 1 line or 3 POINTs
@@ -2726,7 +2776,9 @@ GSState::PRIM_OVERLAP GSState::PrimitiveOverlap()
 	if (m_vertex.next < 4)
 		return PRIM_OVERLAP_NO;
 
-	if (m_vt.m_primclass != GS_SPRITE_CLASS)
+	if (m_vt.m_primclass == GS_TRIANGLE_CLASS)
+		return (m_index.tail == 6 && TrianglesAreQuads()) ? PRIM_OVERLAP_NO : PRIM_OVERLAP_UNKNOW;
+	else if (m_vt.m_primclass != GS_SPRITE_CLASS)
 		return PRIM_OVERLAP_UNKNOW; // maybe, maybe not
 
 	// Check intersection of sprite primitive only
@@ -3514,7 +3566,7 @@ GSState::TextureMinMaxResult GSState::GetTextureMinMax(GIFRegTEX0 TEX0, GIFRegCL
 			// If it's the start of the texture and our little adjustment is all that pushed it over, clamp it to 0.
 			// This stops the border check failing when using repeat but needed less than the full texture
 			// since this was making it take the full texture even though it wasn't needed.
-			if (((m_vt.m_min.t == GSVector4::zero()).mask() & 0x3) == 0x3)
+			if (!clamp_to_tsize && ((m_vt.m_min.t == GSVector4::zero()).mask() & 0x3) == 0x3)
 				st = st.max(GSVector4::zero());
 		}
 		else
@@ -3669,12 +3721,13 @@ GSState::TextureMinMaxResult GSState::GetTextureMinMax(GIFRegTEX0 TEX0, GIFRegCL
 	return { vr, uses_border };
 }
 
-void GSState::CalcAlphaMinMax()
+void GSState::CalcAlphaMinMax(const int tex_alpha_min, const int tex_alpha_max)
 {
-	if (m_vt.m_alpha.valid)
+	if (m_vt.m_alpha.valid && tex_alpha_min == 0 && tex_alpha_max == 255)
 		return;
 
-	int min = 0, max = 0;
+	// We wanted to force an update as we now know the alpha of the non-indexed texture.
+	int min = tex_alpha_min, max = tex_alpha_max;
 
 	if (IsCoverageAlpha())
 	{
@@ -3692,8 +3745,8 @@ void GSState::CalcAlphaMinMax()
 			switch (GSLocalMemory::m_psm[context->TEX0.PSM].fmt)
 			{
 				case 0:
-					a.y = 0;
-					a.w = 0xff;
+					a.y = min;
+					a.w = max;
 					break;
 				case 1:
 					a.y = env.TEXA.AEM ? 0 : env.TEXA.TA0;
