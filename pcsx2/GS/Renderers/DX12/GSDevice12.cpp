@@ -880,17 +880,13 @@ bool GSDevice12::CreateSwapChain()
 	hr = m_dxgi_factory->MakeWindowAssociation(window_hwnd, DXGI_MWA_NO_WINDOW_CHANGES);
 	if (FAILED(hr))
 		Console.Warning("MakeWindowAssociation() to disable ALT+ENTER failed");
-#else
-	Console.WriteLn("Creating a %dx%d winrt swap chain", swap_chain_desc.Width, swap_chain_desc.Height);
-	hr = m_dxgi_factory->CreateSwapChainForCoreWindow(
-		g_d3d12_context->GetCommandQueue(), static_cast<::IUnknown*>(m_window_info.surface_handle), &swap_chain_desc, nullptr, m_swap_chain.put());
-#endif
 
 	if (!CreateSwapChainRTV())
 	{
 		DestroySwapChain();
 		return false;
 	}
+
 
 	// Render a frame as soon as possible to clear out whatever was previously being displayed.
 	EndRenderPass();
