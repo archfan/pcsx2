@@ -106,7 +106,8 @@ namespace Achievements
 	static void EndLoadingScreen(bool was_running_idle);
 	static void LoginCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
 	static void LoginASyncCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
-	static void SendLogin(const char* username, const char* password, Common::HTTPDownloader* http_downloader,
+	static void LoginWithTokenCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
+	static void SendLogin(const char* username, const char* password, const char* api_token, Common::HTTPDownloader* http_downloader,
 		Common::HTTPDownloader::Request::Callback callback);
 	static void DownloadImage(std::string url, std::string cache_filename);
 	static void DisplayAchievementSummary();
@@ -129,7 +130,7 @@ namespace Achievements
 	static void UpdateRichPresence();
 	static void SendPingCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
 	static void UnlockAchievementCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
-	static void SubmitLeaderboardCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data);
+	static void SubmitLeaderboardCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data, u32 lboard_id);
 
 	static bool s_active = false;
 	static bool s_logged_in = false;
@@ -164,7 +165,6 @@ namespace Achievements
 	static Common::Timer s_last_ping_time;
 
 	static u32 s_last_queried_lboard = 0;
-	static u32 s_submitting_lboard_id = 0;
 	static std::optional<std::vector<Achievements::LeaderboardEntry>> s_lboard_entries;
 
 	template <typename T>
@@ -445,6 +445,11 @@ bool Achievements::IsLoggedIn()
 	return s_logged_in;
 }
 
+bool Achievements::HasSavedCredentials()
+{
+	return !s_username.empty() && !s_api_token.empty();
+}
+
 bool Achievements::ChallengeModeActive()
 {
 #ifdef ENABLE_RAINTEGRATION
@@ -513,7 +518,7 @@ void Achievements::Initialize()
 	s_last_ping_time.Reset();
 	s_username = Host::GetBaseStringSettingValue("Achievements", "Username");
 	s_api_token = Host::GetBaseStringSettingValue("Achievements", "Token");
-	s_logged_in = (!s_username.empty() && !s_api_token.empty());
+	s_logged_in = false; // We are not logged in until we confirm those credentials
 
 	if (VMManager::HasValidVM())
 		GameChanged(VMManager::GetDiscCRC(), VMManager::GetCurrentCRC());
@@ -634,7 +639,7 @@ void Achievements::SetChallengeMode(bool enabled)
 	s_challenge_mode = enabled;
 
 	if (HasActiveGame())
-		ImGuiFullscreen::ShowToast(std::string(), enabled ? "Hardcore mode is now enabled." : "Hardcore mode is now disabled.", 10.0f);
+		ImGuiFullscreen::ShowToast(std::string(), enabled ? TRANSLATE("Achievements", "Hardcore mode is now enabled.") : TRANSLATE("Achievements", "Hardcore mode is now disabled."), 10.0f);
 
 	if (HasActiveGame() && !IsTestModeActive())
 	{
@@ -953,13 +958,36 @@ void Achievements::LoginASyncCallback(s32 status_code, const std::string& conten
 	LoginCallback(status_code, std::move(content_type), std::move(data));
 }
 
+void Achievements::LoginWithTokenCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data)
+{
+	std::unique_lock lock(s_achievements_mutex);
+
+	RAPIResponse<rc_api_login_response_t, rc_api_process_login_response, rc_api_destroy_login_response> response(status_code, data);
+	if (!response)
+	{
+		lock.unlock();
+		Logout();
+		Host::OnAchievementsLoginRequested(LoginRequestReason::TokenInvalid);
+		return;
+	}
+
+	if (s_active)
+	{
+		s_logged_in = true;
+
+		// If we have a game running, set it up.
+		if (!s_game_hash.empty())
+			SendGetGameId();
+	}
+}
+
 void Achievements::SendLogin(
-	const char* username, const char* password, Common::HTTPDownloader* http_downloader, Common::HTTPDownloader::Request::Callback callback)
+	const char* username, const char* password, const char* api_token, Common::HTTPDownloader* http_downloader, Common::HTTPDownloader::Request::Callback callback)
 {
 	RAPIRequest<rc_api_login_request_t, rc_api_init_login_request> request;
 	request.username = username;
 	request.password = password;
-	request.api_token = nullptr;
+	request.api_token = api_token;
 	request.Send(http_downloader, std::move(callback));
 }
 
@@ -975,7 +1003,7 @@ bool Achievements::LoginAsync(const char* username, const char* password)
 		ImGuiFullscreen::OpenBackgroundProgressDialog("cheevos_async_login", "Logging in to RetroAchievements...", 0, 0, 0);
 	}
 
-	SendLogin(username, password, s_http_downloader.get(), LoginASyncCallback);
+	SendLogin(username, password, nullptr, s_http_downloader.get(), LoginASyncCallback);
 	return true;
 }
 
@@ -989,7 +1017,7 @@ bool Achievements::Login(const char* username, const char* password)
 
 	if (s_active)
 	{
-		SendLogin(username, password, s_http_downloader.get(), LoginCallback);
+		SendLogin(username, password, nullptr, s_http_downloader.get(), LoginCallback);
 		s_http_downloader->WaitForAllRequests();
 		return IsLoggedIn();
 	}
@@ -1000,10 +1028,19 @@ bool Achievements::Login(const char* username, const char* password)
 	if (!http_downloader)
 		return false;
 
-	SendLogin(username, password, http_downloader.get(), LoginCallback);
+	SendLogin(username, password, nullptr, http_downloader.get(), LoginCallback);
 	http_downloader->WaitForAllRequests();
 
 	return !Host::GetBaseStringSettingValue("Achievements", "Token").empty();
+}
+
+bool Achievements::LoginWithTokenAsync(const char* username, const char* api_token)
+{
+	if (s_logged_in || std::strlen(username) == 0 || std::strlen(api_token) == 0 || IsUsingRAIntegration())
+		return false;
+
+	SendLogin(username, nullptr, api_token, s_http_downloader.get(), LoginWithTokenCallback);
+	return true;
 }
 
 void Achievements::Logout()
@@ -1015,11 +1052,11 @@ void Achievements::Logout()
 		if (s_logged_in)
 		{
 			ClearGameInfo();
-			std::string().swap(s_username);
-			std::string().swap(s_api_token);
 			s_logged_in = false;
 			Host::OnAchievementsRefreshed();
 		}
+		std::string().swap(s_username);
+		std::string().swap(s_api_token);
 	}
 
 	// remove from config
@@ -1477,6 +1514,8 @@ void Achievements::GameChanged(u32 disc_crc, u32 crc)
 
 	if (IsLoggedIn())
 		SendGetGameId();
+	else if (HasSavedCredentials())
+		LoginWithTokenAsync(s_username.c_str(), s_api_token.c_str());
 }
 
 void Achievements::SendGetGameId()
@@ -1777,7 +1816,7 @@ void Achievements::UnlockAchievementCallback(s32 status_code, const std::string&
 	Console.WriteLn("Successfully unlocked achievement %u, new score %u", response.awarded_achievement_id, response.new_player_score);
 }
 
-void Achievements::SubmitLeaderboardCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data)
+void Achievements::SubmitLeaderboardCallback(s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data, u32 lboard_id)
 {
 	if (!VMManager::HasValidVM())
 		return;
@@ -1791,11 +1830,7 @@ void Achievements::SubmitLeaderboardCallback(s32 status_code, const std::string&
 	// Force the next leaderboard query to repopulate everything, just in case the user wants to see their new score
 	s_last_queried_lboard = 0;
 
-	// RA API doesn't send us the leaderboard ID back.. hopefully we don't submit two at once :/
-	if (s_submitting_lboard_id == 0)
-		return;
-
-	const Leaderboard* lb = GetLeaderboardByID(std::exchange(s_submitting_lboard_id, 0u));
+	const Leaderboard* lb = GetLeaderboardByID(lboard_id);
 	if (!lb || !FullscreenUI::IsInitialized() || !EmuConfig.Achievements.Notifications)
 		return;
 
@@ -1925,16 +1960,15 @@ void Achievements::SubmitLeaderboard(u32 leaderboard_id, int value)
 		return;
 	}
 
-	std::unique_lock lock(s_achievements_mutex);
-	s_submitting_lboard_id = leaderboard_id;
-
 	RAPIRequest<rc_api_submit_lboard_entry_request_t, rc_api_init_submit_lboard_entry_request> request;
 	request.username = s_username.c_str();
 	request.api_token = s_api_token.c_str();
 	request.game_hash = s_game_hash.c_str();
 	request.leaderboard_id = leaderboard_id;
 	request.score = value;
-	request.Send(SubmitLeaderboardCallback);
+	request.Send([leaderboard_id](s32 status_code, const std::string& content_type, Common::HTTPDownloader::Request::Data data) {
+		SubmitLeaderboardCallback(status_code, content_type, std::move(data), leaderboard_id);
+	});
 
 	// Technically not going through the resource API, but since we're passing this to something else, we can't.
 	if (EmuConfig.Achievements.SoundEffects)

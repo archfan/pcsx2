@@ -48,7 +48,7 @@
 #include "pcsx2/Input/InputManager.h"
 #include "pcsx2/LogSink.h"
 #include "pcsx2/MTGS.h"
-#include "pcsx2/PAD/Host/PAD.h"
+#include "pcsx2/SIO/Pad/Pad.h"
 #include "pcsx2/PerformanceMetrics.h"
 #include "pcsx2/VMManager.h"
 
@@ -85,11 +85,13 @@ static double s_last_render_passes = 0;
 static double s_last_barriers = 0;
 static double s_last_copies = 0;
 static double s_last_uploads = 0;
+static double s_last_readbacks = 0;
 static u64 s_total_draws = 0;
 static u64 s_total_render_passes = 0;
 static u64 s_total_barriers = 0;
 static u64 s_total_copies = 0;
 static u64 s_total_uploads = 0;
+static u64 s_total_readbacks = 0;
 static u32 s_total_frames = 0;
 
 bool GSRunner::InitializeConfig()
@@ -115,7 +117,7 @@ bool GSRunner::InitializeConfig()
 	si.SetStringValue("SPU2/Output", "OutputModule", "nullout");
 
 	// none of the bindings are going to resolve to anything
-	PAD::ClearPortBindings(si, 0);
+	Pad::ClearPortBindings(si, 0);
 	si.ClearSection("Hotkeys");
 
 	// make sure any gamesettings inis in your tree don't get loaded
@@ -255,7 +257,7 @@ void Host::OnInputDeviceDisconnected(const std::string_view& identifier)
 {
 }
 
-void Host::SetRelativeMouseMode(bool enabled)
+void Host::SetMouseMode(bool relative_mode, bool hide_cursor)
 {
 }
 
@@ -293,6 +295,7 @@ void Host::BeginPresentFrame()
 		update_stat(GSPerfMon::Barriers, s_total_barriers, s_last_barriers);
 		update_stat(GSPerfMon::TextureCopies, s_total_copies, s_last_copies);
 		update_stat(GSPerfMon::TextureUploads, s_total_uploads, s_last_uploads);
+		update_stat(GSPerfMon::Readbacks, s_total_readbacks, s_last_readbacks);
 		s_total_frames++;
 		std::atomic_thread_fence(std::memory_order_release);
 	}
@@ -382,12 +385,15 @@ void Host::RequestVMShutdown(bool allow_confirm, bool allow_save_state, bool def
 	VMManager::SetState(VMState::Stopping);
 }
 
-#ifdef ENABLE_ACHIEVEMENTS
+void Host::OnAchievementsLoginRequested(Achievements::LoginRequestReason reason)
+{
+	// noop
+}
+
 void Host::OnAchievementsRefreshed()
 {
 	// noop
 }
-#endif
 
 std::optional<u32> InputManager::ConvertHostKeyboardStringToCode(const std::string_view& str)
 {
@@ -641,6 +647,7 @@ void GSRunner::DumpStats()
 	Console.WriteLn(fmt::format("@HWSTAT@ Barriers: {} (avg {})", s_total_barriers, static_cast<u64>(std::ceil(s_total_barriers / static_cast<double>(s_total_frames)))));
 	Console.WriteLn(fmt::format("@HWSTAT@ Copies: {} (avg {})", s_total_copies, static_cast<u64>(std::ceil(s_total_copies / static_cast<double>(s_total_frames)))));
 	Console.WriteLn(fmt::format("@HWSTAT@ Uploads: {} (avg {})", s_total_uploads, static_cast<u64>(std::ceil(s_total_uploads / static_cast<double>(s_total_frames)))));
+	Console.WriteLn(fmt::format("@HWSTAT@ Readbacks: {} (avg {})", s_total_readbacks, static_cast<u64>(std::ceil(s_total_readbacks / static_cast<double>(s_total_frames)))));
 	Console.WriteLn("============================================");
 }
 

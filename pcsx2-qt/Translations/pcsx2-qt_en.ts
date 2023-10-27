@@ -80,27 +80,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/AchievementLoginDialog.cpp" line="32"/>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="36"/>
+        <source>&lt;strong&gt;Your RetroAchievements login token is no longer valid.&lt;/strong&gt; You must re-enter your credentials for achievements to be tracked. Your password will not be saved in PCSX2, an access token will be generated and used instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="41"/>
         <source>&amp;Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/AchievementLoginDialog.cpp" line="45"/>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="54"/>
         <source>Logging in...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/AchievementLoginDialog.cpp" line="63"/>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="72"/>
         <source>Login Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/AchievementLoginDialog.cpp" line="64"/>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="73"/>
         <source>Login failed. Please check your username and password, and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/AchievementLoginDialog.cpp" line="65"/>
+        <location filename="../Settings/AchievementLoginDialog.cpp" line="74"/>
         <source>Login failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,27 +291,37 @@ Login token generated on %2.</source>
 <context>
     <name>Achievements</name>
     <message>
-        <location filename="../../pcsx2/Achievements.cpp" line="1056"/>
+        <location filename="../../pcsx2/Achievements.cpp" line="642"/>
+        <source>Hardcore mode is now enabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/Achievements.cpp" line="642"/>
+        <source>Hardcore mode is now disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/Achievements.cpp" line="1093"/>
         <source> (Hardcore Mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Achievements.cpp" line="1061"/>
+        <location filename="../../pcsx2/Achievements.cpp" line="1098"/>
         <source>You have earned {0} of {1} achievements, and {2} of {3} points.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Achievements.cpp" line="1066"/>
+        <location filename="../../pcsx2/Achievements.cpp" line="1103"/>
         <source>This game has no achievements.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Achievements.cpp" line="1072"/>
+        <location filename="../../pcsx2/Achievements.cpp" line="1109"/>
         <source>Leaderboard submission is enabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Achievements.cpp" line="1469"/>
+        <location filename="../../pcsx2/Achievements.cpp" line="1506"/>
         <source>Failed to read executable from disc. Achievements disabled.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1073,8 +1088,8 @@ Login token generated on %2.</source>
     <name>AutoUpdaterDialog</name>
     <message>
         <location filename="../AutoUpdaterDialog.ui" line="17"/>
-        <location filename="../AutoUpdaterDialog.cpp" line="419"/>
-        <location filename="../AutoUpdaterDialog.cpp" line="482"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="438"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="501"/>
         <source>Automatic Updater</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1124,37 +1139,47 @@ Login token generated on %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="388"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="390"/>
         <source>&lt;h2&gt;Settings Warning&lt;/h2&gt;&lt;p&gt;Installing this update will reset your program configuration. Please note that you will have to reconfigure your settings after this update.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="418"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="416"/>
+        <source>Savestate Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AutoUpdaterDialog.cpp" line="417"/>
+        <source>&lt;h1&gt;WARNING&lt;/h1&gt;&lt;p style=&apos;font-size:12pt;&apos;&gt;Installing this update will make your &lt;b&gt;save states incompatible&lt;/b&gt;, &lt;i&gt;be sure to save any progress to your memory cards before proceeding&lt;/i&gt;.&lt;/p&gt;&lt;p&gt;Do you wish to continue?&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AutoUpdaterDialog.cpp" line="437"/>
         <source>Downloading %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="418"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="437"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="483"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="502"/>
         <source>No updates are currently available. Please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="501"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="520"/>
         <source>Current Version: %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="502"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="521"/>
         <source>New Version: %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AutoUpdaterDialog.cpp" line="503"/>
+        <location filename="../AutoUpdaterDialog.cpp" line="522"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1445,6 +1470,26 @@ Login token generated on %2.</source>
         <source>Saving CDVD block dump to &apos;{}&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../pcsx2/CDVD/IsoHasher.cpp" line="42"/>
+        <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/CDVD/IsoHasher.cpp" line="44"/>
+        <source>Mode 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/CDVD/IsoHasher.cpp" line="46"/>
+        <source>Mode 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/CDVD/IsoHasher.cpp" line="48"/>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ColorPickerButton</name>
@@ -1487,34 +1532,34 @@ Login token generated on %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="49"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="50"/>
         <source>Controller Port %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="192"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="200"/>
         <source>No devices available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="202"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="210"/>
         <source>Clear Bindings</source>
         <extracomment>Binding: A pair of (host button, target button); Mapping: A list of bindings covering an entire controller. These are two different things (which might be the same in your language, please make sure to verify this).</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="204"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="212"/>
         <source>Are you sure you want to clear all bindings for this controller? This action cannot be undone.</source>
         <extracomment>Binding: A pair of (host button, target button); Mapping: A list of bindings covering an entire controller. These are two different things (which might be the same in your language, please make sure to verify this).</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="233"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="241"/>
         <source>Automatic Binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="234"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="242"/>
         <source>No generic bindings were generated for device &apos;%1&apos;. The controller/source may not support automatic mapping.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1667,19 +1712,97 @@ Login token generated on %2.</source>
     </message>
 </context>
 <context>
+    <name>ControllerBindingWidget_Guitar</name>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="86"/>
+        <source>Yellow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="98"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="118"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="138"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="158"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="178"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="198"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="218"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="238"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="258"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="278"/>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="298"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="106"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="126"/>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="146"/>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="166"/>
+        <source>Orange</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="186"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="206"/>
+        <source>Strum Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="226"/>
+        <source>Strum Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="246"/>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="266"/>
+        <source>Whammy Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerBindingWidget_Guitar.ui" line="286"/>
+        <source>Tilt</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ControllerCustomSettingsWidget</name>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="693"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="709"/>
         <source>Restore Default Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="665"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="681"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="669"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="685"/>
         <source>Select File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1859,62 +1982,69 @@ Login token generated on %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="91"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="94"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="163"/>
         <source>100%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="103"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="106"/>
         <source>Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="109"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="112"/>
         <source>Select the trigger to activate this macro. This can be a single button, or combination of buttons (chord). Shift-click for multiple triggers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="132"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="134"/>
+        <source>Deadzone:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="175"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="140"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="183"/>
         <source>Macro will toggle every N frames.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerMacroEditWidget.ui" line="147"/>
+        <location filename="../Settings/ControllerMacroEditWidget.ui" line="190"/>
         <source>Set...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="379"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="390"/>
         <source>Not Configured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="384"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="395"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="400"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="391"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="407"/>
         <source>Set Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="391"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="407"/>
         <source>Frequency: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="418"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="434"/>
         <source>Macro will not repeat.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="420"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="436"/>
         <source>Macro will toggle buttons every %1 frames.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1922,12 +2052,12 @@ Login token generated on %2.</source>
 <context>
     <name>ControllerMacroWidget</name>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="272"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="280"/>
         <source>Controller Port %1 Macros</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="281"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="289"/>
         <source>Macro %1
 %2</source>
         <extracomment>This is the full text that appears in each option of the 16 available macros, and reads like this:
@@ -2311,99 +2441,99 @@ You cannot undo this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="257"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="256"/>
         <source>Breakpoint List Context Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="259"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="258"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="267"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="266"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="273"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="386"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="489"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="272"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="385"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="488"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="278"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="277"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="384"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="383"/>
         <source>Thread List Context Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="422"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="421"/>
         <source>Demangle Symbols</source>
         <extracomment>&quot;Demangling&quot; is the opposite of &quot;Name mangling&quot;, which is a process where a compiler takes function names and combines them with other characteristics of the function (e.g. what types of data it accepts) to ensure they stay unique even when multiple functions exist with the same name (but different inputs / const-ness). See here: https://en.wikipedia.org/wiki/Name_mangling#C++</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="433"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="432"/>
         <source>Copy Function Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="444"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="443"/>
         <source>Copy Function Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="454"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="453"/>
         <source>Go to in Disassembly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="461"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="460"/>
         <source>Go to in Memory View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="487"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="486"/>
         <source>Stack List Context Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="650"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="658"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="664"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="694"/>
-        <location filename="../Debugger/CpuWidget.cpp" line="718"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="649"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="657"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="663"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="693"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="717"/>
         <source>Debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="650"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="649"/>
         <source>Invalid start address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="658"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="657"/>
         <source>Invalid end address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="664"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="663"/>
         <source>Start address can&apos;t be equal to or greater than the end address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="694"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="693"/>
         <source>Invalid search value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/CpuWidget.cpp" line="718"/>
+        <location filename="../Debugger/CpuWidget.cpp" line="717"/>
         <source>Value is larger than type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2932,13 +3062,13 @@ Do you want to overwrite?</source>
     </message>
     <message>
         <location filename="../Debugger/DisassemblyWidget.cpp" line="80"/>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="237"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="238"/>
         <source>Add Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Debugger/DisassemblyWidget.cpp" line="82"/>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="289"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="290"/>
         <source>Rename Function</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2964,60 +3094,60 @@ Do you want to overwrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="201"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="202"/>
         <source>Go to address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="211"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="212"/>
         <source>Go to address error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="211"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="212"/>
         <source>Invalid address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="229"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="230"/>
         <source>Add Function Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="229"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="230"/>
         <source>A function entry point already exists here. Consider renaming instead.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="238"/>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="253"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="239"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="254"/>
         <source>Function will be (0x%1) instructions long.
 Enter function name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="289"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="290"/>
         <source>Function name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="295"/>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="307"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="296"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="308"/>
         <source>Rename Function Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="295"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="296"/>
         <source>Function name cannot be nothing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="307"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="308"/>
         <source>No function / symbol is currently selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/DisassemblyWidget.cpp" line="630"/>
+        <location filename="../Debugger/DisassemblyWidget.cpp" line="631"/>
         <source>%1 NOT VALID ADDRESS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3043,22 +3173,22 @@ Enter function name</source>
 <context>
     <name>EmuThread</name>
     <message>
-        <location filename="../QtHost.cpp" line="1039"/>
+        <location filename="../QtHost.cpp" line="1038"/>
         <source>%1x%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QtHost.cpp" line="1047"/>
+        <location filename="../QtHost.cpp" line="1046"/>
         <source>Game: %1 FPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QtHost.cpp" line="1054"/>
+        <location filename="../QtHost.cpp" line="1053"/>
         <source>Video: %1 FPS (%2%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QtHost.cpp" line="1097"/>
+        <location filename="../QtHost.cpp" line="1101"/>
         <source>Game ID: %1
 Game Title: %2
 Achievements: %5 (%6)
@@ -3067,7 +3197,7 @@ Achievements: %5 (%6)
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../QtHost.cpp" line="1103"/>
+        <location filename="../QtHost.cpp" line="1107"/>
         <source>%n points</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3075,12 +3205,12 @@ Achievements: %5 (%6)
         </translation>
     </message>
     <message>
-        <location filename="../QtHost.cpp" line="1109"/>
+        <location filename="../QtHost.cpp" line="1113"/>
         <source>Rich presence inactive or unsupported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../QtHost.cpp" line="1113"/>
+        <location filename="../QtHost.cpp" line="1117"/>
         <source>Game not loaded or no RetroAchievements available.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3606,7 +3736,7 @@ Achievements: %5 (%6)
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GS/Renderers/HW/GSRendererHW.cpp" line="174"/>
+        <location filename="../../pcsx2/GS/Renderers/HW/GSRendererHW.cpp" line="151"/>
         <source>Hash cache has used {:.2f} MB of VRAM, disabling.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3616,12 +3746,12 @@ Achievements: %5 (%6)
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="2700"/>
+        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="2701"/>
         <source>Stencil buffers and texture barriers are both unavailable, this will break some graphical effects.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="4988"/>
+        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="4989"/>
         <source>Spin GPU During Readbacks is enabled, but calibrated timestamps are unavailable.  This might be really slow.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3677,7 +3807,7 @@ Achievements: %5 (%6)
 <context>
     <name>GameDatabase</name>
     <message>
-        <location filename="../../pcsx2/GameDatabase.cpp" line="860"/>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="864"/>
         <source>{0} Current Blending Accuracy is {1}.
 Recommended Blending Accuracy for this game is {2}.
 You can adjust the blending level in Game Properties to improve
@@ -3685,8 +3815,41 @@ graphical quality, but this will increase system requirements.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GameDatabase.cpp" line="904"/>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="908"/>
         <source>Manual GS hardware renderer fixes are enabled, automatic fixes were not applied:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1146"/>
+        <source>No tracks provided.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1155"/>
+        <source>Hash {} is not in database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1164"/>
+        <source>Data track number does not match data track in database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1181"/>
+        <source>Track {} with hash {} is not found in database.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1192"/>
+        <source>Track {} with hash {} is for a different game ({}).
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/GameDatabase.cpp" line="1203"/>
+        <source>Track {} with hash {} does not match database track.
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4318,8 +4481,110 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GameSummaryWidget.cpp" line="133"/>
+        <location filename="../Settings/GameSummaryWidget.ui" line="462"/>
+        <source>Verify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.ui" line="502"/>
+        <source>Search on Redump.org...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="143"/>
         <source>Select Disc Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="156"/>
+        <source>Game is not a CD/DVD.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="163"/>
+        <source>Track list unavailable while virtual machine is running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="188"/>
+        <source>#</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="191"/>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="192"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="200"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="193"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="201"/>
+        <source>Sectors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="194"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="202"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="195"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="203"/>
+        <source>MD5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="196"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="204"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="212"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="217"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="218"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="219"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="225"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="226"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="227"/>
+        <source>%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="220"/>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="228"/>
+        <source>&lt;not computed&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="244"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="244"/>
+        <source>Cannot verify image while a game is running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="274"/>
+        <source>One or more tracks is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="311"/>
+        <source>Verified as %1 [%2] (Version %3).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GameSummaryWidget.cpp" line="318"/>
+        <source>Verified as %1 [%2].</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4395,8 +4660,9 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="484"/>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="546"/>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="794"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2107"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2142"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1253"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2126"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2161"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="36"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="415"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="457"/>
@@ -4492,8 +4758,8 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     <message>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="240"/>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="444"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1413"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1608"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1432"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1627"/>
         <source>%</source>
         <extracomment>Percentage sign that shows next to a value. You might want to add a space before if your language requires it.
 ----------
@@ -4838,13 +5104,13 @@ Percentage sign that will appear next to a number. Add a space or whatever is ne
     </message>
     <message>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="799"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2147"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2166"/>
         <source>Force Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="804"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2152"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2171"/>
         <source>Force Enabled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5040,7 +5306,7 @@ Percentage sign that will appear next to a number. Add a space or whatever is ne
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1229"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1236"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="606"/>
         <source>Merge Sprite</source>
         <translation type="unfinished"></translation>
@@ -5133,416 +5399,426 @@ Percentage sign that will appear next to a number. Add a space or whatever is ne
     </message>
     <message>
         <location filename="../Settings/GraphicsSettingsWidget.ui" line="1222"/>
-        <source>Bilinear Dirty Upscale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1236"/>
         <source>Unscaled Palette Texture Draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1243"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1229"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="599"/>
         <source>Wild Arms Hack</source>
         <extracomment>Wild Arms: name of a game series. Leave as-is or use an official translation.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1253"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1245"/>
+        <source>Bilinear Dirty Upscale:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1258"/>
+        <source>Force Bilinear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1263"/>
+        <source>Force Nearest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1272"/>
         <source>Texture Replacement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1259"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1278"/>
         <source>Search Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1268"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1743"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1287"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1762"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1275"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1750"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1294"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1769"/>
         <source>Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1282"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1757"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1301"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1776"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1289"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1308"/>
         <source>PCSX2 will dump and load texture replacements from this directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1299"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1318"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1305"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1324"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="612"/>
         <source>Dump Textures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1312"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1331"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="614"/>
         <source>Dump Mipmaps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1319"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1338"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="616"/>
         <source>Dump FMV Textures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1326"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1345"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="618"/>
         <source>Async Texture Loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1333"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1352"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="620"/>
         <source>Load Textures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1340"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1359"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="622"/>
         <source>Precache Textures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1364"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1383"/>
         <source>Post-Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1370"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1389"/>
         <source>Sharpening/Anti-Aliasing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1376"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1395"/>
         <source>Contrast Adaptive Sharpening:</source>
         <extracomment>You might find an official translation for this on AMD&apos;s website (Spanish version linked): https://www.amd.com/es/technologies/radeon-software-fidelityfx</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1386"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1454"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1405"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1473"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="628"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="645"/>
         <source>None (Default)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1391"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1410"/>
         <source>Sharpen Only (Internal Resolution)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1396"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1415"/>
         <source>Sharpen and Resize (Display Resolution)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1406"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1425"/>
         <source>Sharpness:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1430"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1449"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="637"/>
         <source>FXAA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1440"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1459"/>
         <source>Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1446"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1465"/>
         <source>TV Shader:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1459"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1478"/>
         <source>Scanline Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1464"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1483"/>
         <source>Diagonal Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1469"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1488"/>
         <source>Triangular Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1474"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1493"/>
         <source>Wave Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1479"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1498"/>
         <source>Lottes CRT</source>
         <extracomment>Lottes = Timothy Lottes, the creator of the shader filter. Leave as-is. CRT= Cathode Ray Tube, an old type of television technology.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1484"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1503"/>
         <source>4xRGSS downsampling (4x Rotated Grid SuperSampling)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1489"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1508"/>
         <source>NxAGSS downsampling (Nx Automatic Grid SuperSampling)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1497"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1516"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="632"/>
         <source>Shade Boost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1519"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1538"/>
         <source>Brightness:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1536"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1555"/>
         <source>Contrast:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1553"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1572"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="643"/>
         <source>Saturation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1589"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1608"/>
         <source>OSD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1595"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1614"/>
         <source>On-Screen Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1601"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1620"/>
         <source>OSD Scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1623"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1642"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="673"/>
         <source>Show Indicators</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1630"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1649"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="663"/>
         <source>Show Resolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1637"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1656"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="679"/>
         <source>Show Inputs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1644"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1663"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="668"/>
         <source>Show GPU Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1651"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1670"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="676"/>
         <source>Show Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1658"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1677"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="657"/>
         <source>Show FPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2176"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2195"/>
         <source>Disable Shader Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2190"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2209"/>
         <source>Disable Vertex Shader Expand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1672"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1691"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="670"/>
         <source>Show Statistics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1679"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1698"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="666"/>
         <source>Show CPU Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1693"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1712"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="685"/>
         <source>Warn About Unsafe Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1700"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1719"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="683"/>
         <source>Show Frame Times</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1726"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1745"/>
         <source>Recording</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1732"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1751"/>
         <source>Video Dumping Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1769"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1788"/>
         <source>Capture Setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1775"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1794"/>
         <source>Container:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1808"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1876"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1827"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1895"/>
         <source>Codec:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1841"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1966"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1860"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1985"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="693"/>
         <source>Extra Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1854"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1873"/>
         <source>Capture Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1909"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1928"/>
         <source>Resolution:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1934"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1953"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1957"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1976"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1979"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1998"/>
         <source>Capture Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2005"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2024"/>
         <source>Advanced</source>
         <extracomment>Advanced here refers to the advanced graphics options.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2011"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2030"/>
         <source>Advanced Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2017"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2036"/>
         <source>Hardware Download Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2025"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2044"/>
         <source>Accurate (Recommended)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2030"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2049"/>
         <source>Disable Readbacks (Synchronize GS Thread)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2035"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2054"/>
         <source>Unsynchronized (Non-Deterministic)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2040"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2059"/>
         <source>Disabled (Ignore Transfers)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2048"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2067"/>
         <source>GS Dump Compression:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2056"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2075"/>
         <source>Uncompressed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2061"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2080"/>
         <source>LZMA (xz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2066"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2085"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="703"/>
         <source>Zstandard (zst)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2076"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2095"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="723"/>
         <source>Skip Presenting Duplicate Frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2083"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2102"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="707"/>
         <source>Use Blit Swap Chain</source>
         <extracomment>Blit = a data operation. You might want to write it as-is, but fully uppercased. More information: https://en.wikipedia.org/wiki/Bit_blit \nSwap chain: see Microsoft&apos;s Terminology Portal.
@@ -5552,69 +5828,69 @@ Swap chain: see Microsoft&apos;s Terminology Portal.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2090"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2109"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="729"/>
         <source>Disable Threaded Presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1818"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1886"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1837"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1905"/>
         <source>Bitrate:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1825"/>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1893"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1844"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1912"/>
         <source> kbps</source>
         <extracomment>Unit that will appear next to a number. Alter the space or whatever is needed before the text depending on your language.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2099"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2118"/>
         <source>Allow Exclusive Fullscreen:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2112"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2131"/>
         <source>Disallowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2117"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2136"/>
         <source>Allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2128"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2147"/>
         <source>Debugging Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2134"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2153"/>
         <source>Override Texture Barriers:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2183"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2202"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="717"/>
         <source>Use Debug Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2169"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2188"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="719"/>
         <source>Disable Dual Source Blending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1686"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1705"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="660"/>
         <source>Show Speed Percentages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2162"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="2181"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="721"/>
         <source>Disable Framebuffer Fetch</source>
         <translation type="unfinished"></translation>
@@ -6332,7 +6608,7 @@ Swap chain: see Microsoft&apos;s Terminology Portal.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1665"/>
+        <location filename="../Settings/GraphicsSettingsWidget.ui" line="1684"/>
         <location filename="../Settings/GraphicsSettingsWidget.cpp" line="653"/>
         <source>Show OSD Messages</source>
         <translation type="unfinished"></translation>
@@ -6897,24 +7173,24 @@ Swap chain: see Microsoft&apos;s Terminology Portal.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingDialog.cpp" line="43"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="42"/>
         <source>Bindings for %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingDialog.cpp" line="44"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="43"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingDialog.cpp" line="175"/>
-        <location filename="../Settings/InputBindingDialog.cpp" line="190"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="173"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="188"/>
         <source>Push Button/Axis... [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingDialog.cpp" line="348"/>
-        <location filename="../Settings/InputBindingDialog.cpp" line="353"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="346"/>
+        <location filename="../Settings/InputBindingDialog.cpp" line="351"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6922,7 +7198,7 @@ Swap chain: see Microsoft&apos;s Terminology Portal.</extracomment>
 <context>
     <name>InputBindingWidget</name>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="77"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="76"/>
         <source>
 
 Left click to assign a new button
@@ -6930,18 +7206,18 @@ Shift + left click for additional bindings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="78"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="77"/>
         <source>
 Right click to clear binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="84"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="83"/>
         <source>No bindings registered</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../Settings/InputBindingWidget.cpp" line="88"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="87"/>
         <source>%n bindings</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -6949,8 +7225,8 @@ Right click to clear binding</source>
         </translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="303"/>
-        <location filename="../Settings/InputBindingWidget.cpp" line="318"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="301"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="316"/>
         <source>Push Button/Axis... [%1]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7011,17 +7287,17 @@ Right click to clear binding</source>
 <context>
     <name>InputVibrationBindingWidget</name>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="466"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="464"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="466"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="464"/>
         <source>No devices with vibration motors were detected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/InputBindingWidget.cpp" line="472"/>
+        <location filename="../Settings/InputBindingWidget.cpp" line="470"/>
         <source>Select vibration motor for %1.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7409,14 +7685,14 @@ Right click to clear binding</source>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="40"/>
-        <location filename="../MainWindow.cpp" line="1182"/>
-        <location filename="../MainWindow.cpp" line="1243"/>
+        <location filename="../MainWindow.cpp" line="1193"/>
+        <location filename="../MainWindow.cpp" line="1254"/>
         <source>Change Disc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="55"/>
-        <location filename="../MainWindow.cpp" line="2334"/>
+        <location filename="../MainWindow.cpp" line="2346"/>
         <source>Load State</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7466,514 +7742,514 @@ Right click to clear binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="225"/>
+        <location filename="../MainWindow.ui" line="229"/>
         <source>Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="268"/>
+        <location filename="../MainWindow.ui" line="272"/>
         <source>Start &amp;File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="286"/>
+        <location filename="../MainWindow.ui" line="290"/>
         <source>Start &amp;Disc...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="304"/>
+        <location filename="../MainWindow.ui" line="308"/>
         <source>Start &amp;BIOS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="322"/>
+        <location filename="../MainWindow.ui" line="326"/>
         <source>&amp;Scan For New Games</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="331"/>
+        <location filename="../MainWindow.ui" line="335"/>
         <source>&amp;Rescan All Games</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="340"/>
+        <location filename="../MainWindow.ui" line="344"/>
         <source>Shut &amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="358"/>
+        <location filename="../MainWindow.ui" line="362"/>
         <source>Shut Down &amp;Without Saving</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="367"/>
+        <location filename="../MainWindow.ui" line="371"/>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="388"/>
+        <location filename="../MainWindow.ui" line="392"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="427"/>
+        <location filename="../MainWindow.ui" line="431"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="436"/>
+        <location filename="../MainWindow.ui" line="440"/>
         <source>&amp;BIOS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="445"/>
+        <location filename="../MainWindow.ui" line="449"/>
         <source>Emulation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="454"/>
+        <location filename="../MainWindow.ui" line="458"/>
         <source>&amp;Controllers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="472"/>
+        <location filename="../MainWindow.ui" line="476"/>
         <source>&amp;Hotkeys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="481"/>
+        <location filename="../MainWindow.ui" line="485"/>
         <source>&amp;Graphics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="490"/>
+        <location filename="../MainWindow.ui" line="494"/>
         <source>A&amp;chievements</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="495"/>
+        <location filename="../MainWindow.ui" line="499"/>
         <source>&amp;Post-Processing Settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="504"/>
+        <location filename="../MainWindow.ui" line="508"/>
         <source>Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="518"/>
+        <location filename="../MainWindow.ui" line="522"/>
         <source>Resolution Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="527"/>
+        <location filename="../MainWindow.ui" line="531"/>
         <source>&amp;GitHub Repository...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="536"/>
+        <location filename="../MainWindow.ui" line="540"/>
         <source>Support &amp;Forums...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="545"/>
+        <location filename="../MainWindow.ui" line="549"/>
         <source>&amp;Discord Server...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="554"/>
+        <location filename="../MainWindow.ui" line="558"/>
         <source>Check for &amp;Updates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="563"/>
+        <location filename="../MainWindow.ui" line="567"/>
         <source>About &amp;Qt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="572"/>
+        <location filename="../MainWindow.ui" line="576"/>
         <source>&amp;About PCSX2...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="513"/>
+        <location filename="../MainWindow.ui" line="517"/>
         <source>Fullscreen</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="581"/>
+        <location filename="../MainWindow.ui" line="585"/>
         <source>Change Disc...</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="590"/>
+        <location filename="../MainWindow.ui" line="594"/>
         <source>&amp;Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="599"/>
+        <location filename="../MainWindow.ui" line="603"/>
         <source>Game List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="608"/>
+        <location filename="../MainWindow.ui" line="612"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="617"/>
+        <location filename="../MainWindow.ui" line="621"/>
         <source>Add Game Directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="626"/>
+        <location filename="../MainWindow.ui" line="630"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="646"/>
+        <location filename="../MainWindow.ui" line="650"/>
         <source>From File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="651"/>
+        <location filename="../MainWindow.ui" line="655"/>
         <source>From Device...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="656"/>
+        <location filename="../MainWindow.ui" line="660"/>
         <source>From Game List...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="661"/>
+        <location filename="../MainWindow.ui" line="665"/>
         <source>Remove Disc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="666"/>
+        <location filename="../MainWindow.ui" line="670"/>
         <source>Global State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="675"/>
+        <location filename="../MainWindow.ui" line="679"/>
         <source>&amp;Screenshot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="277"/>
+        <location filename="../MainWindow.ui" line="281"/>
         <source>Start File</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="295"/>
+        <location filename="../MainWindow.ui" line="299"/>
         <source>Start Disc</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="313"/>
+        <location filename="../MainWindow.ui" line="317"/>
         <source>Start BIOS</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="349"/>
+        <location filename="../MainWindow.ui" line="353"/>
         <source>Shut Down</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="376"/>
+        <location filename="../MainWindow.ui" line="380"/>
         <source>Reset</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="400"/>
+        <location filename="../MainWindow.ui" line="404"/>
         <source>Pause</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="409"/>
+        <location filename="../MainWindow.ui" line="413"/>
         <source>Load State</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="418"/>
+        <location filename="../MainWindow.ui" line="422"/>
         <source>Save State</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="463"/>
+        <location filename="../MainWindow.ui" line="467"/>
         <source>Controllers</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="638"/>
+        <location filename="../MainWindow.ui" line="642"/>
         <source>Settings</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="684"/>
+        <location filename="../MainWindow.ui" line="688"/>
         <source>Screenshot</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="693"/>
+        <location filename="../MainWindow.ui" line="697"/>
         <source>&amp;Memory Cards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="702"/>
+        <location filename="../MainWindow.ui" line="706"/>
         <source>&amp;Network &amp;&amp; HDD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="711"/>
+        <location filename="../MainWindow.ui" line="715"/>
         <source>&amp;Folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="722"/>
+        <location filename="../MainWindow.ui" line="726"/>
         <source>&amp;Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="733"/>
+        <location filename="../MainWindow.ui" line="737"/>
         <source>Lock Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="744"/>
+        <location filename="../MainWindow.ui" line="748"/>
         <source>&amp;Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="755"/>
+        <location filename="../MainWindow.ui" line="759"/>
         <source>Verbose Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="764"/>
+        <location filename="../MainWindow.ui" line="768"/>
         <source>Game &amp;List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="776"/>
+        <location filename="../MainWindow.ui" line="780"/>
         <source>System &amp;Display</source>
         <extracomment>This grayed-out at first option will become available while there is a game emulated and the game list is displayed over the actual emulation, to let users display the system emulation once more.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="788"/>
+        <location filename="../MainWindow.ui" line="792"/>
         <source>Game &amp;Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="797"/>
+        <location filename="../MainWindow.ui" line="801"/>
         <source>Game &amp;Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="808"/>
+        <location filename="../MainWindow.ui" line="812"/>
         <source>Show Titles (Grid View)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="817"/>
+        <location filename="../MainWindow.ui" line="821"/>
         <source>Zoom &amp;In (Grid View)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="820"/>
+        <location filename="../MainWindow.ui" line="824"/>
         <source>Ctrl++</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="829"/>
+        <location filename="../MainWindow.ui" line="833"/>
         <source>Zoom &amp;Out (Grid View)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="832"/>
+        <location filename="../MainWindow.ui" line="836"/>
         <source>Ctrl+-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="841"/>
+        <location filename="../MainWindow.ui" line="845"/>
         <source>Refresh &amp;Covers (Grid View)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="850"/>
+        <location filename="../MainWindow.ui" line="854"/>
         <source>Open Memory Card Directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="859"/>
+        <location filename="../MainWindow.ui" line="863"/>
         <source>Open Data Directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="864"/>
+        <location filename="../MainWindow.ui" line="868"/>
         <source>Toggle Software Rendering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="873"/>
+        <location filename="../MainWindow.ui" line="881"/>
         <source>Open Debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="878"/>
+        <location filename="../MainWindow.ui" line="886"/>
         <source>Reload Cheats/Patches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="886"/>
+        <location filename="../MainWindow.ui" line="898"/>
         <source>Enable System Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="894"/>
+        <location filename="../MainWindow.ui" line="906"/>
         <source>Enable Verbose Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="902"/>
+        <location filename="../MainWindow.ui" line="914"/>
         <source>Enable EE Console Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="910"/>
+        <location filename="../MainWindow.ui" line="922"/>
         <source>Enable IOP Console Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="915"/>
+        <location filename="../MainWindow.ui" line="927"/>
         <source>Save Single Frame GS Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="923"/>
+        <location filename="../MainWindow.ui" line="939"/>
         <source>New</source>
         <extracomment>This section refers to the Input Recording submenu.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="931"/>
+        <location filename="../MainWindow.ui" line="947"/>
         <source>Play</source>
         <extracomment>This section refers to the Input Recording submenu.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="939"/>
+        <location filename="../MainWindow.ui" line="955"/>
         <source>Stop</source>
         <extracomment>This section refers to the Input Recording submenu.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="947"/>
+        <location filename="../MainWindow.ui" line="963"/>
         <source>Settings</source>
         <extracomment>This section refers to the Input Recording submenu.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="952"/>
         <location filename="../MainWindow.ui" line="968"/>
+        <location filename="../MainWindow.ui" line="984"/>
         <source>Input Recording Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="960"/>
+        <location filename="../MainWindow.ui" line="976"/>
         <source>Controller Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="976"/>
+        <location filename="../MainWindow.ui" line="992"/>
         <source>Enable &amp;File Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="984"/>
+        <location filename="../MainWindow.ui" line="1000"/>
         <source>Enable CDVD Read Logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="992"/>
+        <location filename="../MainWindow.ui" line="1008"/>
         <source>Save CDVD Block Dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1000"/>
+        <location filename="../MainWindow.ui" line="1016"/>
         <source>Enable Log Timestamps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1009"/>
+        <location filename="../MainWindow.ui" line="1025"/>
         <source>Start Big Picture Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1018"/>
+        <location filename="../MainWindow.ui" line="1034"/>
         <source>Big Picture</source>
         <comment>In Toolbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1027"/>
+        <location filename="../MainWindow.ui" line="1043"/>
         <source>Cover Downloader...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1035"/>
-        <location filename="../MainWindow.cpp" line="549"/>
+        <location filename="../MainWindow.ui" line="1051"/>
+        <location filename="../MainWindow.cpp" line="551"/>
         <source>Show Advanced Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1040"/>
+        <location filename="../MainWindow.ui" line="1056"/>
         <source>Recording Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="1048"/>
-        <location filename="../MainWindow.cpp" line="606"/>
+        <location filename="../MainWindow.ui" line="1064"/>
+        <location filename="../MainWindow.cpp" line="608"/>
         <source>Video Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="252"/>
+        <location filename="../MainWindow.cpp" line="253"/>
         <source>Internal Resolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="252"/>
+        <location filename="../MainWindow.cpp" line="253"/>
         <source>%1x Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="529"/>
+        <location filename="../MainWindow.cpp" line="531"/>
         <source>Select location to save block dump:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="547"/>
+        <location filename="../MainWindow.cpp" line="549"/>
         <source>Do not show again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="550"/>
+        <location filename="../MainWindow.cpp" line="552"/>
         <source>Changing advanced settings can have unpredictable effects on games, including graphical glitches, lock-ups, and even corrupted save files. We do not recommend changing advanced settings unless you know what you are doing, and the implications of changing each setting.
 
 The PCSX2 team will not provide any support for configurations that modify these settings, you are on your own.
@@ -7982,234 +8258,234 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="603"/>
+        <location filename="../MainWindow.cpp" line="605"/>
         <source>%1 Files (*.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="983"/>
+        <location filename="../MainWindow.cpp" line="994"/>
         <source>Confirm Shutdown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="984"/>
+        <location filename="../MainWindow.cpp" line="995"/>
         <source>Are you sure you want to shut down the virtual machine?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="986"/>
+        <location filename="../MainWindow.cpp" line="997"/>
         <source>Save State For Resume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1092"/>
-        <location filename="../MainWindow.cpp" line="1894"/>
-        <location filename="../MainWindow.cpp" line="2259"/>
-        <location filename="../MainWindow.cpp" line="2353"/>
+        <location filename="../MainWindow.cpp" line="1103"/>
+        <location filename="../MainWindow.cpp" line="1905"/>
+        <location filename="../MainWindow.cpp" line="2271"/>
+        <location filename="../MainWindow.cpp" line="2365"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1092"/>
+        <location filename="../MainWindow.cpp" line="1103"/>
         <source>You must select a disc to change discs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1124"/>
+        <location filename="../MainWindow.cpp" line="1135"/>
         <source>Properties...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1136"/>
+        <location filename="../MainWindow.cpp" line="1147"/>
         <source>Open Containing Directory...</source>
         <extracomment>Refers to the directory where a game is contained.</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1142"/>
+        <location filename="../MainWindow.cpp" line="1153"/>
         <source>Set Cover Image...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1145"/>
+        <location filename="../MainWindow.cpp" line="1156"/>
         <source>Exclude From List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1148"/>
+        <location filename="../MainWindow.cpp" line="1159"/>
         <source>Reset Play Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1154"/>
+        <location filename="../MainWindow.cpp" line="1165"/>
         <source>Default Boot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1161"/>
+        <location filename="../MainWindow.cpp" line="1172"/>
         <source>Fast Boot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1164"/>
+        <location filename="../MainWindow.cpp" line="1175"/>
         <source>Full Boot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1169"/>
+        <location filename="../MainWindow.cpp" line="1180"/>
         <source>Boot and Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1193"/>
+        <location filename="../MainWindow.cpp" line="1204"/>
         <source>Add Search Directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1202"/>
+        <location filename="../MainWindow.cpp" line="1213"/>
         <source>Start File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1211"/>
+        <location filename="../MainWindow.cpp" line="1222"/>
         <source>Start Disc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1228"/>
+        <location filename="../MainWindow.cpp" line="1239"/>
         <source>Select Disc Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1384"/>
+        <location filename="../MainWindow.cpp" line="1395"/>
         <source>Updater Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1389"/>
+        <location filename="../MainWindow.cpp" line="1400"/>
         <source>&lt;p&gt;Sorry, you are trying to update a PCSX2 version which is not an official GitHub release. To prevent incompatibilities, the auto-updater is only enabled on official builds.&lt;/p&gt;&lt;p&gt;To obtain an official build, please download from the link below:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://pcsx2.net/downloads/&quot;&gt;https://pcsx2.net/downloads/&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1394"/>
+        <location filename="../MainWindow.cpp" line="1405"/>
         <source>Automatic updating is not supported on the current platform.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1509"/>
+        <location filename="../MainWindow.cpp" line="1520"/>
         <source>Input Recording Files (*.p2m2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1628"/>
+        <location filename="../MainWindow.cpp" line="1639"/>
         <source>Paused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1777"/>
+        <location filename="../MainWindow.cpp" line="1788"/>
         <source>Load State Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1777"/>
+        <location filename="../MainWindow.cpp" line="1788"/>
         <source>Cannot load a save state without a running VM.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1894"/>
+        <location filename="../MainWindow.cpp" line="1905"/>
         <source>Failed to get window info from widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="68"/>
+        <location filename="../MainWindow.cpp" line="69"/>
         <source>All File Types (*.bin *.iso *.cue *.mdf *.chd *.cso *.gz *.elf *.irx *.gs *.gs.xz *.gs.zst *.dump);;Single-Track Raw Images (*.bin *.iso);;Cue Sheets (*.cue);;Media Descriptor File (*.mdf);;MAME CHD Images (*.chd);;CSO Images (*.cso);;GZ Images (*.gz);;ELF Executables (*.elf);;IRX Executables (*.irx);;GS Dumps (*.gs *.gs.xz *.gs.zst);;Block Dumps (*.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="80"/>
+        <location filename="../MainWindow.cpp" line="81"/>
         <source>All File Types (*.bin *.iso *.cue *.mdf *.chd *.cso *.gz *.dump);;Single-Track Raw Images (*.bin *.iso);;Cue Sheets (*.cue);;Media Descriptor File (*.mdf);;MAME CHD Images (*.chd);;CSO Images (*.cso);;GZ Images (*.gz);;Block Dumps (*.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1339"/>
+        <location filename="../MainWindow.cpp" line="1350"/>
         <source>Game Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="1339"/>
+        <location filename="../MainWindow.cpp" line="1350"/>
         <source>Game properties is unavailable for the current game.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2217"/>
+        <location filename="../MainWindow.cpp" line="2229"/>
         <source>Could not find any CD/DVD-ROM devices. Please ensure you have a drive connected and sufficient permissions to access it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2235"/>
+        <location filename="../MainWindow.cpp" line="2247"/>
         <source>Select disc drive:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2259"/>
+        <location filename="../MainWindow.cpp" line="2271"/>
         <source>This save state does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2272"/>
+        <location filename="../MainWindow.cpp" line="2284"/>
         <source>Select Cover Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2272"/>
+        <location filename="../MainWindow.cpp" line="2284"/>
         <source>All Cover Image Types (*.jpg *.jpeg *.png)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2278"/>
+        <location filename="../MainWindow.cpp" line="2290"/>
         <source>Cover Already Exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2279"/>
+        <location filename="../MainWindow.cpp" line="2291"/>
         <source>A cover image for this game already exists, do you wish to replace it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2292"/>
-        <location filename="../MainWindow.cpp" line="2298"/>
+        <location filename="../MainWindow.cpp" line="2304"/>
+        <location filename="../MainWindow.cpp" line="2310"/>
         <source>Copy Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2292"/>
+        <location filename="../MainWindow.cpp" line="2304"/>
         <source>Failed to remove existing cover &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2298"/>
+        <location filename="../MainWindow.cpp" line="2310"/>
         <source>Failed to copy &apos;%1&apos; to &apos;%2&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2307"/>
+        <location filename="../MainWindow.cpp" line="2319"/>
         <source>Confirm Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2308"/>
+        <location filename="../MainWindow.cpp" line="2320"/>
         <source>Are you sure you want to reset the play time for &apos;%1&apos;?
 
 This action cannot be undone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2329"/>
+        <location filename="../MainWindow.cpp" line="2341"/>
         <source>Load Resume State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2331"/>
+        <location filename="../MainWindow.cpp" line="2343"/>
         <source>A resume save state was found for this game, saved at:
 
 %1.
@@ -8218,112 +8494,112 @@ Do you want to load this state, or start from a fresh boot?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2335"/>
+        <location filename="../MainWindow.cpp" line="2347"/>
         <source>Fresh Boot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2336"/>
+        <location filename="../MainWindow.cpp" line="2348"/>
         <source>Delete And Boot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2353"/>
+        <location filename="../MainWindow.cpp" line="2365"/>
         <source>Failed to delete save state file &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2411"/>
+        <location filename="../MainWindow.cpp" line="2423"/>
         <source>Load State File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2411"/>
+        <location filename="../MainWindow.cpp" line="2423"/>
         <source>Load From File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2413"/>
-        <location filename="../MainWindow.cpp" line="2483"/>
+        <location filename="../MainWindow.cpp" line="2425"/>
+        <location filename="../MainWindow.cpp" line="2495"/>
         <source>Select Save State File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2413"/>
-        <location filename="../MainWindow.cpp" line="2483"/>
+        <location filename="../MainWindow.cpp" line="2425"/>
+        <location filename="../MainWindow.cpp" line="2495"/>
         <source>Save States (*.p2s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2420"/>
+        <location filename="../MainWindow.cpp" line="2432"/>
         <source>Delete Save States...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2425"/>
+        <location filename="../MainWindow.cpp" line="2437"/>
         <source>Undo Load State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2439"/>
+        <location filename="../MainWindow.cpp" line="2451"/>
         <source>Resume (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2455"/>
+        <location filename="../MainWindow.cpp" line="2467"/>
         <source>Load Slot %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2464"/>
-        <location filename="../MainWindow.cpp" line="2472"/>
+        <location filename="../MainWindow.cpp" line="2476"/>
+        <location filename="../MainWindow.cpp" line="2484"/>
         <source>Delete Save States</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2465"/>
+        <location filename="../MainWindow.cpp" line="2477"/>
         <source>Are you sure you want to delete all save states for %1?
 
 The saves will not be recoverable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2472"/>
+        <location filename="../MainWindow.cpp" line="2484"/>
         <source>%1 save states deleted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2482"/>
+        <location filename="../MainWindow.cpp" line="2494"/>
         <source>Save To File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2501"/>
+        <location filename="../MainWindow.cpp" line="2513"/>
         <source>Empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2503"/>
+        <location filename="../MainWindow.cpp" line="2515"/>
         <source>Save Slot %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2548"/>
+        <location filename="../MainWindow.cpp" line="2560"/>
         <source>Confirm Disc Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2549"/>
+        <location filename="../MainWindow.cpp" line="2561"/>
         <source>Do you want to swap discs or boot the new image (via system reset)?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2550"/>
+        <location filename="../MainWindow.cpp" line="2562"/>
         <source>Swap Disc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="2551"/>
+        <location filename="../MainWindow.cpp" line="2563"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8331,18 +8607,18 @@ The saves will not be recoverable.</source>
 <context>
     <name>MemoryCard</name>
     <message>
-        <location filename="../../pcsx2/MemoryCardFile.cpp" line="539"/>
-        <location filename="../../pcsx2/MemoryCardFolder.cpp" line="2356"/>
+        <location filename="../../pcsx2/SIO/Memcard/MemoryCardFile.cpp" line="541"/>
+        <location filename="../../pcsx2/SIO/Memcard/MemoryCardFolder.cpp" line="2357"/>
         <source>Memory Card &apos;{}&apos; was saved to storage.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Sio.cpp" line="929"/>
+        <location filename="../../pcsx2/SIO/Sio.cpp" line="95"/>
         <source>Memory Cards reinserted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/Sio.cpp" line="950"/>
+        <location filename="../../pcsx2/SIO/Sio.cpp" line="116"/>
         <source>Force ejecting all Memory Cards. Reinserting in 1 second.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8857,53 +9133,53 @@ This action cannot be reversed, and you will lose any saves on the card.</source
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="382"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="380"/>
         <source>Go to in disassembly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="386"/>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="466"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="384"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="464"/>
         <source>Go to address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="393"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="391"/>
         <source>Show as 1 byte</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="398"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="396"/>
         <source>Show as 2 bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="403"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="401"/>
         <source>Show as 4 bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="408"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="406"/>
         <source>Show as 8 bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="415"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="413"/>
         <source>Copy Byte</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="419"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="417"/>
         <source>Copy Segment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="423"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="421"/>
         <source>Copy Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/MemoryViewWidget.cpp" line="427"/>
+        <location filename="../Debugger/MemoryViewWidget.cpp" line="425"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8961,273 +9237,341 @@ This action cannot be reversed, and you will lose any saves on the card.</source
 <context>
     <name>Pad</name>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="354"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="29"/>
         <source>D-Pad Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="355"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="30"/>
         <source>D-Pad Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="356"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="31"/>
         <source>D-Pad Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="357"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="32"/>
         <source>D-Pad Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="358"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="33"/>
         <source>Triangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="359"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="34"/>
         <source>Circle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="360"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="35"/>
         <source>Cross</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="361"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="36"/>
         <source>Square</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="362"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="37"/>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="30"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="363"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="38"/>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="31"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="364"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="39"/>
         <source>L1 (Left Bumper)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="365"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="40"/>
         <source>L2 (Left Trigger)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="366"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="41"/>
         <source>R1 (Right Bumper)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="367"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="42"/>
         <source>R2 (Right Trigger)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="368"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="43"/>
         <source>L3 (Left Stick Button)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="369"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="44"/>
         <source>R3 (Right Stick Button)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="370"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="45"/>
         <source>Analog Toggle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="371"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="46"/>
         <source>Apply Pressure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="372"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="47"/>
         <source>Left Stick Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="373"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="48"/>
         <source>Left Stick Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="374"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="49"/>
         <source>Left Stick Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="375"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="50"/>
         <source>Left Stick Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="376"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="51"/>
         <source>Right Stick Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="377"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="52"/>
         <source>Right Stick Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="378"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="53"/>
         <source>Right Stick Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="379"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="54"/>
         <source>Right Stick Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="380"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="55"/>
         <source>Large (Low Frequency) Motor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="381"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="56"/>
         <source>Small (High Frequency) Motor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="385"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="60"/>
         <source>Not Inverted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="386"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="61"/>
         <source>Invert Left/Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="387"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="61"/>
         <source>Invert Up/Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="388"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="62"/>
         <source>Invert Left/Right + Up/Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="392"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="65"/>
         <source>Invert Left Stick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="393"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="66"/>
         <source>Inverts the direction of the left analog stick.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="395"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="68"/>
         <source>Invert Right Stick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="396"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="69"/>
         <source>Inverts the direction of the right analog stick.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="398"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="71"/>
         <source>Analog Deadzone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="399"/>
-        <source>Sets the analog stick deadzone, i.e. the fraction of the analog stick movement which will be ignored.</source>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="72"/>
+        <source>Sets the analog stick deadzone, i.e. the fraction of the stick movement which will be ignored.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="402"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="76"/>
+        <source>Sets the analog stick axis scaling factor. A value between 1.30 and 1.40 is recommended when using recent controllers, e.g. DualShock 4, Xbox One Controller.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="86"/>
+        <source>Button/Trigger Deadzone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="87"/>
+        <source>Sets the deadzone for activating buttons/triggers, i.e. the fraction of the trigger which will be ignored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="674"/>
+        <source>Analog light is now on for port {} / slot {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="675"/>
+        <source>Analog light is now off for port {} / slot {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="75"/>
         <source>Analog Sensitivity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="403"/>
-        <source>Sets the analog stick axis scaling factor. A value between 130% and 140% is recommended when using recent controllers, e.g. DualShock 4, Xbox One Controller.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="407"/>
-        <source>Trigger Deadzone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="408"/>
-        <source>Sets the deadzone for activating triggers, i.e. the fraction of the trigger press which will be ignored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="411"/>
-        <source>Trigger Sensitivity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="412"/>
-        <source>Sets the trigger scaling factor.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="414"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="80"/>
         <source>Large Motor Vibration Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="415"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="81"/>
         <source>Increases or decreases the intensity of low frequency vibration sent by the game.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="417"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="83"/>
         <source>Small Motor Vibration Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="418"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="84"/>
         <source>Increases or decreases the intensity of high frequency vibration sent by the game.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="420"/>
-        <source>Button Deadzone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="421"/>
-        <source>Sets the deadzone for activating buttons, i.e. the fraction of the button press which will be ignored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="424"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="90"/>
         <source>Modifier Pressure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="425"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="91"/>
         <source>Sets the pressure when the modifier button is held.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="430"/>
+        <location filename="../../pcsx2/SIO/Pad/PadNotConnected.cpp" line="23"/>
         <source>Not Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/PAD/Host/PAD.cpp" line="432"/>
+        <location filename="../../pcsx2/SIO/Pad/PadDualshock2.cpp" line="96"/>
         <source>DualShock 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/Pad.cpp" line="570"/>
+        <source>Controller port {}, slot {} has a {} connected, but the save state has a {}.
+Leaving the original controller type connected, but this may cause issues.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="28"/>
+        <source>Strum Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="29"/>
+        <source>Strum Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="32"/>
+        <source>Green Fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="33"/>
+        <source>Red Fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="34"/>
+        <source>Yellow Fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="35"/>
+        <source>Blue Fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="36"/>
+        <source>Orange Fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="37"/>
+        <source>Whammy Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="38"/>
+        <source>Tilt Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="43"/>
+        <source>Whammy Bar Deadzone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="44"/>
+        <source>Sets the whammy bar deadzone. Inputs below this value will not be sent to the PS2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="46"/>
+        <source>Whammy Bar Sensitivity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="47"/>
+        <source>Sets the whammy bar axis scaling factor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/SIO/Pad/PadGuitar.cpp" line="52"/>
+        <source>Guitar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9357,91 +9701,91 @@ The URL was: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="241"/>
-        <location filename="../Debugger/RegisterWidget.cpp" line="248"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="240"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="247"/>
         <source>View as hex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="241"/>
-        <location filename="../Debugger/RegisterWidget.cpp" line="248"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="240"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="247"/>
         <source>View as float</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="255"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="254"/>
         <source>Copy Top Half</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="257"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="256"/>
         <source>Copy Bottom Half</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="259"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="258"/>
         <source>Copy Segment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="264"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="263"/>
         <source>Copy Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="272"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="271"/>
         <source>Change Top Half</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="274"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="273"/>
         <source>Change Bottom Half</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="276"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="275"/>
         <source>Change Segment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="281"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="280"/>
         <source>Change Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="287"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="286"/>
         <source>Go to in Disassembly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="290"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="289"/>
         <source>Go to in Memory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="346"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="345"/>
         <source>Change %1</source>
         <extracomment>Changing the value in a CPU register (e.g. &quot;Change t0&quot;)</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="357"/>
-        <location filename="../Debugger/RegisterWidget.cpp" line="366"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="356"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="365"/>
         <source>Invalid register value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="357"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="356"/>
         <source>Invalid hexadecimal register value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="366"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="365"/>
         <source>Invalid floating-point register value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Debugger/RegisterWidget.cpp" line="435"/>
+        <location filename="../Debugger/RegisterWidget.cpp" line="434"/>
         <source>Invalid target address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9512,203 +9856,203 @@ The URL was: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="86"/>
-        <location filename="../Settings/SettingsDialog.cpp" line="94"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="88"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="96"/>
         <source>Summary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Settings/SettingsDialog.cpp" line="82"/>
-        <source>&lt;strong&gt;Summary&lt;/strong&gt;&lt;hr&gt;Eventually this will be where we can see patches and compute hashes/verify dumps/etc.</source>
+        <source>&lt;strong&gt;Summary&lt;/strong&gt;&lt;hr&gt;This page shows details about the selected game. Changing the Input Profile will set the controller binding scheme for this game to whichever profile is chosen, instead of the default (Shared) configuration. The track list and dump verification can be used to determine if your disc image matches a known good dump. If it does not match, the game may be broken.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="92"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="94"/>
         <source>Summary is unavailable for files not present in game list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="100"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="102"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="102"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="104"/>
         <source>&lt;strong&gt;Interface Settings&lt;/strong&gt;&lt;hr&gt;These options control how the software looks and behaves.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="108"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="110"/>
         <source>Game List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="110"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="112"/>
         <source>&lt;strong&gt;Game List Settings&lt;/strong&gt;&lt;hr&gt;The list above shows the directories which will be searched by PCSX2 to populate the game list. Search directories can be added, removed, and switched to recursive/non-recursive.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="112"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="114"/>
         <source>BIOS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="113"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="115"/>
         <source>&lt;strong&gt;BIOS Settings&lt;/strong&gt;&lt;hr&gt;Configure your BIOS here.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="117"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="119"/>
         <source>Emulation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="119"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="121"/>
         <source>&lt;strong&gt;Emulation Settings&lt;/strong&gt;&lt;hr&gt;These options determine the configuration of frame pacing and game settings.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="125"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="127"/>
         <source>Patches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="126"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="128"/>
         <source>&lt;strong&gt;Patches&lt;/strong&gt;&lt;hr&gt;This section allows you to select optional patches to apply to the game, which may provide performance, visual, or gameplay improvements.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="129"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="131"/>
         <source>Cheats</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="130"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="132"/>
         <source>&lt;strong&gt;Cheats&lt;/strong&gt;&lt;hr&gt;This section allows you to select which cheats you wish to enable. You cannot enable/disable cheats without labels for old-format pnach files, those will automatically activate if the main cheat enable option is checked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="138"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="140"/>
         <source>Game Fixes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="140"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="142"/>
         <source>&lt;strong&gt;Game Fixes Settings&lt;/strong&gt;&lt;hr&gt;Game Fixes can work around incorrect emulation in some titles.&lt;br&gt;However, they can also cause problems in games if used incorrectly.&lt;br&gt;It is best to leave them all disabled unless advised otherwise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="144"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="146"/>
         <source>Graphics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="145"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="147"/>
         <source>&lt;strong&gt;Graphics Settings&lt;/strong&gt;&lt;hr&gt;These options determine the configuration of the graphical output.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="147"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="149"/>
         <source>Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="148"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="150"/>
         <source>&lt;strong&gt;Audio Settings&lt;/strong&gt;&lt;hr&gt;These options control the audio output of the console.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="151"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="153"/>
         <source>Memory Cards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="153"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="155"/>
         <source>&lt;strong&gt;Memory Card Settings&lt;/strong&gt;&lt;hr&gt;Create and configure Memory Cards here.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="156"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="158"/>
         <source>Network &amp; HDD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="157"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="159"/>
         <source>&lt;strong&gt;Network &amp; HDD Settings&lt;/strong&gt;&lt;hr&gt;These options control the network connectivity and internal HDD storage of the console.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="162"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="164"/>
         <source>Folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="164"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="166"/>
         <source>&lt;strong&gt;Folder Settings&lt;/strong&gt;&lt;hr&gt;These options control where PCSX2 will save runtime data files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="168"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="170"/>
         <source>Achievements</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="171"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="173"/>
         <source>&lt;strong&gt;Achievements Settings&lt;/strong&gt;&lt;hr&gt;These options control the RetroAchievements implementation in PCSX2, allowing you to earn achievements in your games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="177"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="179"/>
         <source>RAIntegration is being used, built-in RetroAchievements support is disabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="188"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="190"/>
         <source>This PCSX2 build was not compiled with RetroAchievements support.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="196"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="198"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="198"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="200"/>
         <source>&lt;strong&gt;Advanced Settings&lt;/strong&gt;&lt;hr&gt;These are advanced options to determine the configuration of the simulated console.&lt;br&gt;&lt;br&gt;Mouse over an option for additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="200"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="202"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="202"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="204"/>
         <source>&lt;strong&gt;Debug Settings&lt;/strong&gt;&lt;hr&gt;These are options which can be used to log internal information about the application. &lt;strong&gt;Do not modify unless you know what you are doing&lt;/strong&gt;, it will cause significant slowdown, and can waste large amounts of disk space.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="260"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="262"/>
         <source>Confirm Restore Defaults</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="261"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="263"/>
         <source>Are you sure you want to restore the default settings? Any preferences will be lost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="263"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="265"/>
         <source>Reset UI Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="298"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="300"/>
         <source>Recommended Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/SettingsDialog.cpp" line="549"/>
+        <location filename="../Settings/SettingsDialog.cpp" line="551"/>
         <source>%1 [%2]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10235,160 +10579,211 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="408"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="453"/>
         <source>GunCon 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="485"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="585"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="96"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="124"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="379"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="436"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="447"/>
         <source>D-Pad Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="486"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="586"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="97"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="125"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="380"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="437"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="448"/>
         <source>D-Pad Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="487"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="587"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="98"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="126"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="381"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="438"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="449"/>
         <source>D-Pad Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="488"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="588"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="99"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="127"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="382"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="439"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="450"/>
         <source>D-Pad Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="490"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="590"/>
         <source>Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="491"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="591"/>
         <source>Shoot Offscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="493"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="593"/>
         <source>Calibration Shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="495"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="595"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="157"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="369"/>
         <source>A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="496"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="596"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="158"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="370"/>
         <source>B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="497"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="597"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="371"/>
         <source>C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="498"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="598"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="108"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="134"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="955"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="1087"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="377"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="444"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="455"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="499"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="599"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="109"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="135"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="956"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="1086"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-seamic.cpp" line="378"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="445"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="456"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="508"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="600"/>
+        <source>Relative Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="601"/>
+        <source>Relative Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="602"/>
+        <source>Relative Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="603"/>
+        <source>Relative Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="613"/>
+        <source>Sets the crosshair image that this lightgun will use. Setting a crosshair image will disable the system cursor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="616"/>
+        <source>Cursor Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="617"/>
+        <source>Scales the crosshair image set above.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="619"/>
+        <source>Cursor Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="620"/>
+        <source>Applies a color to the chosen crosshair images, can be used for multiple players. Specify in HTML/CSS format (e.g. #aabbcc)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="623"/>
         <source>Manual Screen Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="509"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="624"/>
         <source>Forces the use of the screen parameters below, instead of automatic parameters if available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="512"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="627"/>
         <source>X Scale (Sensitivity)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="515"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="628"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="631"/>
+        <source>Scales the position to simulate CRT curvature.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="630"/>
         <source>Y Scale (Sensitivity)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="518"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="633"/>
         <source>Center X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="519"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="634"/>
         <source>Sets the horizontal center position of the simulated screen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="521"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="636"/>
         <source>Center Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="522"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="637"/>
         <source>Sets the vertical center position of the simulated screen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="524"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="639"/>
         <source>Screen Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="525"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="640"/>
         <source>Sets the width of the simulated screen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="527"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="642"/>
         <source>Screen Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="528"/>
+        <location filename="../../pcsx2/USB/usb-lightgun/guncon2.cpp" line="643"/>
         <source>Sets the height of the simulated screen.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10543,21 +10938,21 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     <message>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="100"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="128"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="441"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="452"/>
         <source>Cross</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="101"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="129"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="440"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="451"/>
         <source>Square</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="102"/>
         <location filename="../../pcsx2/USB/usb-pad/usb-pad.cpp" line="130"/>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="442"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="453"/>
         <source>Circle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11045,87 +11440,87 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="443"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="454"/>
         <source>Triangle / Euphoria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="446"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="457"/>
         <source>Crossfader Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="447"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="458"/>
         <source>Crossfader Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="450"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="461"/>
         <source>Left Turntable Clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="451"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="462"/>
         <source>Left Turntable Counterclockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="452"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="463"/>
         <source>Right Turntable Clockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="453"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="464"/>
         <source>Right Turntable Counterclockwise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="454"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="465"/>
         <source>Left Turntable Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="455"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="466"/>
         <source>Left Turntable Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="456"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="467"/>
         <source>Left Turntable Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="457"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="468"/>
         <source>Right Turntable Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="458"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="469"/>
         <source>Right Turntable Red </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="459"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="470"/>
         <source>Right Turntable Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="470"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="481"/>
         <source>Apply a multiplier to the turntable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="448"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="459"/>
         <source>Effects Knob Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="449"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="460"/>
         <source>Effects Knob Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="469"/>
+        <location filename="../../pcsx2/USB/usb-pad/usb-turntable.cpp" line="480"/>
         <source>Turntable Multiplier</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11133,12 +11528,12 @@ Scanning recursively takes more time, but will identify files in subdirectories.
 <context>
     <name>USBBindingWidget</name>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1139"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1175"/>
         <source>Axes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1167"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1203"/>
         <source>Buttons</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11330,6 +11725,107 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     </message>
 </context>
 <context>
+    <name>USBBindingWidget_GunCon2</name>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="32"/>
+        <source>Buttons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="38"/>
+        <source>A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="78"/>
+        <source>C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="118"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="164"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="198"/>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="241"/>
+        <source>D-Pad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="247"/>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="466"/>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="287"/>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="506"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="327"/>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="546"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="367"/>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="586"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="410"/>
+        <source>Pointer Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="416"/>
+        <source>&lt;p&gt;By default, GunCon2 will use the mouse pointer. To use the mouse, you &lt;strong&gt;do not&lt;/strong&gt; need to configure any bindings apart from the trigger and buttons.&lt;/p&gt;
+
+&lt;p&gt;If you want to use a controller, or lightgun which simulates a controller instead of a mouse, then you should bind it to Relative Aiming. Otherwise, Relative Aiming should be &lt;strong&gt;left unbound&lt;/strong&gt;.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="460"/>
+        <source>Relative Aiming</source>
+        <extracomment>Try to use Sony&apos;s official terminology for this. A good place to start would be in the console or the DualShock 2&apos;s manual. If this element was officially translated to your language by Sony in later DualShocks, you may use that term.</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="629"/>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="635"/>
+        <source>Trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="675"/>
+        <source>Shoot Offscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="715"/>
+        <source>Calibration Shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Settings/USBBindingWidget_GunCon2.ui" line="740"/>
+        <source>Calibration shot is required to pass the setup screen in some games.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>USBDeviceWidget</name>
     <message>
         <location filename="../Settings/USBDeviceWidget.ui" line="32"/>
@@ -11357,32 +11853,32 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="879"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="915"/>
         <source>USB Port %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1020"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1056"/>
         <source>No devices available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1029"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1065"/>
         <source>Clear Bindings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1030"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1066"/>
         <source>Are you sure you want to clear all bindings for this device? This action cannot be undone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1059"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1095"/>
         <source>Automatic Binding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1060"/>
+        <location filename="../Settings/ControllerBindingWidgets.cpp" line="1096"/>
         <source>No generic bindings were generated for device &apos;%1&apos;. The controller/source may not support automatic mapping.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11390,22 +11886,32 @@ Scanning recursively takes more time, but will identify files in subdirectories.
 <context>
     <name>VMManager</name>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1558"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1576"/>
         <source>Failed to back up old save state {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1543"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1561"/>
         <source>Failed to save save state: {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1131"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="837"/>
+        <source>PS2 BIOS ({})</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/VMManager.cpp" line="882"/>
+        <source>Unknown Game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pcsx2/VMManager.cpp" line="1128"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1132"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1129"/>
         <source>PCSX2 requires a PS2 BIOS in order to run.
 
 For legal reasons, you *must* obtain a BIOS from an actual PS2 unit that you own (borrowing doesn&apos;t count).
@@ -11416,197 +11922,197 @@ Please consult the FAQs and Guides for further instructions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1590"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1608"/>
         <source>State saved to slot {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1597"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1615"/>
         <source>Failed to save save state to slot {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1684"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1702"/>
         <source>There is no save state in slot {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1697"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1715"/>
         <source>Loading state from slot {}...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1714"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1732"/>
         <source>Saving state to slot {}...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1776"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1794"/>
         <source>Disc removed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1782"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1800"/>
         <source>Disc changed to &apos;{}&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1789"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1807"/>
         <source>Failed to open new disc image &apos;{}&apos;. Reverting to old image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="1797"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="1815"/>
         <source>Failed to switch back to old disc image. Removing disc.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2232"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2251"/>
         <source>Cheats have been disabled due to achievements hardcore mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2286"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2305"/>
         <source>Fast CDVD is enabled, this may break games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2290"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2309"/>
         <source>Cycle rate/skip is not at default, this may crash or make games run too slow.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2295"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2314"/>
         <source>Audio is using async mix, expect desynchronization in FMVs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2298"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2317"/>
         <source>Upscale multiplier is below native, this will break rendering.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2302"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2321"/>
         <source>Mipmapping is not set to automatic. This may break rendering in some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2307"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2326"/>
         <source>Texture filtering is not set to Bilinear (PS2). This will break rendering in some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2313"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2332"/>
         <source>Trilinear filtering is not set to automatic. This may break rendering in some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2319"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2338"/>
         <source>Blending is below basic, this may break effects in some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2324"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2343"/>
         <source>Hardware Download Mode is not set to Accurate, this may break rendering in some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2330"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2349"/>
         <source>EE FPU Round Mode is not set to default, this may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2336"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2355"/>
         <source>EE FPU Clamp Mode is not set to default, this may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2342"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2361"/>
         <source>VU Round Mode is not set to default, this may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2349"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2368"/>
         <source>VU Clamp Mode is not set to default, this may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2354"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2373"/>
         <source>Game Fixes are not enabled. Compatibility with some games may be affected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2359"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2378"/>
         <source>Compatibility Patches are not enabled. Compatibility with some games may be affected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2363"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2382"/>
         <source>Frame rate for NTSC is not default. This may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2365"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2384"/>
         <source>Frame rate for PAL is not default. This may break some games.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2384"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2403"/>
         <source>EE Recompiler is not enabled, this will significantly reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2389"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2408"/>
         <source>VU0 Recompiler is not enabled, this will significantly reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2394"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2413"/>
         <source>VU1 Recompiler is not enabled, this will significantly reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2399"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2418"/>
         <source>IOP Recompiler is not enabled, this will significantly reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2404"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2423"/>
         <source>EE Cache is enabled, this will significantly reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2409"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2428"/>
         <source>EE Wait Loop Detection is not enabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2414"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2433"/>
         <source>INTC Spin Detection is not enabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2419"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2438"/>
         <source>Instant VU1 is disabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2424"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2443"/>
         <source>mVU Flag Hack is not enabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2429"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2448"/>
         <source>GPU Palette Conversion is enabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2434"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2453"/>
         <source>Texture Preloading is not Full, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/VMManager.cpp" line="2439"/>
+        <location filename="../../pcsx2/VMManager.cpp" line="2458"/>
         <source>Estimate texture region is enabled, this may reduce performance.</source>
         <translation type="unfinished"></translation>
     </message>

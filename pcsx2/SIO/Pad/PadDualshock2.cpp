@@ -110,24 +110,40 @@ u8 PadDualshock2::Mystery(u8 commandByte)
 
 u8 PadDualshock2::ButtonQuery(u8 commandByte)
 {
-	switch (commandBytesReceived)
+	switch (this->currentMode)
 	{
-		case 3:
-		case 4:
-			return 0xff;
-		case 5:
-			return 0x03;
-		case 8:
-			g_Sio0.SetAcknowledge(false);
-			return 0x5a;
+		case Pad::Mode::DUALSHOCK2:
+		case Pad::Mode::ANALOG:
+			switch (commandBytesReceived)
+			{
+				case 3:
+				case 4:
+					return 0xff;
+				case 5:
+					return 0x03;
+				case 8:
+					g_Sio0.SetAcknowledge(false);
+					return 0x5a;
+				default:
+					return 0x00;
+			}
 		default:
-			return 0x00;
+			switch (commandBytesReceived)
+			{
+				case 8:
+					g_Sio0.SetAcknowledge(false);
+					return 0x00;
+				default:
+					return 0x00;
+			}
 	}
 }
 
 u8 PadDualshock2::Poll(u8 commandByte)
 {
 	const u32 buttons = GetButtons();
+	u8 largeMotor = 0x00;
+	u8 smallMotor = 0x00;
 
 	switch (commandBytesReceived)
 	{
@@ -136,9 +152,38 @@ u8 PadDualshock2::Poll(u8 commandByte)
 			return (buttons >> 8) & 0xff;
 		case 4:
 			this->vibrationMotors[1] = commandByte;
+
+			// Apply the vibration mapping to the motors
+			switch (this->largeMotorLastConfig)
+			{
+				case 0x00:
+					largeMotor = this->vibrationMotors[0];
+					break;
+				case 0x01:
+					largeMotor = this->vibrationMotors[1];
+					break;
+				default:
+					break;
+			}
+
+			switch (this->smallMotorLastConfig)
+			{
+				case 0x00:
+					smallMotor = this->vibrationMotors[0];
+					break;
+				case 0x01:
+					smallMotor = this->vibrationMotors[1];
+					break;
+				default:
+					break;
+			}
+
+			// Order is reversed here - SetPadVibrationIntensity takes large motor first, then small. PS2 orders small motor first, large motor second.
 			InputManager::SetPadVibrationIntensity(this->unifiedSlot,
-				std::min(static_cast<float>(this->vibrationMotors[0]) * GetVibrationScale(0) * (1.0f / 255.0f), 1.0f),
-				std::min(static_cast<float>(this->vibrationMotors[1]) * GetVibrationScale(1) * (1.0f / 255.0f), 1.0f)
+				std::min(static_cast<float>(largeMotor) * GetVibrationScale(1) * (1.0f / 255.0f), 1.0f),
+				// Small motor on the PS2 is either on full power or zero power, it has no variable speed. If the game supplies any value here at all,
+				// the pad in turn supplies full power to the motor, or no power at all if zero.
+				std::min(static_cast<float>((smallMotor ? 0xff : 0)) * GetVibrationScale(0) * (1.0f / 255.0f), 1.0f)
 			);
 
 			// PS1 mode: If the controller is still in digital mode, it is time to stop acknowledging.
@@ -332,6 +377,8 @@ u8 PadDualshock2::Constant2(u8 commandByte)
 	{
 		case 5:
 			return 0x02;
+		case 7:
+			return 0x01;
 		case 8:
 			g_Sio0.SetAcknowledge(false);
 			return 0x00;
@@ -364,14 +411,27 @@ u8 PadDualshock2::Constant3(u8 commandByte)
 	}
 }
 
+// Set which byte of the poll command will correspond to a motor's power level.
+// In all known cases, games never rearrange the motors. We've hard coded pad polls
+// to always use the first vibration byte as small motor, and the second as big motor.
+// There is no reason to rearrange these. Games never rearrange these. If someone does
+// try to rearrange these, they should suffer.
+//
+// The return values for cases 3 and 4 are just to notify the pad module of what the mapping was, prior to this command.
 u8 PadDualshock2::VibrationMap(u8 commandByte)
 {
+	u8 ret = 0xff;
+
 	switch (commandBytesReceived)
 	{
 		case 3:
-			return 0x00;
+			ret = this->smallMotorLastConfig;
+			this->smallMotorLastConfig = commandByte;
+			return ret;
 		case 4:
-			return 0x01;
+			ret = this->largeMotorLastConfig;
+			this->largeMotorLastConfig = commandByte;
+			return ret;
 		case 8:
 			g_Sio0.SetAcknowledge(false);
 			return 0xff;
@@ -641,10 +701,8 @@ void PadDualshock2::Set(u32 index, float value)
 				const auto [port, slot] = sioConvertPadToPortAndSlot(unifiedSlot);
 				
 				Host::AddKeyedOSDMessage(fmt::format("PadAnalogButtonChange{}{}", port, slot),
-					fmt::format(TRANSLATE_FS("Pad", "Analog light is now {} for port {} / slot {}"),
-						(this->analogLight ? "On" : "Off"),
-						port + 1,
-						slot + 1),
+					this->analogLight ? fmt::format(TRANSLATE_FS("Pad", "Analog light is now on for port {} / slot {}"), port + 1, slot + 1) :
+										fmt::format(TRANSLATE_FS("Pad", "Analog light is now off for port {} / slot {}"), port + 1, slot + 1),
 					Host::OSD_INFO_DURATION);
 			}
 		}
@@ -775,6 +833,8 @@ bool PadDualshock2::Freeze(StateWrapper& sw)
 	sw.Do(&vibrationScale);
 	sw.Do(&pressureModifier);
 	sw.Do(&buttonDeadzone);
+	sw.Do(&smallMotorLastConfig);
+	sw.Do(&largeMotorLastConfig);
 	return !sw.HasError();
 }
 
