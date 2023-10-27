@@ -3443,7 +3443,6 @@ void FullscreenUI::DrawAudioSettingsPage()
 	static constexpr const char* output_entries[] = {
 		"No Sound (Emulate SPU2 only)",
 		"Cubeb (Cross-platform)",
-#endif
 #ifdef _WIN32 && !WINRT_XBOX
 		"XAudio2",
 #endif
