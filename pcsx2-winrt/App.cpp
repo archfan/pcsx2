@@ -337,6 +337,10 @@ void Host::RequestVMShutdown(bool allow_confirm, bool allow_save_state, bool def
 }
 
 #ifdef ENABLE_ACHIEVEMENTS
+void Host::OnAchievementsLoginRequested(Achievements::LoginRequestReason reason)
+{
+}
+
 void Host::OnAchievementsRefreshed()
 {
 }

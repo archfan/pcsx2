@@ -3,11 +3,11 @@
   <Identity
     Name="XBSX2"
     Publisher="CN=SirMangler"
-    Version="2.0.3.0" />
+    Version="2.0.5.0" />
   <mp:PhoneIdentity PhoneProductId="595c25f0-b370-4d7a-9b14-3027fbd69ecf" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
   <Properties>
     <DisplayName>pcsx2-winrt</DisplayName>
-    <PublisherDisplayName>SirMangler</PublisherDisplayName>
+    <PublisherDisplayName>Archfan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
