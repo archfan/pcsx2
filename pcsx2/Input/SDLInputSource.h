@@ -13,6 +13,7 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef WINRT_XBOX
 #pragma once
 #include "Input/InputSource.h"
 #include "SDL.h"
@@ -102,3 +103,4 @@ private:
 	std::array<u32, MAX_LED_COLORS> m_led_colors{};
 	std::vector<std::pair<std::string, std::string>> m_sdl_hints;
 };
+#endif

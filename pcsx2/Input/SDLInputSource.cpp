@@ -12,7 +12,7 @@
  *  You should have received a copy of the GNU General Public License along with PCSX2.
  *  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#ifndef WINRT_XBOX
 #include "PrecompiledHeader.h"
 #include "Config.h"
 #include "Input/SDLInputSource.h"
@@ -949,3 +949,4 @@ void SDLInputSource::SendRumbleUpdate(ControllerData* cd)
 			SDL_HapticRumbleStop(cd->haptic);
 	}
 }
+#endif

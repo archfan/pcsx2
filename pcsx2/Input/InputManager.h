@@ -31,6 +31,8 @@
 /// Class, or source of an input event.
 enum class InputSourceType : u32
 {
+	Keyboard,
+	Pointer,
 	XInput,
 	Count,
 };
