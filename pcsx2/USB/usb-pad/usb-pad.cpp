@@ -20,7 +20,7 @@
 #include "Host.h"
 #include "StateWrapper.h"
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 #include "USB/usb-pad/usb-pad-sdl-ff.h"
 #endif
 
@@ -628,7 +628,7 @@ namespace usb_pad
 
 		mFFdev.reset();
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 		mFFdev = SDLFFDevice::Create(mFFdevName);
 #endif
 	}

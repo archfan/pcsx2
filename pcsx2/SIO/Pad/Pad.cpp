@@ -150,7 +150,7 @@ void Pad::SetDefaultControllerConfig(SettingsInterface& si)
 			InputManager::InputSourceToString(static_cast<InputSourceType>(i)),
 			InputManager::GetInputSourceDefaultEnabled(static_cast<InputSourceType>(i)));
 	}
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 	si.SetBoolValue("InputSources", "SDLControllerEnhancedMode", false);
 #endif
 	si.SetBoolValue("Pad", "MultitapPort1", false);
@@ -354,7 +354,7 @@ void Pad::CopyConfiguration(SettingsInterface* dest_si, const SettingsInterface&
 			dest_si->CopyBoolValue(src_si, "InputSources",
 				InputManager::InputSourceToString(static_cast<InputSourceType>(i)));
 		}
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 		dest_si->CopyBoolValue(src_si, "InputSources", "SDLControllerEnhancedMode");
 #endif
 	}

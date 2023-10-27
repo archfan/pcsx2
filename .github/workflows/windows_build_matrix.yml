@@ -3,10 +3,10 @@ name: 🖥️ Windows Builds
 on:
   push:
     branches-ignore:
-      - "l10n_master"
+      - dev
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   # MSBUILD

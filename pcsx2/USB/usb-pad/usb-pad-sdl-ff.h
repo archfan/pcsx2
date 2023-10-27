@@ -17,7 +17,7 @@
 
 #include "USB/usb-pad/usb-pad.h"
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 
 #include "Input/SDLInputSource.h"
 
