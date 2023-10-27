@@ -542,6 +542,8 @@ PCPX-96312:
 PCPX-96314:
   name: "The Sky Odyssey"
   region: "NTSC-J"
+  clampModes:
+    vu0ClampMode: 3 # Fixes runway line thickness on minimap.
 PCPX-96315:
   name: "Phase Paradox"
   region: "NTSC-J"
@@ -2223,8 +2225,6 @@ SCED-50642:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCED-50660:
   name: "Dropship - United Peace Force"
   region: "PAL-A"
@@ -2347,8 +2347,6 @@ SCED-50907:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCED-50916:
   name: "Ratchet & Clank [Demo]"
   region: "PAL-M5"
@@ -3860,6 +3858,8 @@ SCES-50034:
 SCES-50105:
   name: "Sky Odyssey"
   region: "PAL-M5"
+  clampModes:
+    vu0ClampMode: 3 # Fixes runway line thickness on minimap.
 SCES-50139:
   name: "World Rally Championship"
   region: "PAL-M7"
@@ -3978,8 +3978,6 @@ SCES-50490:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCES-50491:
   name: "Final Fantasy X"
   region: "PAL-F"
@@ -3987,8 +3985,6 @@ SCES-50491:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCES-50492:
   name: "Final Fantasy X"
   region: "PAL-G"
@@ -3997,8 +3993,6 @@ SCES-50492:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters..
-    beforeDraw: "OI_FFX"
 SCES-50493:
   name: "Final Fantasy X"
   region: "PAL-I"
@@ -4006,8 +4000,6 @@ SCES-50493:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCES-50494:
   name: "Final Fantasy X"
   region: "PAL-S"
@@ -4015,8 +4007,6 @@ SCES-50494:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SCES-50499:
   name: "Ecco the Dolphin - Defender of the Future"
   region: "PAL-M5"
@@ -6983,6 +6973,8 @@ SCPS-15002:
 SCPS-15003:
   name: "Sky Odyssey"
   region: "NTSC-J"
+  clampModes:
+    vu0ClampMode: 3 # Fixes runway line thickness on minimap.
 SCPS-15004:
   name: "Dark Cloud"
   region: "NTSC-J"
@@ -21309,7 +21301,6 @@ SLES-53974:
   compat: 5
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.
@@ -22751,6 +22742,11 @@ SLES-54521:
 SLES-54522:
   name: "Nickelodeon SpongeBob and Friends - Battle for Volcano Island"
   region: "PAL-A"
+  gsHWFixes:
+    mipmap: 2 # Better characters and environment.
+    trilinearFiltering: 1 # Using mipmaps, so may as well.
+    autoFlush: 2 # Fixes texture corruptions.
+    getSkipCount: "GSC_BlueTongueGames" # Render mipmaps on the CPU.
 SLES-54527:
   name: "Flushed Away"
   region: "PAL-M5"
@@ -24040,12 +24036,14 @@ SLES-54990:
   gsHWFixes:
     mipmap: 1 # Fixes garbage textures in the distance.
     halfPixelOffset: 2 # Corrects most vertical lines.
+    getSkipCount: "GSC_BlueTongueGames" # Mipmap rendering on CPU.
 SLES-54991:
   name: "Nickelodeon SpongeBob and Friends - Attack of the Toybots"
   region: "PAL-M6"
   gsHWFixes:
     mipmap: 1 # Fixes garbage textures in the distance.
     halfPixelOffset: 2 # Corrects most vertical lines.
+    getSkipCount: "GSC_BlueTongueGames" # Mipmap rendering on CPU.
 SLES-54992:
   name: "PDC World Championship Darts 2008"
   region: "PAL-M6"
@@ -26845,8 +26843,6 @@ SLKA-25214:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLKA-25215:
   name: "Shining Wind"
   region: "NTSC-K"
@@ -31173,7 +31169,6 @@ SLPM-62490:
   region: "NTSC-J"
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.
@@ -32039,6 +32034,8 @@ SLPM-62767:
   region: "NTSC-J"
   clampModes:
     eeClampMode: 2 # Fixes white shadows.
+  gsHWFixes:
+    cpuCLUTRender: 2 # Fixes CLUT colours.
 SLPM-62768:
   name: "Sengoku Musou 2 & Sengoku Musou 2 - Empires Saikyou Data"
   region: "NTSC-J"
@@ -32663,8 +32660,6 @@ SLPM-65115:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPM-65116:
   name: "Lilie no Atelier Plus - Salburg no Renkinjutsushi 3"
   region: "NTSC-J"
@@ -35451,7 +35446,6 @@ SLPM-65888:
   compat: 5
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.
@@ -36382,8 +36376,6 @@ SLPM-66124:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPM-66125:
   name: "Final Fantasy X-2 [Ultimate Hits]"
   region: "NTSC-J"
@@ -37911,7 +37903,6 @@ SLPM-66481:
   region: "NTSC-J"
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.
@@ -38695,8 +38686,6 @@ SLPM-66677:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPM-66678:
   name: "Final Fantasy X-2 - International + Last Mission [Ultimate Hits]"
   region: "NTSC-J"
@@ -40012,8 +40001,6 @@ SLPM-67513:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPM-67514:
   name: "Kessen"
   region: "NTSC-K"
@@ -42572,8 +42559,6 @@ SLPS-25050:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPS-25051:
   name: "Missing Blue"
   region: "NTSC-J"
@@ -42733,8 +42718,6 @@ SLPS-25088:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPS-25089:
   name: "Salt Lake 2002"
   region: "NTSC-J"
@@ -46143,8 +46126,6 @@ SLPS-72501:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLPS-72502:
   name: "Tales of Destiny 2 [Mega Hits]"
   region: "NTSC-J"
@@ -47251,6 +47232,8 @@ SLUS-20134:
   name: "Sky Odyssey"
   region: "NTSC-U"
   compat: 5
+  clampModes:
+    vu0ClampMode: 3 # Fixes runway line thickness on minimap.
 SLUS-20136:
   name: "Barbarian"
   region: "NTSC-U"
@@ -48046,8 +48029,6 @@ SLUS-20312:
     eeRoundMode: 1 # Fixes reverse control and boss in some places.
   gsHWFixes:
     roundSprite: 2 # Fixes font artifacts.
-    textureInsideRT: 1 # Fixes wrong visuals for the summon Anima and The (Triple) Magus Sisters.
-    beforeDraw: "OI_FFX"
 SLUS-20313:
   name: "Wave Rally"
   region: "NTSC-U"
@@ -52680,7 +52661,6 @@ SLUS-21207:
   compat: 5
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.
@@ -54891,6 +54871,7 @@ SLUS-21605:
   gsHWFixes:
     mipmap: 1 # Fixes garbage textures in the distance.
     halfPixelOffset: 2 # Corrects most vertical lines.
+    getSkipCount: "GSC_BlueTongueGames" # Mipmap rendering on CPU.
 SLUS-21606:
   name: "Metropolismania 2"
   region: "NTSC-U"
@@ -57274,7 +57255,6 @@ SLUS-29157:
   region: "NTSC-U"
   gsHWFixes:
     autoFlush: 2 # Fixes missing bloom from surfaces like windows.
-    textureInsideRT: 1 # Fixes corruption.
     # halfPixelOffset: 1 # Aligns shadows properly, but causes grid lines to appear in sea travel.
     halfPixelOffset: 2 # Sharpens world in far distances, aligns some bloom better.
     roundSprite: 1 # Fixes font artifacts.

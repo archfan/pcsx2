@@ -754,7 +754,7 @@ bool GSHwHack::GSC_BlueTongueGames(GSRendererHW& r, int& skip)
 		r.m_r.x = r.m_vt.m_min.p.x;
 		r.m_r.y = r.m_vt.m_min.p.y;
 		r.m_r.z = r.PCRTCDisplays.GetResolution().x;
-		r.m_r.w = r.m_vt.m_max.p.y;
+		r.m_r.w = r.PCRTCDisplays.GetResolution().y;
 
 		for (int vert = 32; vert < 40; vert+=2)
 		{
@@ -763,9 +763,9 @@ bool GSHwHack::GSC_BlueTongueGames(GSRendererHW& r, int& skip)
 			r.m_vertex.buff[vert].U = (vert * 16) << 4;
 			r.m_vertex.buff[vert].V = 0;
 			r.m_vertex.buff[vert+1].XYZ.X = context->XYOFFSET.OFX + ((((vert * 16) + 32) << 4) - 8);
-			r.m_vertex.buff[vert+1].XYZ.Y = context->XYOFFSET.OFY + 8184; //511.5
+			r.m_vertex.buff[vert+1].XYZ.Y = context->XYOFFSET.OFY + (r.PCRTCDisplays.GetResolution().y << 4) + 8;
 			r.m_vertex.buff[vert+1].U = ((vert * 16) + 32) << 4;
-			r.m_vertex.buff[vert+1].V = 512 << 4;
+			r.m_vertex.buff[vert+1].V = r.PCRTCDisplays.GetResolution().y << 4;
 		}
 
 		/*r.m_vertex.head = r.m_vertex.tail = r.m_vertex.next = 2;
@@ -974,22 +974,6 @@ bool GSHwHack::OI_DBZBTGames(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTe
 	r.SwSpriteRender();
 
 	return false; // Skip current draw
-}
-
-bool GSHwHack::OI_FFX(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
-{
-	const u32 FBP = RFRAME.Block();
-	const u32 ZBP = RZBUF.Block();
-	const u32 TBP = RTEX0.TBP0;
-
-	if (ds && (FBP == 0x00d00 || FBP == 0x00000) && ZBP == 0x02100 && RPRIM->TME && TBP == 0x01a00 && RTEX0.PSM == PSMCT16S)
-	{
-		// random battle transition (z buffer written directly, clear it now)
-		GL_INS("OI_FFX ZB clear");
-		g_gs_device->ClearDepth(ds, 0.0f);
-	}
-
-	return true;
 }
 
 bool GSHwHack::OI_RozenMaidenGebetGarden(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
@@ -1501,7 +1485,6 @@ const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_function
 const GSHwHack::Entry<GSRendererHW::OI_Ptr> GSHwHack::s_before_draw_functions[] = {
 	CRC_F(OI_PointListPalette),
 	CRC_F(OI_DBZBTGames),
-	CRC_F(OI_FFX),
 	CRC_F(OI_RozenMaidenGebetGarden),
 	CRC_F(OI_SonicUnleashed),
 	CRC_F(OI_ArTonelico2),
