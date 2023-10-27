@@ -1696,28 +1696,6 @@ void GSState::Write(const u8* mem, int len)
 	GIFRegBITBLTBUF& blit = m_tr.m_blit;
 	const GSLocalMemory::psm_t& psm = GSLocalMemory::m_psm[blit.DPSM];
 
-	// The game uses a resolution of 512x244. RT is located at 0x700 and depth at 0x0
-	//
-	// #Bug number 1. (bad top bar)
-	// The game saves the depth buffer in the EE but with a resolution of
-	// 512x255. So it is ending to 0x7F8, ouch it saves the top of the RT too.
-	//
-	// #Bug number 2. (darker screen)
-	// The game will restore the previously saved buffer at position 0x0 to
-	// 0x7F8.  Because of the extra RT pixels, GS will partialy invalidate
-	// the texture located at 0x700. Next access will generate a cache miss
-	//
-	// The no-solution: instead to handle garbage (aka RT) at the end of the
-	// depth buffer. Let's reduce the size of the transfer
-	if (m_game.title == CRC::SMTNocturne) // TODO: hack
-	{
-		if (blit.DBP == 0 && blit.DPSM == PSMZ32 && w == 512 && h > 224)
-		{
-			h = 224;
-			m_env.TRXREG.RRH = 224;
-		}
-	}
-
 	if (!m_tr.Update(w, h, psm.trbpp, len))
 		return;
 
@@ -3810,9 +3788,10 @@ bool GSState::TryAlphaTest(u32& fm, const u32 fm_mask, u32& zm)
 
 	const u32 framemask = GSLocalMemory::m_psm[m_context->FRAME.PSM].fmsk;
 	const u32 framemaskalpha = GSLocalMemory::m_psm[m_context->FRAME.PSM].fmsk & 0xFF000000;
+	const u32 fail_type = m_context->TEST.GetAFAIL(m_context->FRAME.PSM);
 	// Alpha test can only control the write of some channels. If channels are already masked
 	// the alpha test is therefore a nop.
-	switch (m_context->TEST.AFAIL)
+	switch (fail_type)
 	{
 		case AFAIL_KEEP:
 			break;
@@ -3825,7 +3804,7 @@ bool GSState::TryAlphaTest(u32& fm, const u32 fm_mask, u32& zm)
 				return true;
 			break;
 		case AFAIL_RGB_ONLY:
-			if (zm == 0xFFFFFFFF && ((fm & framemaskalpha) == framemaskalpha || GSLocalMemory::m_psm[m_context->FRAME.PSM].fmt == 1))
+			if (zm == 0xFFFFFFFF && (fm & framemaskalpha) == framemaskalpha)
 				return true;
 			break;
 		default:
@@ -3909,7 +3888,7 @@ bool GSState::TryAlphaTest(u32& fm, const u32 fm_mask, u32& zm)
 
 	if (!pass)
 	{
-		switch (m_context->TEST.AFAIL)
+		switch (fail_type)
 		{
 			case AFAIL_KEEP:
 				fm = zm = 0xffffffff;

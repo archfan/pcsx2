@@ -728,8 +728,11 @@ void GameDatabaseSchema::GameEntry::applyGSHardwareFixes(Pcsx2Config::GSOptions&
 				break;
 
 			case GSHWFixId::BilinearUpscale:
-				config.UserHacks_BilinearHack = (value > 0);
-				break;
+			{
+				if (value >= 0 && value < static_cast<int>(GSBilinearDirtyMode::MaxCount))
+					config.UserHacks_BilinearHack = static_cast<GSBilinearDirtyMode>(value);
+			}
+			break;
 
 			case GSHWFixId::NativePaletteDraw:
 				config.UserHacks_NativePaletteDraw = (value > 0);
@@ -1197,7 +1200,7 @@ const GameDatabase::HashDatabaseEntry* GameDatabase::lookupHash(
 		if (getTrackIndex(candidate->tracks.data(), candidate->tracks.size(), tracks[track]) != track)
 		{
 			fmt::format_to(std::back_inserter(*match_error),
-				TRANSLATE_FS("GameDatabase", "Track {} with hash {} does not match database track..\n"), track + 1,
+				TRANSLATE_FS("GameDatabase", "Track {} with hash {} does not match database track.\n"), track + 1,
 				tracks[track].toString());
 			tracks_matched[track] = false;
 			all_okay = false;

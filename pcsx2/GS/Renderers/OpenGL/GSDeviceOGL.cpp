@@ -1634,7 +1634,7 @@ void GSDeviceOGL::DrawMultiStretchRects(
 {
 	IASetVAO(m_vao);
 	IASetPrimitiveTopology(GL_TRIANGLE_STRIP);
-	OMSetDepthStencilState(m_convert.dss);
+	OMSetDepthStencilState(HasDepthOutput(shader) ? m_convert.dss_write : m_convert.dss);
 	OMSetBlendState(false);
 	OMSetColorMaskState();
 	if (!dTex->IsDepthStencil())
@@ -1794,13 +1794,6 @@ void GSDeviceOGL::DoInterlace(GSTexture* sTex, const GSVector4& sRect, GSTexture
 
 bool GSDeviceOGL::CompileFXAAProgram()
 {
-	// Needs ARB_gpu_shader5 for gather.
-	if (!GLAD_GL_ARB_gpu_shader5)
-	{
-		Console.Warning("FXAA is not supported with the current GPU");
-		return true;
-	}
-
 	const std::string_view fxaa_macro = "#define FXAA_GLSL_130 1\n";
 	std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/common/fxaa.fx");
 	if (!shader.has_value())
@@ -1809,7 +1802,7 @@ bool GSDeviceOGL::CompileFXAAProgram()
 		return false;
 	}
 
-	const std::string ps(GetShaderSource("ps_main", GL_FRAGMENT_SHADER, shader->c_str(), fxaa_macro));
+	const std::string ps(GetShaderSource("main", GL_FRAGMENT_SHADER, shader->c_str(), fxaa_macro));
 	std::optional<GLProgram> prog = m_shader_cache.GetProgram(m_convert.vs, ps);
 	if (!prog.has_value())
 	{

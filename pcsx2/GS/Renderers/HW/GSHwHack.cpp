@@ -216,20 +216,104 @@ bool GSHwHack::GSC_Tekken5(GSRendererHW& r, int& skip)
 
 bool GSHwHack::GSC_BurnoutGames(GSRendererHW& r, int& skip)
 {
-	if (RFBW == 2 && std::abs(static_cast<int>(RFBP) - static_cast<int>(RZBP)) <= static_cast<int>(BLOCKS_PER_PAGE) && (!RTME || RTPSM != PSMT8))
-	{
-		skip = 2;
-		return true;
-	}
+	// Burnout has a... creative way of achieving its bloom effect, to avoid horizontal page breaks.
+	// First they double strip clear a single page column to (191, 191, 191), then blend the main
+	// framebuffer into this column, with (Cs - Cd) * 2. So anything lower than 191 clamps to zero,
+	// and anything larger boosts up a bit. Then that column gets downsampled to half size, makes
+	// sense right? The fun bit is when they move to the next page, instead of being sensible and
+	// using another double strip clear, they write Z to the next page as part of the blended draw,
+	// setting it to 191 (in Z24 terms). Then the buffers are swapped for the next column, 0x1a40
+	// and 0x1a60 in US.
+	//
+	// We _could_ handle that, except for the fact that instead of pointing the texture at 0x1a60
+	// for the downsample of the second column, they point it at 0x1a40, and offset the coordinates
+	// by a page. This would need "tex outside RT", and no way that's happening.
+	//
+	// So, I present to you, dear reader, the first state machine within a CRC hack, in all its
+	// disgusting glory. This effectively reduces the multi-pass effect to a single pass, by replacing
+	// the column-wide draws with a fullscreen sprite, and skipping the extra passes.
+	//
+	// After this, they do a blur on the buffer, which is fine, because all the buffer swap BS has
+	// finished, so we can return to normal.
 
-	// We don't check if we already have a skip here, because it gets confused when auto flush is on.
-	if (RTME && (RFBP == 0x01dc0 || RFBP == 0x01c00 || RFBP == 0x01f00 || RFBP == 0x01d40 || RFBP == 0x02200 || RFBP == 0x02000) && RFPSM == RTPSM && (RTBP0 == 0x01dc0 || RTBP0 == 0x01c00 || RTBP0 == 0x01f00 || RTBP0 == 0x01d40 || RTBP0 == 0x02200 || RTBP0 == 0x02000) && RTPSM == PSMCT32)
+	static u32 state = 0;
+	static GIFRegTEX0 main_fb;
+	static GSVector2i main_fb_size;
+	static GIFRegTEX0 downsample_fb;
+	static GIFRegTEX0 bloom_fb;
+	switch (state)
 	{
-		// 0x01dc0 01c00(MP) ntsc, 0x01f00 0x01d40(MP) ntsc progressive, 0x02200(MP) pal.
-		// Yellow stripes.
-		// Multiplayer tested only on Takedown.
-		skip = 3;
-		return true;
+		case 0: // waiting for double striped clear
+		{
+			if (RFBW != 2 || RFBP != RZBP || RTME)
+				break;
+
+			// Need a backed up context to grab the framebuffer.
+			if (r.m_backed_up_ctx < 0)
+				break;
+
+			// Next draw should contain our source.
+			GSTextureCache::Target* tgt = g_texture_cache->LookupTarget(r.m_env.CTXT[r.m_backed_up_ctx].TEX0,
+				GSVector2i(1, 1), r.GetTextureScaleFactor(), GSTextureCache::RenderTarget);
+			if (!tgt)
+				break;
+
+			// Clear temp render target.
+			main_fb = tgt->m_TEX0;
+			main_fb_size = tgt->GetUnscaledSize();
+			r.m_cached_ctx.FRAME.FBW = tgt->m_TEX0.TBW;
+			r.m_cached_ctx.ZBUF.ZMSK = true;
+			r.ReplaceVerticesWithSprite(GSVector4i::loadh(main_fb_size), main_fb_size);
+			bloom_fb = GIFRegTEX0::Create(RFBP, RFBW, RFPSM);
+			state = 1;
+			GL_INS("GSC_BurnoutGames(): Initial double-striped clear.");
+			return true;
+		}
+
+		case 1: // reverse blend to extract bright pixels
+		{
+			r.ReplaceVerticesWithSprite(GSVector4i::loadh(main_fb_size), main_fb_size);
+			r.m_cached_ctx.ZBUF.ZMSK = true;
+			state = 2;
+			GL_INS("GSC_BurnoutGames(): Extract Bright Pixels.");
+			return true;
+		}
+
+		case 2: // downsample
+		{
+			const GSVector4i downsample_rect = GSVector4i(0, 0, ((main_fb_size.x / 2) - 1), ((main_fb_size.y / 2) - 1));
+			const GSVector4i uv_rect = GSVector4i(0, 0, (downsample_rect.z * 2) - std::min(r.GetUpscaleMultiplier()-1.0f, 4.0f) * 3 , (downsample_rect.w * 2) - std::min(r.GetUpscaleMultiplier()-1.0f, 4.0f) * 3);
+			r.ReplaceVerticesWithSprite(downsample_rect, uv_rect, main_fb_size, downsample_rect);
+			downsample_fb = GIFRegTEX0::Create(RFBP, RFBW, RFPSM);
+			state = 3;
+			GL_INS("GSC_BurnoutGames(): Downsampling.");
+			return true;
+		}
+
+		case 3:
+		{
+			// Kill the downsample source, because we made it way larger than it was supposed to be.
+			// That way we don't risk confusing any other targets.
+			g_texture_cache->InvalidateVideoMemType(GSTextureCache::RenderTarget, bloom_fb.TBP0);
+			state = 4;
+			[[fallthrough]];
+		}
+
+		case 4: // Skip until it's downsampled again.
+		{
+			if (!RTME || RTBP0 != downsample_fb.TBP0)
+			{
+				GL_INS("GSC_BurnoutGames(): Skipping extra pass.");
+				skip = 1;
+				return true;
+			}
+
+			// Finally, we're done, let the game take over.
+			GL_INS("GSC_BurnoutGames(): Bloom effect done.");
+			skip = 0;
+			state = 0;
+			return true;
+		}
 	}
 
 	return GSC_BlackAndBurnoutSky(r, skip);
@@ -638,6 +722,48 @@ bool GSHwHack::GSC_BlueTongueGames(GSRendererHW& r, int& skip)
 {
 	GSDrawingContext* context = r.m_context;
 
+	// Nicktoons does its weird dithered depth pattern during FMV's also, which really screws the frame width up, which is wider for FMV's
+	// and so fails to work correctly in the HW renderer and makes a mess of the width, so let's expand the draw to match the proper width.
+	if (RPRIM->TME && RTEX0.TW == 3 && RTEX0.TH == 3 && RTEX0.PSM == 0 && RFRAME.FBMSK == 0x00FFFFFF && RFRAME.FBW == 8 && r.PCRTCDisplays.GetResolution().x > 512)
+	{
+		// Check we are drawing stripes
+		for (u32 i = 1; i < r.m_vertex.tail; i+=2)
+		{
+			int value = (((r.m_vertex.buff[i].XYZ.X - r.m_vertex.buff[i - 1].XYZ.X) + 8) >> 4);
+			if (value != 32)
+				return false;
+		}
+
+		r.m_r.x = r.m_vt.m_min.p.x;
+		r.m_r.y = r.m_vt.m_min.p.y;
+		r.m_r.z = r.PCRTCDisplays.GetResolution().x;
+		r.m_r.w = r.m_vt.m_max.p.y;
+
+		for (int vert = 32; vert < 40; vert+=2)
+		{
+			r.m_vertex.buff[vert].XYZ.X = context->XYOFFSET.OFX + (((vert * 16) << 4) - 8);
+			r.m_vertex.buff[vert].XYZ.Y = context->XYOFFSET.OFY;
+			r.m_vertex.buff[vert].U = (vert * 16) << 4;
+			r.m_vertex.buff[vert].V = 0;
+			r.m_vertex.buff[vert+1].XYZ.X = context->XYOFFSET.OFX + ((((vert * 16) + 32) << 4) - 8);
+			r.m_vertex.buff[vert+1].XYZ.Y = context->XYOFFSET.OFY + 8184; //511.5
+			r.m_vertex.buff[vert+1].U = ((vert * 16) + 32) << 4;
+			r.m_vertex.buff[vert+1].V = 512 << 4;
+		}
+
+		/*r.m_vertex.head = r.m_vertex.tail = r.m_vertex.next = 2;
+		r.m_index.tail = 2;*/
+
+		r.m_vt.m_max.p.x = r.m_r.z;
+		r.m_vt.m_max.p.y = r.m_r.w;
+		r.m_vt.m_max.t.x = r.m_r.z;
+		r.m_vt.m_max.t.y = r.m_r.w;
+		context->scissor.in.z = r.m_r.z;
+		context->scissor.in.w = r.m_r.w;
+
+		RFRAME.FBW = 10;
+	}
+
 	// Whoever wrote this was kinda nuts. They draw a stipple/dither pattern to a framebuffer, then reuse that as
 	// the depth buffer. Textures are then drawn repeatedly on top of one another, each with a slight offset.
 	// Depth testing is enabled, and that determines which pixels make it into the final texture. Kinda like an
@@ -971,6 +1097,8 @@ bool GSHwHack::OI_BurnoutGames(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GS
 	if (!r.CanUseSwSpriteRender())
 		return true;
 
+	if (!r.PRIM->TME)
+		return true;
 	// Render palette via CPU.
 	r.SwSpriteRender();
 
@@ -1136,7 +1264,7 @@ static bool GetMoveTargetPair(GSRendererHW& r, GSTextureCache::Target** src, GIF
 	const int dst_type =
 		GSLocalMemory::m_psm[dst_desc.PSM].depth ? GSTextureCache::DepthStencil : GSTextureCache::RenderTarget;
 	GSTextureCache::Target* tdst = g_texture_cache->LookupTarget(dst_desc, tsrc->GetUnscaledSize(), tsrc->GetScale(),
-		dst_type, true, 0, false, false, preserve_target, tsrc->GetUnscaledRect());
+		dst_type, true, 0, false, false, preserve_target, preserve_target, tsrc->GetUnscaledRect());
 	if (!tdst)
 	{
 		if (req_target)

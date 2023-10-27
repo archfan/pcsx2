@@ -1241,7 +1241,7 @@ GSVector2i GSTextureCache::ScaleRenderTargetSize(const GSVector2i& sz, float sca
 }
 
 GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVector2i& size, float scale, int type,
-	bool used, u32 fbmask, bool is_frame, bool preload, bool preserve_target, const GSVector4i draw_rect)
+	bool used, u32 fbmask, bool is_frame, bool preload, bool preserve_rgb, bool preserve_alpha, const GSVector4i draw_rect)
 {
 	const GSLocalMemory::psm_t& psm_s = GSLocalMemory::m_psm[TEX0.PSM];
 	const u32 bp = TEX0.TBP0;
@@ -1353,12 +1353,6 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 				}
 			}
 		}
-
-		if (dst)
-		{
-			dst->m_TEX0.TBW = TEX0.TBW; // Fix Jurassic Park - Operation Genesis loading disk logo.
-			dst->m_is_frame |= is_frame; // Nicktoons Unite tries to change the width from 10 to 8 and breaks FMVs.
-		}
 	}
 
 	if (dst)
@@ -1399,6 +1393,7 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 		}
 
 		// If our RGB was invalidated, we need to pull it from depth.
+		const bool preserve_target = preserve_rgb || preserve_alpha;
 		if (type == RenderTarget && (preserve_target || !dst->m_valid.rintersect(draw_rect).eq(dst->m_valid)) &&
 			!dst->m_valid_rgb && !FullRectDirty(dst, 0x7) &&
 			(GSLocalMemory::m_psm[TEX0.PSM].trbpp < 24 || fbmask != 0x00FFFFFFu))
@@ -1485,6 +1480,15 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 		if (dst_match)
 		{
 			calcRescale(dst_match);
+
+			// If we don't need A, and the existing target doesn't have valid alpha, don't bother converting it.
+			const bool has_alpha = dst_match->m_valid_alpha_low || dst_match->m_valid_alpha_high;
+			const bool preserve_target = (preserve_rgb || (preserve_alpha && has_alpha)) ||
+										 !draw_rect.rintersect(dst_match->m_valid).eq(dst_match->m_valid);
+
+			// Clear instead of invalidating if there is anything which isn't touched.
+			clear |= (!preserve_target && fbmask != 0);
+
 			dst = Target::Create(TEX0, new_size.x, new_size.y, scale, type, clear);
 			if (!dst)
 				return nullptr;
@@ -1515,7 +1519,8 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 				shader = (fmt_16_bits) ? ShaderConvert::FLOAT16_TO_RGB5A1 : ShaderConvert::FLOAT32_TO_RGBA8;
 			}
 
-			if (!preserve_target && draw_rect.rintersect(dst_match->m_valid).eq(dst_match->m_valid))
+
+			if (!preserve_target)
 			{
 				GL_INS("TC: Not converting existing %s[%x] because it's fully overwritten.", to_string(!type), dst->m_TEX0.TBP0);
 			}
@@ -1919,6 +1924,8 @@ bool GSTextureCache::CopyRGBFromDepthToColor(Target* dst, Target* depth_src)
 			new_size != dst->m_unscaled_size || new_size != depth_src->m_unscaled_size);
 		if (!tex)
 			return false;
+
+		m_target_memory_usage = (m_target_memory_usage - dst->m_texture->GetMemUsage()) + tex->GetMemUsage();
 	}
 
 	// Remove any dirty rectangles contained by this update, we don't want to pull from local memory.
@@ -3337,6 +3344,26 @@ GSTextureCache::Target* GSTextureCache::GetTargetWithSharedBits(u32 BP, u32 PSM)
 	}
 
 	return nullptr;
+}
+
+GSTextureCache::Target* GSTextureCache::FindOverlappingTarget(u32 BP, u32 end_bp) const
+{
+	for (int i = 0; i < 2; i++)
+	{
+		for (Target* tgt : m_dst[i])
+		{
+			if (CheckOverlap(tgt->m_TEX0.TBP0, tgt->m_end_block, BP, end_bp))
+				return tgt;
+		}
+	}
+
+	return nullptr;
+}
+
+GSTextureCache::Target* GSTextureCache::FindOverlappingTarget(u32 BP, u32 BW, u32 PSM, GSVector4i rc) const
+{
+	const u32 end_bp = GSLocalMemory::GetUnwrappedEndBlockAddress(BP, BW, PSM, rc);
+	return FindOverlappingTarget(BP, end_bp);
 }
 
 GSVector2i GSTextureCache::GetTargetSize(u32 bp, u32 fbw, u32 psm, s32 min_width, s32 min_height)
@@ -5111,8 +5138,8 @@ void GSTextureCache::Target::Update()
 	// Bilinear filtering this is probably not a good thing, at least in native, but upscaling Nearest can be gross and messy.
 	// It's needed for depth, though.. filtering depth doesn't make much sense, but SMT3 needs it..
 	const bool upscaled = (m_scale != 1.0f);
-	const bool override_linear = upscaled && GSConfig.UserHacks_BilinearHack;
-	const bool linear = (m_type == RenderTarget && upscaled);
+	const bool override_linear = (upscaled && GSConfig.UserHacks_BilinearHack == GSBilinearDirtyMode::ForceBilinear);
+	const bool linear = (m_type == RenderTarget && upscaled && GSConfig.UserHacks_BilinearHack != GSBilinearDirtyMode::ForceNearest);
 
 	GSDevice::MultiStretchRect* drects = static_cast<GSDevice::MultiStretchRect*>(
 		alloca(sizeof(GSDevice::MultiStretchRect) * static_cast<u32>(m_dirty.size())));

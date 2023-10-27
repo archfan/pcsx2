@@ -66,21 +66,8 @@ static D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE GetLoadOpForTexture(GSTexture12* 
 	// clang-format on
 }
 
-GSDevice12::ShaderMacro::ShaderMacro(D3D_FEATURE_LEVEL fl)
+GSDevice12::ShaderMacro::ShaderMacro()
 {
-	switch (fl)
-	{
-		case D3D_FEATURE_LEVEL_10_0:
-			mlist.emplace_back("SHADER_MODEL", "0x400");
-			break;
-		case D3D_FEATURE_LEVEL_10_1:
-			mlist.emplace_back("SHADER_MODEL", "0x401");
-			break;
-		case D3D_FEATURE_LEVEL_11_0:
-		default:
-			mlist.emplace_back("SHADER_MODEL", "0x500");
-			break;
-	}
 	mlist.emplace_back("DX12", "1");
 }
 
@@ -1014,8 +1001,6 @@ std::string GSDevice12::GetDriverInfo() const
 	std::string ret = "Unknown Feature Level";
 
 	static constexpr std::array<std::tuple<D3D_FEATURE_LEVEL, const char*>, 4> feature_level_names = {{
-		{D3D_FEATURE_LEVEL_10_0, "D3D_FEATURE_LEVEL_10_0"},
-		{D3D_FEATURE_LEVEL_10_0, "D3D_FEATURE_LEVEL_10_1"},
 		{D3D_FEATURE_LEVEL_11_0, "D3D_FEATURE_LEVEL_11_0"},
 		{D3D_FEATURE_LEVEL_11_1, "D3D_FEATURE_LEVEL_11_1"},
 	}};
@@ -1166,6 +1151,7 @@ bool GSDevice12::CheckFeatures()
 	m_features.dual_source_blend = true;
 	m_features.clip_control = true;
 	m_features.stencil_buffer = true;
+	m_features.cas_sharpening = true;
 	m_features.test_and_sample_depth = false;
 	m_features.vs_expand = !GSConfig.DisableVertexShaderExpand;
 
@@ -1848,9 +1834,11 @@ bool GSDevice12::CompileCASPipelines()
 	cpb.SetShader(cs_sharpen->GetBufferPointer(), cs_sharpen->GetBufferSize());
 	m_cas_sharpen_pipeline = cpb.Create(m_device.get(), m_shader_cache, false);
 	if (!m_cas_upscale_pipeline || !m_cas_sharpen_pipeline)
+	{
+		Console.Error("Failed to create CAS pipelines");
 		return false;
+	}
 
-	m_features.cas_sharpening = true;
 	return true;
 }
 
@@ -2227,13 +2215,13 @@ static void AddUtilityVertexAttributes(D3D12::GraphicsPipelineBuilder& gpb)
 
 GSDevice12::ComPtr<ID3DBlob> GSDevice12::GetUtilityVertexShader(const std::string& source, const char* entry_point)
 {
-	ShaderMacro sm_model(m_shader_cache.GetFeatureLevel());
+	ShaderMacro sm_model;
 	return m_shader_cache.GetVertexShader(source, sm_model.GetPtr(), entry_point);
 }
 
 GSDevice12::ComPtr<ID3DBlob> GSDevice12::GetUtilityPixelShader(const std::string& source, const char* entry_point)
 {
-	ShaderMacro sm_model(m_shader_cache.GetFeatureLevel());
+	ShaderMacro sm_model;
 	return m_shader_cache.GetPixelShader(source, sm_model.GetPtr(), entry_point);
 }
 
@@ -2610,7 +2598,9 @@ bool GSDevice12::CompilePostProcessingPipelines()
 			return false;
 		}
 
-		ComPtr<ID3DBlob> ps(GetUtilityPixelShader(*shader, "ps_main"));
+		ShaderMacro sm;
+		sm.AddMacro("FXAA_HLSL_5", "1");
+		ComPtr<ID3DBlob> ps = m_shader_cache.GetPixelShader(*shader, sm.GetPtr());
 		if (!ps)
 			return false;
 
@@ -2725,7 +2715,7 @@ const ID3DBlob* GSDevice12::GetTFXVertexShader(GSHWDrawConfig::VSSelector sel)
 	if (it != m_tfx_vertex_shaders.end())
 		return it->second.get();
 
-	ShaderMacro sm(m_shader_cache.GetFeatureLevel());
+	ShaderMacro sm;
 	sm.AddMacro("VERTEX_SHADER", 1);
 	sm.AddMacro("VS_TME", sel.tme);
 	sm.AddMacro("VS_FST", sel.fst);
@@ -2744,7 +2734,7 @@ const ID3DBlob* GSDevice12::GetTFXPixelShader(const GSHWDrawConfig::PSSelector& 
 	if (it != m_tfx_pixel_shaders.end())
 		return it->second.get();
 
-	ShaderMacro sm(m_shader_cache.GetFeatureLevel());
+	ShaderMacro sm;
 	sm.AddMacro("PIXEL_SHADER", 1);
 	sm.AddMacro("PS_FST", sel.fst);
 	sm.AddMacro("PS_WMS", sel.wms);
