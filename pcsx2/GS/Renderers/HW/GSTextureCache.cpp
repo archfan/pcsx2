@@ -1493,13 +1493,19 @@ GSTextureCache::Source* GSTextureCache::LookupSource(const GIFRegTEX0& TEX0, con
 
 		if (!found_t && !dst && !GSConfig.UserHacks_DisableDepthSupport)
 		{
+			GSVector4i new_rect = r;
+
+			// Just in case the TextureMinMax trolls us as it does, when checking if inside the target.
+			new_rect.z -= 2;
+			new_rect.w -= 2;
+
 			// Let's try a trick to avoid to use wrongly a depth buffer
 			// Unfortunately, I don't have any Arc the Lad testcase
 			//
 			// 1/ Check only current frame, I guess it is only used as a postprocessing effect
 			for (auto t : m_dst[DepthStencil])
 			{
-				if (t->m_age <= 1 && t->m_used && t->m_dirty.empty() && GSUtil::HasSharedBits(bp, psm, t->m_TEX0.TBP0, t->m_TEX0.PSM))
+				if (t->m_age <= 1 && t->m_used && t->m_dirty.empty() && GSUtil::HasSharedBits(bp, psm, t->m_TEX0.TBP0, t->m_TEX0.PSM) && t->Inside(bp, bw, psm, new_rect))
 				{
 					GL_INS("TC: Warning depth format read as color format. Pixels will be scrambled");
 					// Let's fetch a depth format texture. Rational, it will avoid the texture allocation and the
@@ -1583,7 +1589,7 @@ GSVector2i GSTextureCache::ScaleRenderTargetSize(const GSVector2i& sz, float sca
 }
 
 GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVector2i& size, float scale, int type,
-	bool used, u32 fbmask, bool is_frame, bool preload, bool preserve_rgb, bool preserve_alpha, const GSVector4i draw_rect, bool is_shuffle)
+	bool used, u32 fbmask, bool is_frame, bool preload, bool preserve_rgb, bool preserve_alpha, const GSVector4i draw_rect, bool is_shuffle, bool possible_clear)
 {
 	const GSLocalMemory::psm_t& psm_s = GSLocalMemory::m_psm[TEX0.PSM];
 	const u32 bp = TEX0.TBP0;
@@ -1634,26 +1640,9 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 					}
 				}
 
-				if (can_use && !is_shuffle && preserve_alpha && preserve_rgb && !(GSLocalMemory::m_psm[TEX0.PSM].bpp == 16 && GSLocalMemory::m_psm[t->m_TEX0.PSM].bpp == 32) && TEX0.TBW != t->m_TEX0.TBW && t->m_dirty.size() >= 1 && !t->m_dirty.GetTotalRect(t->m_TEX0, t->m_unscaled_size).eq(t->m_valid))
+				if (can_use && !is_shuffle && preserve_alpha && preserve_rgb && TEX0.TBW != t->m_TEX0.TBW && t->m_dirty.size() >= 1)
 				{
-					std::vector<GSState::GSUploadQueue>::reverse_iterator iter;
-
-					const int start_draw = GSRendererHW::GetInstance()->m_draw_transfers.back().draw;
-
-					for (iter = GSRendererHW::GetInstance()->m_draw_transfers.rbegin(); iter != GSRendererHW::GetInstance()->m_draw_transfers.rend(); )
-					{
-						if (TEX0.TBP0 == iter->blit.DBP && GSUtil::HasCompatibleBits(iter->blit.DPSM, TEX0.PSM) && draw_rect.rintersect(iter->rect).eq(draw_rect))
-						{
-							can_use = false;
-							break;
-						}
-
-						// Give up after checking recent draw
-						if (start_draw - iter->draw > 0)
-							break;
-
-						++iter;
-					}
+					can_use = false;
 				}
 
 				if (can_use)
@@ -1873,12 +1862,23 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 
 		// Depth stencil/RT can be an older RT/DS but only check recent RT/DS to avoid to pick
 		// some bad data.
+		auto& rev_list = m_dst[rev_type];
 		Target* dst_match = nullptr;
-		for (Target* t : m_dst[rev_type])
+		for (auto i = rev_list.begin(); i != rev_list.end(); ++i)
 		{
+			Target* t = *i;
 			// Don't pull in targets without valid lower 24 bits, it makes no sense to convert them.
 			if (bp != t->m_TEX0.TBP0 || !t->m_valid_rgb)
 				continue;
+
+			// Probably an old target, get rid of it.
+			if (possible_clear && GSLocalMemory::m_psm[t->m_TEX0.PSM].bpp != GSLocalMemory::m_psm[TEX0.PSM].bpp)
+			{
+				InvalidateSourcesFromTarget(t);
+				i = rev_list.erase(i);
+				delete t;
+				continue;
+			}
 
 			if (t->m_age == 0)
 			{
@@ -2029,6 +2029,9 @@ GSTextureCache::Target* GSTextureCache::CreateTarget(GIFRegTEX0 TEX0, const GSVe
 		GL_CACHE("TC: Lookup %s(Color) %dx%d FBMSK %08x, miss (0x%x, TBW %d, %s) draw %d", is_frame ? "Frame" : "Target",
 			size.x, size.y, fbmask, TEX0.TBP0, TEX0.TBW, psm_str(TEX0.PSM), g_gs_renderer->s_n);
 	}
+	// Avoid making garbage targets (usually PCRTC).
+	if (GSVector4i::loadh(size).rempty())
+		return nullptr;
 
 	Target* dst = Target::Create(TEX0, size.x, size.y, scale, type, true);
 
@@ -2235,10 +2238,8 @@ bool GSTextureCache::PreloadTarget(GIFRegTEX0 TEX0, const GSVector2i& size, cons
 			AddDirtyRectTarget(dst, newrect, TEX0.PSM, TEX0.TBW, rgba, GSLocalMemory::m_psm[TEX0.PSM].trbpp >= 16);
 		}
 	}
-	else
-	{
-		dst->UpdateValidity(GSVector4i::loadh(valid_size));
-	}
+
+	dst->UpdateValidity(GSVector4i::loadh(valid_size));
 	
 	for (int type = 0; type < 2; type++)
 	{
@@ -2278,6 +2279,8 @@ bool GSTextureCache::PreloadTarget(GIFRegTEX0 TEX0, const GSVector2i& size, cons
 							const int copy_height = y_reduction * t->m_scale;
 							const int old_height = (dst->m_valid.w - y_reduction) * dst->m_scale;
 							GL_INS("RT double buffer copy from FBP 0x%x, %dx%d => %d,%d", t->m_TEX0.TBP0, copy_width, copy_height, 0, old_height);
+
+							pxAssert(old_height > 0);
 
 							// Clear the dirty first
 							dst->Update();
@@ -5292,6 +5295,7 @@ GSTextureCache::Target::Target(GIFRegTEX0 TEX0, int type, const GSVector2i& unsc
 	, m_valid(GSVector4i::zero())
 {
 	m_TEX0 = TEX0;
+	m_end_block = m_TEX0.TBP0;
 	m_unscaled_size = unscaled_size;
 	m_scale = scale;
 	m_texture = texture;
@@ -5493,13 +5497,8 @@ bool GSTextureCache::Target::HasValidBitsForFormat(u32 psm, bool req_color, bool
 			color_valid = m_valid_rgb;
 			break;
 	}
-	
-	if (req_color && color_valid && !alpha_valid && (m_dirty.GetDirtyChannels() & GSUtil::GetChannelMask(psm)) & 0x7)
-	{
-		alpha_valid = true;
-	}
 
-	return ((alpha_valid && req_alpha) || !req_alpha) && ((color_valid && req_color) || !req_color);
+	return (color_valid && req_color) || (!req_color && ((alpha_valid && req_alpha) || !req_alpha));
 }
 
 void GSTextureCache::Target::ResizeDrawn(const GSVector4i& rect)

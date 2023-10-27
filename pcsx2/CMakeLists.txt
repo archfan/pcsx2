@@ -56,20 +56,6 @@ if(USE_LINKED_FFMPEG)
 	target_link_libraries(PCSX2_FLAGS INTERFACE FFMPEG::avcodec FFMPEG::avformat FFMPEG::avutil FFMPEG::swscale FFMPEG::swresample)
 endif()
 
-if(TARGET SDL2::SDL2 OR TARGET SDL2::SDL2-static)
-	target_compile_definitions(PCSX2_FLAGS INTERFACE SDL_BUILD)
-	if ("${SDL2_TYPE}" STREQUAL Bundled)
-		# Use our in-tree SDL build.
-		target_link_libraries(PCSX2_FLAGS INTERFACE SDL2::SDL2-static)
-	else()
-		target_link_libraries(PCSX2_FLAGS INTERFACE SDL2::SDL2)
-	endif()
-	target_sources(PCSX2 PRIVATE
-		Input/SDLInputSource.cpp
-		Input/SDLInputSource.h
-	)
-endif()
-
 if(WIN32)
 	set(MIN_WIN32 0x0A00)
 	target_compile_definitions(PCSX2_FLAGS INTERFACE
@@ -294,6 +280,7 @@ set(pcsx2SPU2Sources
 	SPU2/RegTable.cpp
 	SPU2/Reverb.cpp
 	SPU2/SndOut.cpp
+	SPU2/SndOut_Cubeb.cpp
 	SPU2/spu2freeze.cpp
 	SPU2/spu2sys.cpp
 	SPU2/Wavedump_wav.cpp
@@ -312,12 +299,6 @@ set(pcsx2SPU2Headers
 	SPU2/SndOut.h
 	SPU2/spdif.h
 )
-
-if(CUBEB_API)
-	list(APPEND pcsx2SPU2Sources SPU2/SndOut_Cubeb.cpp)
-	target_compile_definitions(PCSX2_FLAGS INTERFACE "SPU2X_CUBEB")
-	target_link_libraries(PCSX2_FLAGS INTERFACE cubeb)
-endif()
 
 if(WIN32)
 	list(APPEND pcsx2SPU2Sources
@@ -429,12 +410,14 @@ set(pcsx2USBSources
 	USB/usb-eyetoy/usb-eyetoy-webcam.cpp
 	USB/usb-hid/usb-hid.cpp
 	USB/usb-lightgun/guncon2.cpp
+	USB/usb-mic/audiodev-cubeb.cpp
 	USB/usb-mic/usb-headset.cpp
 	USB/usb-mic/usb-mic-logitech.cpp
 	USB/usb-mic/usb-mic-singstar.cpp
 	USB/usb-msd/usb-msd.cpp
 	USB/usb-pad/lg/lg_ff.cpp
 	USB/usb-pad/usb-pad-ff.cpp
+	USB/usb-pad/usb-pad-sdl-ff.cpp
 	USB/usb-pad/usb-pad.cpp
 	USB/usb-pad/usb-seamic.cpp
 	USB/usb-pad/usb-turntable.cpp
@@ -459,26 +442,17 @@ set(pcsx2USBHeaders
 	USB/usb-hid/usb-hid.h
 	USB/usb-lightgun/guncon2.h
 	USB/usb-mic/audio.h
+	USB/usb-mic/audiodev-cubeb.h
 	USB/usb-mic/audiodev-noop.h
 	USB/usb-mic/audiodev.h
 	USB/usb-mic/usb-headset.h
 	USB/usb-mic/usb-mic-singstar.h
 	USB/usb-msd/usb-msd.h
 	USB/usb-pad/lg/lg_ff.h
+	USB/usb-pad/usb-pad-sdl-ff.h
 	USB/usb-pad/usb-pad.h
 	USB/usb-printer/usb-printer.h
 )
-
-if(CUBEB_API)
-	list(APPEND pcsx2USBSources USB/usb-mic/audiodev-cubeb.cpp)
-	list(APPEND pcsx2USBHeaders USB/usb-mic/audiodev-cubeb.h)
-endif()
-
-if(TARGET SDL2::SDL2 OR TARGET SDL2::SDL2-static)
-	list(APPEND pcsx2USBSources USB/usb-pad/usb-pad-sdl-ff.cpp)
-	list(APPEND pcsx2USBHeaders USB/usb-pad/usb-pad-sdl-ff.h)
-endif()
-
 
 # Host PAD
 set(pcsx2PADSources
@@ -864,10 +838,12 @@ set(pcsx2ImGuiHeaders
 set(pcsx2InputSources
 	Input/InputManager.cpp
 	Input/InputSource.cpp
+	Input/SDLInputSource.cpp
 )
 set(pcsx2InputHeaders
 	Input/InputManager.h
 	Input/InputSource.h
+	Input/SDLInputSource.h
 )
 
 if(APPLE)
@@ -1176,6 +1152,8 @@ target_link_libraries(PCSX2_FLAGS INTERFACE
 	libzip::zip
 	cpuinfo
 	zydis
+	cubeb
+	SDL2::SDL2
 	ZLIB::ZLIB
 	SoundTouch::SoundTouch
 	PNG::PNG
@@ -1305,6 +1283,17 @@ function(setup_main_executable target)
 		install(TARGETS ${target} DESTINATION ${CMAKE_SOURCE_DIR}/bin)
 		if(MSVC)
 			install(FILES $<TARGET_PDB_FILE:${target}> DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+		endif()
+		if(TARGET SDL2::SDL2)
+			# Copy SDL2 DLL to binary directory.
+			if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+				get_property(SDL2_DLL_PATH TARGET SDL2::SDL2 PROPERTY IMPORTED_LOCATION_DEBUG)
+			else()
+				get_property(SDL2_DLL_PATH TARGET SDL2::SDL2 PROPERTY IMPORTED_LOCATION_RELEASE)
+			endif()
+			if(SDL2_DLL_PATH)
+				install(FILES ${SDL2_DLL_PATH} DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+			endif()
 		endif()
 		find_program(WINDEPLOYQT_EXE windeployqt HINTS "${QT_BINARY_DIRECTORY}")
 		install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXE}\" \"${CMAKE_SOURCE_DIR}/bin/$<TARGET_FILE_NAME:${target}>\" --plugindir \"${CMAKE_SOURCE_DIR}/bin/QtPlugins\" --no-compiler-runtime --no-system-d3d-compiler COMMAND_ERROR_IS_FATAL ANY)")
