@@ -33,14 +33,12 @@ enum class InputSourceType : u32
 {
 	Keyboard,
 	Pointer,
+	SDL,
 #ifdef _WIN32
 #ifndef WINRT_XBOX
 	DInput,
 #endif
 	XInput,
-#endif
-#ifdef SDL_BUILD
-	SDL,
 #endif
 	Count,
 };
