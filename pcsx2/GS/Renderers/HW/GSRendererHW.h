@@ -45,7 +45,8 @@ private:
 
 	// Require special argument
 	bool OI_BlitFMV(GSTextureCache::Target* _rt, GSTextureCache::Source* t, const GSVector4i& r_draw);
-	bool TryGSMemClear();
+	bool TryGSMemClear(bool no_rt, bool preserve_rt, bool invalidate_rt, u32 rt_end_bp, bool no_ds,
+		bool preserve_z, bool invalidate_z, u32 ds_end_bp);
 	void ClearGSLocalMemory(const GSOffset& off, const GSVector4i& r, u32 vert_color);
 	bool DetectDoubleHalfClear(bool& no_rt, bool& no_ds);
 	bool DetectStripedDoubleClear(bool& no_rt, bool& no_ds);
@@ -60,6 +61,7 @@ private:
 	bool CanUseSwSpriteRender();
 	bool IsConstantDirectWriteMemClear();
 	u32 GetConstantDirectWriteMemClearColor() const;
+	u32 GetConstantDirectWriteMemClearDepth() const;
 	bool IsReallyDithered() const;
 	bool IsDiscardingDstColor();
 	bool IsDiscardingDstRGB();
@@ -123,7 +125,7 @@ private:
 	
 	// We modify some of the context registers to optimize away unnecessary operations.
 	// Instead of messing with the real context, we copy them and use those instead.
-	struct
+	struct HWCachedCtx
 	{
 		GIFRegTEX0 TEX0;
 		GIFRegCLAMP CLAMP;
@@ -143,7 +145,7 @@ private:
 
 			return ZBUF.ZMSK == 0 && TEST.ZTE != 0; // ZTE == 0 is bug on the real hardware, write is blocked then
 		}
-	} m_cached_ctx;
+	};
 
 	// CRC Hacks
 	bool IsBadFrame();
@@ -174,6 +176,7 @@ private:
 	GSVector2i m_lod = {}; // Min & Max level of detail
 
 	GSHWDrawConfig m_conf = {};
+	HWCachedCtx m_cached_ctx;
 
 	// software sprite renderer state
 	std::vector<GSVertexSW> m_sw_vertex_buffer;
@@ -185,7 +188,7 @@ public:
 	virtual ~GSRendererHW() override;
 
 	__fi static GSRendererHW* GetInstance() { return static_cast<GSRendererHW*>(g_gs_renderer.get()); }
-
+	__fi HWCachedCtx* GetCachedCtx() { return &m_cached_ctx; }
 	void Destroy() override;
 
 	void UpdateRenderFixes() override;
