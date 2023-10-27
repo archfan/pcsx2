@@ -272,9 +272,9 @@ void FileMemoryCard::Open()
 
 		if (FileMcd_IsMultitapSlot(slot))
 		{
-			if (!EmuConfig.MultitapPort0_Enabled && (FileMcd_GetMtapPort(slot) == 0))
+			if (!EmuConfig.Pad.MultitapPort0_Enabled && (FileMcd_GetMtapPort(slot) == 0))
 				continue;
-			if (!EmuConfig.MultitapPort1_Enabled && (FileMcd_GetMtapPort(slot) == 1))
+			if (!EmuConfig.Pad.MultitapPort1_Enabled && (FileMcd_GetMtapPort(slot) == 1))
 				continue;
 		}
 
@@ -887,6 +887,11 @@ std::vector<AvailableMcdInfo> FileMcd_GetAvailableCards(bool include_in_use_card
 			if (in_use)
 				continue;
 		}
+
+		// We only want relevant file types.
+		if (!(StringUtil::EndsWith(fd.FileName, ".ps2") || StringUtil::EndsWith(fd.FileName, ".mcr") ||
+			StringUtil::EndsWith(fd.FileName, ".mcd") || StringUtil::EndsWith(fd.FileName, ".bin")))
+			continue;
 
 		if (fd.Attributes & FILESYSTEM_FILE_ATTRIBUTE_DIRECTORY)
 		{

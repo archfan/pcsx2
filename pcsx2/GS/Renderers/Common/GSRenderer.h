@@ -40,6 +40,7 @@ protected:
 	GSVector2i m_real_size{0, 0};
 	bool m_texture_shuffle = false;
 	bool m_copy_16bit_to_target_shuffle = false;
+	bool m_same_group_texture_shuffle = false;
 
 	virtual GSTexture* GetOutput(int i, float& scale, int& y_offset) = 0;
 	virtual GSTexture* GetFeedbackOutput(float& scale) { return nullptr; }
@@ -51,6 +52,10 @@ public:
 	virtual void Reset(bool hardware_reset) override;
 
 	virtual void Destroy();
+
+	virtual void UpdateRenderFixes();
+
+	void PurgePool();
 
 	virtual void VSync(u32 field, bool registers_written, bool idle_frame);
 	virtual bool CanUpscale() { return false; }

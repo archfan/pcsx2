@@ -1113,7 +1113,7 @@ void FullscreenUI::DrawLandingWindow()
 		ImGui::Image(s_app_icon_texture->GetNativeHandle(), ImVec2(image_size, image_size));
 	}
 
-	const char version_txt[] = "v2.0.3";
+	const char version_txt[] = "v2.0.5";
 	ImGui::PushFont(g_medium_font);
 	ImGui::SetCursorPos(
 		ImVec2(LayoutScale(10.0f), ImGui::GetWindowHeight() - LayoutScale(20.0f)));
@@ -3252,8 +3252,6 @@ void FullscreenUI::DrawGraphicsSettingsPage()
 			static constexpr const char* s_auto_flush_options[] = {
 				"Disabled (Default)", "Enabled (Sprites Only)", "Enabled (All Primitives)"};
 
-			DrawIntListSetting(bsi, "Half-Bottom Override", "Control the half-screen fix detection on texture shuffling.", "EmuCore/GS",
-				"UserHacks_Half_Bottom_Override", -1, s_generic_options, std::size(s_generic_options), -1);
 			DrawIntListSetting(bsi, "CPU Sprite Render Size", "Uses software renderer to draw texture decompression-like sprites.",
 				"EmuCore/GS", "UserHacks_CPUSpriteRenderBW", 0, s_cpu_sprite_render_bw_options, std::size(s_cpu_sprite_render_bw_options));
 			DrawIntListSetting(bsi, "CPU Sprite Render Level", "Determines filter level for CPU sprite render.", "EmuCore/GS",
@@ -3876,17 +3874,14 @@ void FullscreenUI::DrawControllerSettingsPage()
 				.c_str());
 
 		const char* section = sections[global_slot];
-		const std::string type(bsi->GetStringValue(section, "Type", Pad::GetDefaultPadType(global_slot)));
-		const Pad::ControllerInfo* ci = Pad::GetControllerInfo(type);
+		const Pad::ControllerInfo* ci = Pad::GetConfigControllerType(*bsi, section, global_slot);
 		if (MenuButton(ICON_FA_GAMEPAD " Controller Type", ci ? ci->display_name : "Unknown"))
 		{
 			const std::vector<std::pair<const char*, const char*>> raw_options = Pad::GetControllerTypeNames();
 			ImGuiFullscreen::ChoiceDialogOptions options;
 			options.reserve(raw_options.size());
 			for (auto& it : raw_options)
-			{
-				options.emplace_back(it.second, type == it.first);
-			}
+				options.emplace_back(it.second, (ci && ci->name == it.first));
 			OpenChoiceDialog(fmt::format("Port {} Controller Type", global_slot + 1).c_str(), false, std::move(options),
 				[game_settings = IsEditingGameSettings(bsi), section, raw_options = std::move(raw_options)](
 					s32 index, const std::string& title, bool checked) {

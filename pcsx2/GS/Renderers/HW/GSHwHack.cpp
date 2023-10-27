@@ -195,6 +195,36 @@ bool GSHwHack::GSC_Tekken5(GSRendererHW& r, int& skip)
 {
 	if (skip == 0)
 	{
+		if (r.IsPossibleChannelShuffle())
+		{
+			pxAssertMsg((RTBP0 & 31) == 0, "TEX0 should be page aligned");
+
+			GSTextureCache::Target* rt = g_texture_cache->LookupTarget(GIFRegTEX0::Create(RTBP0, RFBW, RFPSM),
+				GSVector2i(1, 1), r.GetTextureScaleFactor(), GSTextureCache::RenderTarget);
+			if (!rt)
+				return false;
+
+			GL_INS("GSC_Tekken5(): HLE channel shuffle");
+
+			// have to set up the palette ourselves too, since GSC executes before it does
+			r.m_mem.m_clut.Read32(RTEX0, r.m_draw_env->TEXA);
+			std::shared_ptr<GSTextureCache::Palette> palette =
+				g_texture_cache->LookupPaletteObject(r.m_mem.m_clut, GSLocalMemory::m_psm[RTEX0.PSM].pal, true);
+			if (!palette)
+				return false;
+
+			GSHWDrawConfig& conf = r.BeginHLEHardwareDraw(
+				rt->GetTexture(), nullptr, rt->GetScale(), rt->GetTexture(), rt->GetScale(), rt->GetUnscaledRect());
+			conf.pal = palette->GetPaletteGSTexture();
+			conf.ps.channel = ChannelFetch_RGB;
+			conf.colormask.wa = false;
+			r.EndHLEHardwareDraw(false);
+
+			// 12 pages: 2 calls by channel, 3 channels, 1 blit
+			skip = 12 * (3 + 3 + 1);
+			return true;
+		}
+
 		if (!s_nativeres && RTME && (RFBP == 0x02d60 || RFBP == 0x02d80 || RFBP == 0x02ea0 || RFBP == 0x03620 || RFBP == 0x03640) && RFPSM == RTPSM && RTBP0 == 0x00000 && RTPSM == PSMCT32)
 		{
 			// Don't enable hack on native res if crc is below aggressive.
@@ -487,19 +517,6 @@ bool GSHwHack::GSC_SakuraWarsSoLongMyLove(GSRendererHW& r, int& skip)
 		else if (RTME && (RFBP == 0 || RFBP == 0x1180) && RFPSM == PSMCT32 && RTBP0 == 0x3F3F && RTPSM == PSMT8)
 		{
 			skip = 1; // Floodlight
-		}
-	}
-
-	return true;
-}
-
-bool GSHwHack::GSC_GodHand(GSRendererHW& r, int& skip)
-{
-	if (skip == 0)
-	{
-		if (RTME && (RFBP == 0x0) && (RTBP0 == 0x2800) && RFPSM == RTPSM && RTPSM == PSMCT32)
-		{
-			skip = 1; // Blur
 		}
 	}
 
@@ -834,6 +851,44 @@ bool GSHwHack::GSC_MetalGearSolid3(GSRendererHW& r, int& skip)
 	return true;
 }
 
+bool GSHwHack::GSC_BigMuthaTruckers(GSRendererHW& r, int& skip)
+{
+	// Rendering pattern:
+	// CRTC frontbuffer at 0x0 is interlaced (half vertical resolution),
+	// game needs to do a depth effect (so green channel to alpha),
+	// but there is a vram limitation so green is pushed into the alpha channel of the CRCT buffer,
+	// vertical resolution is half so only half is processed at once
+	// We, however, don't have this limitation so we'll replace the draw with a full-screen TS.
+
+	const GIFRegTEX0& Texture = RTEX0;
+
+	GIFRegTEX0 Frame = {};
+	Frame.TBW = RFRAME.FBW;
+	Frame.TBP0 = RFRAME.Block();
+	const int frame_offset_pal = GSLocalMemory::GetEndBlockAddress(0xa00, 10, PSMCT32, GSVector4i(0, 0, 640, 256)) + 1;
+	const int frame_offset_ntsc = GSLocalMemory::GetEndBlockAddress(0xa00, 10, PSMCT32, GSVector4i(0, 0, 640, 224)) + 1;
+	const GSVector4i rect = GSVector4i(r.m_vt.m_min.p.x, r.m_vt.m_min.p.y, r.m_vt.m_max.p.x, r.m_vt.m_max.p.y);
+
+	if (RPRIM->TME && Frame.TBW == 10 && Texture.TBW == 10 && Texture.PSM == PSMCT16 && ((rect.w == 512 && Frame.TBP0 == frame_offset_pal) || (Frame.TBP0 == frame_offset_ntsc && rect.w == 448)))
+	{
+		// 224 ntsc, 256 pal.
+		GL_INS("GSC_BigMuthaTruckers half bottom offset %d", r.m_context->XYOFFSET.OFX >> 4);
+
+		const size_t count = r.m_vertex.next;
+		GSVertex* v = &r.m_vertex.buff[0];
+		const u16 offset = (u16)rect.w * 16;
+
+		for (size_t i = 0; i < count; i++)
+			v[i].XYZ.Y += offset;
+
+		r.m_vt.m_min.p.y += rect.w;
+		r.m_vt.m_max.p.y += rect.w;
+		r.m_cached_ctx.FRAME.FBP = 0x50; // 0xA00 >> 5
+	}
+
+	return true;
+}
+
 bool GSHwHack::OI_PointListPalette(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
 {
 	const u32 n_vertices = r.m_vertex.next;
@@ -884,37 +939,6 @@ bool GSHwHack::OI_PointListPalette(GSRendererHW& r, GSTexture* rt, GSTexture* ds
 		g_texture_cache->InvalidateVideoMem(r.m_context->offset.fb, r.m_r);
 		return false;
 	}
-	return true;
-}
-
-bool GSHwHack::OI_BigMuthaTruckers(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
-{
-	// Rendering pattern:
-	// CRTC frontbuffer at 0x0 is interlaced (half vertical resolution),
-	// game needs to do a depth effect (so green channel to alpha),
-	// but there is a vram limitation so green is pushed into the alpha channel of the CRCT buffer,
-	// vertical resolution is half so only half is processed at once
-	// We, however, don't have this limitation so we'll replace the draw with a full-screen TS.
-
-	const GIFRegTEX0& Texture = RTEX0;
-
-	GIFRegTEX0 Frame = {};
-	Frame.TBW = RFRAME.FBW;
-	Frame.TBP0 = RFRAME.Block();
-
-	if (RPRIM->TME && Frame.TBW == 10 && Texture.TBW == 10 && Frame.TBP0 == 0x00a00 && Texture.PSM == PSMT8H && (r.m_r.y == 256 || r.m_r.y == 224))
-	{
-		// 224 ntsc, 256 pal.
-		GL_INS("OI_BigMuthaTruckers half bottom offset");
-
-		const size_t count = r.m_vertex.next;
-		GSVertex* v = &r.m_vertex.buff[0];
-		const u16 offset = (u16)r.m_r.y * 16;
-
-		for (size_t i = 0; i < count; i++)
-			v[i].V += offset;
-	}
-
 	return true;
 }
 
@@ -1408,7 +1432,6 @@ bool GSHwHack::MV_Ico(GSRendererHW& r)
 #define CRC_F(name) { #name, &GSHwHack::name }
 
 const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_functions[] = {
-	CRC_F(GSC_GodHand),
 	CRC_F(GSC_KnightsOfTheTemple2),
 	CRC_F(GSC_Kunoichi),
 	CRC_F(GSC_Manhunt2),
@@ -1441,6 +1464,7 @@ const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_function
 
 	// Texture shuffle
 	CRC_F(GSC_DeathByDegreesTekkenNinaWilliams), // + Upscaling issues
+	CRC_F(GSC_BigMuthaTruckers),
 
 	// Upscaling hacks
 	CRC_F(GSC_UltramanFightingEvolution),
@@ -1451,7 +1475,6 @@ const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_function
 
 const GSHwHack::Entry<GSRendererHW::OI_Ptr> GSHwHack::s_before_draw_functions[] = {
 	CRC_F(OI_PointListPalette),
-	CRC_F(OI_BigMuthaTruckers),
 	CRC_F(OI_DBZBTGames),
 	CRC_F(OI_FFX),
 	CRC_F(OI_RozenMaidenGebetGarden),
@@ -1502,9 +1525,9 @@ s16 GSLookupMoveHandlerFunctionId(const std::string_view& name)
 	return -1;
 }
 
-void GSRendererHW::UpdateCRCHacks()
+void GSRendererHW::UpdateRenderFixes()
 {
-	GSRenderer::UpdateCRCHacks();
+	GSRenderer::UpdateRenderFixes();
 
 	m_nativeres = (GSConfig.UpscaleMultiplier == 1.0f);
 	s_nativeres = m_nativeres;
