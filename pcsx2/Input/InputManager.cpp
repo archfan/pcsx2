@@ -1504,22 +1504,10 @@ void InputManager::UpdateInputSourceState(SettingsInterface& si, std::unique_loc
 	}
 }
 
-#include "Input/SDLInputSource.h"
-
-#ifdef _WIN32
-#ifndef WINRT_XBOX
-#include "Input/DInputSource.h"
-#endif
 #include "Input/XInputSource.h"
-#endif
+
 
 void InputManager::ReloadSources(SettingsInterface& si, std::unique_lock<std::mutex>& settings_lock)
 {
-	UpdateInputSourceState<SDLInputSource>(si, settings_lock, InputSourceType::SDL);
-#ifdef _WIN32
-#ifndef WINRT_XBOX
-	UpdateInputSourceState<DInputSource>(si, settings_lock, InputSourceType::DInput);
-#endif
 	UpdateInputSourceState<XInputSource>(si, settings_lock, InputSourceType::XInput);
-#endif
 }
