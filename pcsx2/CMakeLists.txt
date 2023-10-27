@@ -518,7 +518,6 @@ set(pcsx2GSSources
 	GS/GSAlignedClass.cpp
 	GS/GSCapture.cpp
 	GS/GSClut.cpp
-	GS/GSCrc.cpp
 	GS/GSDrawingContext.cpp
 	GS/GSDump.cpp
 	GS/GSLocalMemory.cpp
@@ -554,7 +553,6 @@ set(pcsx2GSHeaders
 	GS/GSBlock.h
 	GS/GSCapture.h
 	GS/GSClut.h
-	GS/GSCrc.h
 	GS/GSDrawingContext.h
 	GS/GSDrawingEnvironment.h
 	GS/GSDump.h
@@ -1024,8 +1022,8 @@ set(pcsx2x86Sources
 	x86/iR5900Analysis.cpp
 	x86/iR5900Misc.cpp
 	x86/ir5900tables.cpp
-	x86/ix86-32/iCore-32.cpp
-	x86/ix86-32/iR5900-32.cpp
+	x86/ix86-32/iCore.cpp
+	x86/ix86-32/iR5900.cpp
 	x86/ix86-32/iR5900Arit.cpp
 	x86/ix86-32/iR5900AritImm.cpp
 	x86/ix86-32/iR5900Branch.cpp

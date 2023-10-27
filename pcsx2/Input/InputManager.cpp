@@ -19,6 +19,7 @@
 #include "Input/InputManager.h"
 #include "Input/InputSource.h"
 #include "SIO/Pad/Pad.h"
+#include "SIO/Sio.h"
 #include "USB/USB.h"
 #include "VMManager.h"
 
@@ -111,7 +112,7 @@ namespace InputManager
 	static float ApplySingleBindingScale(float sensitivity, float deadzone, float value);
 
 	static void AddHotkeyBindings(SettingsInterface& si);
-	static void AddPadBindings(SettingsInterface& si, u32 pad, const char* default_type);
+	static void AddPadBindings(SettingsInterface& si, u32 pad);
 	static void AddUSBBindings(SettingsInterface& si, u32 port);
 	static void UpdateContinuedVibration();
 	static void GenerateRelativeMouseEvents();
@@ -380,7 +381,7 @@ void InputManager::AddBinding(const std::string_view& binding, const InputEventH
 
 		if (ibinding->num_keys == MAX_KEYS_PER_BINDING)
 		{
-			Console.WriteLn(fmt::format("Too many chord parts, max is {} ({})", MAX_KEYS_PER_BINDING, binding));
+			Console.WriteLn(fmt::format("Too many chord parts, max is {} ({})", static_cast<u32>(MAX_KEYS_PER_BINDING), binding));
 			ibinding.reset();
 			break;
 		}
@@ -631,16 +632,25 @@ void InputManager::AddHotkeyBindings(SettingsInterface& si)
 	}
 }
 
-void InputManager::AddPadBindings(SettingsInterface& si, u32 pad_index, const char* default_type)
+void InputManager::AddPadBindings(SettingsInterface& si, u32 pad_index)
 {
-	const std::string section(fmt::format("Pad{}", pad_index + 1));
-	const std::string type(si.GetStringValue(section.c_str(), "Type", default_type));
-	if (type.empty() || type == "None")
+	const Pad::ControllerType type = EmuConfig.Pad.Ports[pad_index].Type;
+
+	// Don't bother checking macros/vibration if it's not a connected type.
+	if (type == Pad::ControllerType::NotConnected)
 		return;
 
+	// Or if it's a multitap port, and this multitap isn't enabled.
+	if (sioPadIsMultitapSlot(pad_index))
+	{
+		const auto& [mt_port, mt_slot] = sioConvertPadToPortAndSlot(pad_index);
+		if (!EmuConfig.Pad.IsMultitapPortEnabled(mt_port))
+			return;
+	}
+
+	const std::string section = Pad::GetConfigSection(pad_index);
 	const Pad::ControllerInfo* cinfo = Pad::GetControllerInfo(type);
-	if (!cinfo)
-		return;
+	pxAssert(cinfo);
 
 	for (const InputBindingInfo& bi : cinfo->bindings)
 	{
@@ -1297,7 +1307,7 @@ void InputManager::ReloadBindings(SettingsInterface& si, SettingsInterface& bind
 	// If there's an input profile, we load pad bindings from it alone, rather than
 	// falling back to the base configuration.
 	for (u32 pad = 0; pad < Pad::NUM_CONTROLLER_PORTS; pad++)
-		AddPadBindings(binding_si, pad, Pad::GetDefaultPadType(pad));
+		AddPadBindings(binding_si, pad);
 
 	constexpr float ui_ctrl_range = 100.0f;
 	constexpr float pointer_sensitivity = 0.05f;

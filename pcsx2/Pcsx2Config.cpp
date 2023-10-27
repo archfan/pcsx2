@@ -24,6 +24,7 @@
 #include "GS.h"
 #include "CDVD/CDVDcommon.h"
 #include "SIO/Memcard/MemoryCardFile.h"
+#include "SIO/Pad/Pad.h"
 #include "USB/USB.h"
 
 #ifdef _WIN32
@@ -619,7 +620,6 @@ bool Pcsx2Config::GSOptions::OptionsAreEqual(const GSOptions& right) const
 		OpEqu(SkipDrawStart) &&
 
 		OpEqu(UserHacks_AutoFlush) &&
-		OpEqu(UserHacks_HalfBottomOverride) &&
 		OpEqu(UserHacks_HalfPixelOffset) &&
 		OpEqu(UserHacks_RoundSprite) &&
 		OpEqu(UserHacks_TCOffsetX) &&
@@ -817,7 +817,6 @@ void Pcsx2Config::GSOptions::LoadSave(SettingsWrapper& wrap)
 	GSSettingIntEx(SkipDrawEnd, "UserHacks_SkipDraw_End");
 	SkipDrawEnd = std::max(SkipDrawStart, SkipDrawEnd);
 
-	GSSettingIntEx(UserHacks_HalfBottomOverride, "UserHacks_Half_Bottom_Override");
 	GSSettingIntEx(UserHacks_HalfPixelOffset, "UserHacks_HalfPixelOffset");
 	GSSettingIntEx(UserHacks_RoundSprite, "UserHacks_round_sprite_offset");
 	GSSettingIntEx(UserHacks_TCOffsetX, "UserHacks_TCOffsetX");
@@ -885,7 +884,6 @@ void Pcsx2Config::GSOptions::MaskUserHacks()
 	UserHacks_NativePaletteDraw = false;
 	UserHacks_DisableSafeFeatures = false;
 	UserHacks_DisableRenderFixes = false;
-	UserHacks_HalfBottomOverride = -1;
 	UserHacks_HalfPixelOffset = 0;
 	UserHacks_RoundSprite = 0;
 	UserHacks_AutoFlush = GSHWAutoFlushLevel::Disabled;
@@ -1351,6 +1349,74 @@ bool Pcsx2Config::USBOptions::operator!=(const USBOptions& right) const
 	return !this->operator==(right);
 }
 
+Pcsx2Config::PadOptions::PadOptions()
+{
+	for (u32 i = 0; i < static_cast<u32>(Ports.size()); i++)
+	{
+		Port& port = Ports[i];
+		port.Type = Pad::GetDefaultPadType(i);
+	}
+
+	bitset = 0;
+}
+
+void Pcsx2Config::PadOptions::LoadSave(SettingsWrapper& wrap)
+{
+	for (u32 i = 0; i < static_cast<u32>(Ports.size()); i++)
+	{
+		Port& port = Ports[i];
+
+		std::string section = Pad::GetConfigSection(i);
+		std::string type_name = Pad::GetControllerInfo(port.Type)->name;
+		wrap.Entry(section.c_str(), "Type", type_name, type_name);
+
+		if (wrap.IsLoading())
+		{
+			const Pad::ControllerInfo* cinfo = Pad::GetControllerInfoByName(type_name);
+			if (cinfo)
+			{
+				port.Type = cinfo->type;
+			}
+			else
+			{
+				Console.Error(fmt::format("Invalid controller type {} specified in config, disconnecting.", type_name));
+				port.Type = Pad::ControllerType::NotConnected;
+			}
+		}
+	}
+
+	SettingsWrapSection("Pad");
+	SettingsWrapBitBoolEx(MultitapPort0_Enabled, "MultitapPort1");
+	SettingsWrapBitBoolEx(MultitapPort1_Enabled, "MultitapPort2");
+}
+
+
+bool Pcsx2Config::PadOptions::operator==(const PadOptions& right) const
+{
+	for (u32 i = 0; i < static_cast<u32>(Ports.size()); i++)
+	{
+		if (!OpEqu(Ports[i]))
+			return false;
+	}
+
+	return true;
+}
+
+bool Pcsx2Config::PadOptions::operator!=(const PadOptions& right) const
+{
+	return !this->operator==(right);
+}
+
+bool Pcsx2Config::PadOptions::Port::operator==(const PadOptions::Port& right) const
+{
+	return OpEqu(Type);
+}
+
+bool Pcsx2Config::PadOptions::Port::operator!=(const PadOptions::Port& right) const
+{
+	return !this->operator==(right);
+}
+
 #ifdef ENABLE_ACHIEVEMENTS
 
 Pcsx2Config::AchievementsOptions::AchievementsOptions()
@@ -1364,6 +1430,7 @@ Pcsx2Config::AchievementsOptions::AchievementsOptions()
 	Notifications = true;
 	SoundEffects = true;
 	PrimedIndicators = true;
+	NotificationsDuration = 5;
 }
 
 void Pcsx2Config::AchievementsOptions::LoadSave(SettingsWrapper& wrap)
@@ -1379,6 +1446,13 @@ void Pcsx2Config::AchievementsOptions::LoadSave(SettingsWrapper& wrap)
 	SettingsWrapBitBool(Notifications);
 	SettingsWrapBitBool(SoundEffects);
 	SettingsWrapBitBool(PrimedIndicators);
+	SettingsWrapBitfield(NotificationsDuration);
+
+	if (wrap.IsLoading())
+	{
+		//Clamp in case setting was updated manually using the INI
+		NotificationsDuration = std::clamp(NotificationsDuration, 3, 10);
+	}
 }
 
 #endif
@@ -1442,7 +1516,6 @@ void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
 	SettingsWrapBitBool(SaveStateOnShutdown);
 	SettingsWrapBitBool(EnableDiscordPresence);
 	SettingsWrapBitBool(InhibitScreensaver);
-	SettingsWrapBitBool(ConsoleToStdio);
 	SettingsWrapBitBool(HostFs);
 
 	SettingsWrapBitBool(BackupSavestate);
@@ -1465,6 +1538,7 @@ void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
 	Debugger.LoadSave(wrap);
 	Trace.LoadSave(wrap);
 	USB.LoadSave(wrap);
+	Pad.LoadSave(wrap);
 
 #ifdef ENABLE_ACHIEVEMENTS
 	Achievements.LoadSave(wrap);
@@ -1512,12 +1586,6 @@ void Pcsx2Config::LoadSaveMemcards(SettingsWrapper& wrap)
 		wrap.Entry("MemoryCards", StringUtil::StdStringFromFormat("Multitap%u_Slot%u_Filename", mtport, mtslot).c_str(),
 			Mcd[slot].Filename, Mcd[slot].Filename);
 	}
-}
-
-bool Pcsx2Config::MultitapEnabled(uint port) const
-{
-	pxAssert(port < 2);
-	return (port == 0) ? MultitapPort0_Enabled : MultitapPort1_Enabled;
 }
 
 std::string Pcsx2Config::FullpathToBios() const
