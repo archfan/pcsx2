@@ -166,13 +166,16 @@ u8 PadDualshock2::Poll(u8 commandByte)
 					break;
 			}
 
+			// Small motor on the controller is only controlled by the LSB.
+			// Any value can be sent by the software, but only odd numbers
+			// (LSB set) will turn on the motor.
 			switch (this->smallMotorLastConfig)
 			{
 				case 0x00:
-					smallMotor = this->vibrationMotors[0];
+					smallMotor = this->vibrationMotors[0] & 0x01;
 					break;
 				case 0x01:
-					smallMotor = this->vibrationMotors[1];
+					smallMotor = this->vibrationMotors[1] & 0x01;
 					break;
 				default:
 					break;
@@ -639,8 +642,8 @@ void PadDualshock2::Set(u32 index, float value)
 	}
 	else if (IsTriggerKey(index))
 	{
-		const float s_value = std::clamp(value * this->triggerScale, 0.0f, 1.0f);
-		const float dz_value = (this->triggerDeadzone > 0.0f && s_value < this->triggerDeadzone) ? 0.0f : s_value;
+		const float s_value = std::clamp(value, 0.0f, 1.0f);
+		const float dz_value = (this->buttonDeadzone > 0.0f && s_value < this->buttonDeadzone) ? 0.0f : s_value;
 		this->rawInputs[index] = static_cast<u8>(dz_value * 255.0f);
 		if (dz_value > 0.0f)
 			this->buttons &= ~(1u << bitmaskMapping[index]);
@@ -725,12 +728,6 @@ void PadDualshock2::SetAxisScale(float deadzone, float scale)
 {
 	this->axisDeadzone = deadzone;
 	this->axisScale = scale;
-}
-
-void PadDualshock2::SetTriggerScale(float deadzone, float scale)
-{
-	this->triggerDeadzone = deadzone;
-	this->triggerScale = scale;
 }
 
 float PadDualshock2::GetVibrationScale(u32 motor) const
@@ -828,8 +825,6 @@ bool PadDualshock2::Freeze(StateWrapper& sw)
 	sw.Do(&vibrationMotors);
 	sw.Do(&axisScale);
 	sw.Do(&axisDeadzone);
-	sw.Do(&triggerScale);
-	sw.Do(&triggerDeadzone);
 	sw.Do(&vibrationScale);
 	sw.Do(&pressureModifier);
 	sw.Do(&buttonDeadzone);

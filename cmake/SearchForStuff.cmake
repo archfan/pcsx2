@@ -11,6 +11,7 @@ if (WIN32)
 	add_subdirectory(3rdparty/libjpeg EXCLUDE_FROM_ALL)
 	add_subdirectory(3rdparty/xz EXCLUDE_FROM_ALL)
 	add_subdirectory(3rdparty/D3D12MemAlloc EXCLUDE_FROM_ALL)
+	add_subdirectory(3rdparty/winpixeventruntime EXCLUDE_FROM_ALL)
 	set(FFMPEG_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/3rdparty/ffmpeg/include")
 	find_package(Vtune)
 
@@ -117,12 +118,6 @@ endif()
 
 find_optional_system_library(fmt 3rdparty/fmt/fmt 7.1.3)
 find_optional_system_library(ryml 3rdparty/rapidyaml/rapidyaml 0.4.0)
-find_optional_system_library(zstd 3rdparty/zstd 1.4.5)
-if (${zstd_TYPE} STREQUAL System)
-	alias_library(Zstd::Zstd zstd::libzstd_shared)
-	alias_library(pcsx2-zstd zstd::libzstd_shared)
-endif()
-find_optional_system_library(libzip 3rdparty/libzip 1.8.0)
 
 if(QT_BUILD)
 	# Default to bundled Qt6 for Windows.
@@ -182,7 +177,10 @@ add_subdirectory(3rdparty/jpgd EXCLUDE_FROM_ALL)
 add_subdirectory(3rdparty/simpleini EXCLUDE_FROM_ALL)
 add_subdirectory(3rdparty/imgui EXCLUDE_FROM_ALL)
 add_subdirectory(3rdparty/cpuinfo EXCLUDE_FROM_ALL)
+disable_compiler_warnings_for_target(cpuinfo)
 add_subdirectory(3rdparty/zydis EXCLUDE_FROM_ALL)
+add_subdirectory(3rdparty/zstd EXCLUDE_FROM_ALL)
+add_subdirectory(3rdparty/libzip EXCLUDE_FROM_ALL)
 
 if(USE_OPENGL)
 	add_subdirectory(3rdparty/glad EXCLUDE_FROM_ALL)
@@ -195,7 +193,12 @@ endif()
 
 if(CUBEB_API)
 	add_subdirectory(3rdparty/cubeb EXCLUDE_FROM_ALL)
-	target_compile_options(cubeb PRIVATE "-w")
-	target_compile_options(speex PRIVATE "-w")
+	disable_compiler_warnings_for_target(cubeb)
+	disable_compiler_warnings_for_target(speex)
 endif()
 
+# Deliberately at the end. We don't want to set the flag on third-party projects.
+if(MSVC)
+	# Don't warn about "deprecated" POSIX functions.
+	add_definitions("-D_CRT_SECURE_NO_WARNINGS" "-DCRT_SECURE_NO_DEPRECATE")
+endif()

@@ -1113,7 +1113,7 @@ void FullscreenUI::DrawLandingWindow()
 		ImGui::Image(s_app_icon_texture->GetNativeHandle(), ImVec2(image_size, image_size));
 	}
 
-	const char version_txt[] = "v2.0.5";
+	const char version_txt[] = "v2.0.6";
 	ImGui::PushFont(g_medium_font);
 	ImGui::SetCursorPos(
 		ImVec2(LayoutScale(10.0f), ImGui::GetWindowHeight() - LayoutScale(20.0f)));
@@ -3280,10 +3280,6 @@ void FullscreenUI::DrawGraphicsSettingsPage()
 			DrawIntListSetting(bsi, "Texture Inside Render Target",
 				"Allows the texture cache to reuse as an input texture the inner portion of a previous framebuffer.", "EmuCore/GS",
 				"UserHacks_TextureInsideRt", 0, s_texture_inside_rt_options, std::size(s_texture_inside_rt_options), 0, manual_hw_fixes);
-			DrawToggleSetting(bsi, "Target Partial Invalidation",
-				"Allows partial invalidation of render targets, which can fix graphical errors in some games.", "EmuCore/GS",
-				"UserHacks_TargetPartialInvalidation", false,
-				!GetEffectiveBoolSetting(bsi, "EmuCore/GS", "UserHacks_TextureInsideRt", false));
 			DrawToggleSetting(bsi, "Read Targets When Closing",
 				"Flushes all targets in the texture cache back to local memory when shutting down.", "EmuCore/GS",
 				"UserHacks_ReadTCOnClose", false, manual_hw_fixes);
