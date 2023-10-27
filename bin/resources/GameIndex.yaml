@@ -873,8 +873,6 @@ SCAJ-20010:
 SCAJ-20011:
   name: "Armored Core 3 - Silent Line"
   region: "NTSC-HK"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -1649,7 +1647,7 @@ SCAJ-20159:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SCAJ-20160:
   name: "Yoshitsuneki"
@@ -3490,7 +3488,7 @@ SCED-53674:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SCED-53679:
   name: "Fire It Up Lads [Demo]"
@@ -5059,7 +5057,7 @@ SCES-53312:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SCES-53315:
   name: "EyeToy - Play 3"
@@ -6411,7 +6409,7 @@ SCKA-20059:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SCKA-20060:
   name: "Ratchet - Deadlocked"
@@ -8286,8 +8284,6 @@ SCPS-55013:
 SCPS-55014:
   name: "Armored Core 3"
   region: "NTSC-J"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -15055,8 +15051,6 @@ SLES-51398:
 SLES-51399:
   name: "Armored Core 3"
   region: "PAL-E"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -16674,8 +16668,6 @@ SLES-52203:
   name: "Armored Core 3 - Silent Line"
   region: "PAL-E"
   compat: 5
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -23896,7 +23888,8 @@ SLES-54878:
   name: "Naruto - Ultimate Ninja 2"
   region: "PAL-M5"
   clampModes:
-    vuClampMode: 0 # Fixes glow effects.
+    vu0ClampMode: 0 # Fixes glow effects.
+    vu1ClampMode: 3 # Fixes rare SPS.
 SLES-54879:
   name: "WWE SmackDown vs. Raw 2008"
   region: "PAL-M5"
@@ -26433,8 +26426,6 @@ SLKA-25039:
 SLKA-25041:
   name: "Armored Core 3 - Silent Line"
   region: "NTSC-K"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -29821,7 +29812,7 @@ SLPM-61133:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SLPM-61134:
   name: "Kidou Senshi Gundam Seed - Rengou vs. Z.A.F.T."
@@ -40367,8 +40358,6 @@ SLPM-67523:
 SLPM-67524:
   name: "Armored Core 3"
   region: "NTSC-K"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -43147,8 +43136,6 @@ SLPS-25112:
   name: "Armored Core 3"
   region: "NTSC-J"
   compat: 5
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -43382,8 +43369,6 @@ SLPS-25168:
 SLPS-25169:
   name: "Armored Core 3 - Silent Line"
   region: "NTSC-J"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -43617,6 +43602,15 @@ SLPS-25230:
 SLPS-25231:
   name: "Myst III - Exile"
   region: "NTSC-J"
+  patches:
+    D7CCA373:
+      content: |-
+        // Waits for IPU command to finish.
+        // Replaces wait loop that had a very short wait period.
+        patch=0,EE,001F0490,word,3C021000
+        patch=0,EE,001F0494,word,34422010
+        patch=0,EE,001F0498,word,8c430000
+        patch=0,EE,001F04A8,word,0460FFFA
 SLPS-25233:
   name: "Do DonPachi Daioujou"
   region: "NTSC-J"
@@ -44269,7 +44263,8 @@ SLPS-25398:
   name: "Naruto - Narutimett Hero 2"
   region: "NTSC-J"
   clampModes:
-    vuClampMode: 0 # Fixes glow effects.
+    vu0ClampMode: 0 # Fixes glow effects.
+    vu1ClampMode: 3 # Fixes rare SPS.
 SLPS-25399:
   name: "Keroro Gunsou - Mero Mero Battle Royale"
   region: "NTSC-J"
@@ -44933,7 +44928,7 @@ SLPS-25577:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SLPS-25578:
   name: "K-1 World Grand Prix 2005"
@@ -46699,7 +46694,8 @@ SLPS-73221:
   name: "Naruto Narutimett Hero 2 [PlayStation 2 The Best]"
   region: "NTSC-J"
   clampModes:
-    vuClampMode: 0 # Fixes glow effects.
+    vu0ClampMode: 0 # Fixes glow effects.
+    vu1ClampMode: 3 # Fixes rare SPS.
 SLPS-73222:
   name: "Harvest Moon - A Wonderful Life [PlayStation 2 The Best]"
   region: "NTSC-J"
@@ -47084,8 +47080,6 @@ SLPS-73416:
 SLPS-73417:
   name: "Armored Core 3 [PlayStation 2 The Best]"
   region: "NTSC-J"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -47103,8 +47097,6 @@ SLPS-73419:
 SLPS-73420:
   name: "Armored Core 3 - Silent Line [PlayStation 2 The Best]"
   region: "NTSC-J"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -49054,8 +49046,6 @@ SLUS-20434:
 SLUS-20435:
   name: "Armored Core 3"
   region: "NTSC-U"
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     roundSprite: 2 # Reduces garbage on the UI whilst upscaling.
@@ -50117,8 +50107,6 @@ SLUS-20644:
   name: "Armored Core 3 - Silent Line"
   region: "NTSC-U"
   compat: 5
-  roundModes:
-    eeRoundMode: 0 # Fixes Z-Fighting.
   gsHWFixes:
     halfPixelOffset: 2 # Corrects positioning of reflections on suit's surfaces.
     partialTargetInvalidation: 1 # Fixes corrupted textures.
@@ -53167,7 +53155,7 @@ SLUS-21216:
     vuClampMode: 2 # Respawn issues, Fixes SPS, avoids teleporting characters.
   gsHWFixes:
     alignSprite: 1 # Fixes vertical lines.
-    halfPixelOffset: 1 # Fixes blurriness.
+    halfPixelOffset: 3 # Fixes blurriness (normal vertex causes vertical lines).
     recommendedBlendingLevel: 3 # Fixes menu transparency.
 SLUS-21217:
   name: "Incredibles, The - Rise of the Underminer"
@@ -55154,7 +55142,8 @@ SLUS-21575:
   region: "NTSC-U"
   compat: 5
   clampModes:
-    vuClampMode: 0 # Fixes glow effects.
+    vu0ClampMode: 0 # Fixes glow effects.
+    vu1ClampMode: 3 # Fixes rare SPS.
 SLUS-21576:
   name: "Rayman - Raving Rabbids"
   region: "NTSC-U"
