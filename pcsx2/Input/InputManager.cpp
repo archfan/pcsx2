@@ -442,13 +442,6 @@ InputBindingKey InputManager::MakePointerAxisKey(u32 index, InputPointerAxis axi
 // ------------------------------------------------------------------------
 
 static std::array<const char*, static_cast<u32>(InputSourceType::Count)> s_input_class_names = {{
-#ifndef WINRT_XBOX
-	"Keyboard",
-	"Mouse",
-	"SDL",
-#if defined(_WIN32) && !defined(WINRT_XBOX)
-	"DInput",
-#endif
 	"XInput",
 }};
 
@@ -471,10 +464,6 @@ bool InputManager::GetInputSourceDefaultEnabled(InputSourceType type)
 		case InputSourceType::Pointer:
 		case InputSourceType::SDL:
 			return true;
-#endif
-#if defined(_WIN32) && !defined(WINRT_XBOX)
-		case InputSourceType::DInput:
-			return false;
 #endif
 		case InputSourceType::XInput:
 			return true;
