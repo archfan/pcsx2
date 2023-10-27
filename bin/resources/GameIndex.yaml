@@ -1910,7 +1910,7 @@ SCAJ-25037:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SCAJ-25045:
   name: "Sakura Taisen V - Episode 0"
@@ -10725,7 +10725,7 @@ SLAJ-25037:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SLAJ-25039:
   name: "Beni no Umi 2"
@@ -10906,6 +10906,8 @@ SLAJ-25080:
   name: "Godfather, The"
   region: "NTSC-Unk"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLAJ-25081:
@@ -11087,6 +11089,11 @@ SLED-51186:
 SLED-51211:
   name: "Burnout 2 - Point of Impact [Demo]"
   region: "PAL-E"
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLED-51212:
@@ -14053,6 +14060,11 @@ SLES-51044:
   name: "Burnout 2 - Point of Impact"
   region: "PAL-M5"
   compat: 5
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLES-51045:
@@ -17297,7 +17309,7 @@ SLES-52486:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SLES-52490:
   name: "Dance UK - Extra Trax"
@@ -18617,6 +18629,11 @@ SLES-52968:
   name: "Burnout 2 - Point of Impact"
   region: "PAL-E"
   compat: 5
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLES-52973:
@@ -20963,6 +20980,10 @@ SLES-53761:
 SLES-53763:
   name: "Tom Clancy's Ghost Recon - Advanced Warfighter"
   region: "PAL-M5"
+  gsHWFixes:
+    recommendedBlendingLevel: 4 # Fixes building and ground colours.
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
 SLES-53764:
   name: "Atelier Iris - Eternal Mana"
   region: "PAL-E"
@@ -21423,6 +21444,8 @@ SLES-53967:
   name: "Godfather, The"
   region: "PAL-M6"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLES-53968:
@@ -21441,12 +21464,16 @@ SLES-53970:
   name: "Padrino, Il"
   region: "PAL-I"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLES-53971:
   name: "Padrino, El"
   region: "PAL-S"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLES-53972:
@@ -24657,8 +24684,11 @@ SLES-55170:
 SLES-55172:
   name: "Code Lyoko - Quest for Infinity"
   region: "PAL-M4"
+  gameFixes:
+    - FpuNegDivHack # Fixes missing texts on in-game textboxes.
   gsHWFixes:
     deinterlace: 9 # Game requires adaptive bff de-interlacing instead of auto for the UI at native.
+    halfPixelOffset: 1 # Reduces ghosting effects.
 SLES-55174:
   name: "NHL 08"
   region: "PAL-R"
@@ -25415,8 +25445,10 @@ SLES-55481:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLES-55482:
   name: "Naruto Shippuden - Ultimate Ninja 4"
@@ -25424,8 +25456,10 @@ SLES-55482:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLES-55483:
   name: "Guilty Gear XX Accent Core Plus"
@@ -25676,9 +25710,10 @@ SLES-55605:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
-    halfPixelOffset: 1 # Corrects post processing position.
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLES-55609:
   name: "Scooby-Doo! and the Spooky Swamp"
@@ -26388,6 +26423,11 @@ SLKA-25038:
 SLKA-25039:
   name: "Burnout 2 - Point of Impact"
   region: "NTSC-K"
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLKA-25041:
@@ -26804,7 +26844,7 @@ SLKA-25159:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SLKA-25160:
   name: "Shin Megami Tensei III - Nocturne Maniax"
@@ -27490,6 +27530,14 @@ SLKA-25329:
 SLKA-25330:
   name: "Battlefield 2 - Modern Combat"
   region: "NTSC-K"
+  gsHWFixes:
+    autoFlush: 2 # Post-processing.
+    halfPixelOffset: 2 # Offset post-processing.
+    texturePreloading: 1 # Spikes all over the place otherwise.
+    textureInsideRT: 1 # Fixes light shinging through objects.
+    cpuCLUTRender: 1 # Fixes light shining through objects.
+    getSkipCount: "GSC_Battlefield2" # Depth clear.
+    beforeDraw: "OI_Battlefield2" # Framebuffer copy, fixes rendering for bottom part of screen.
 SLKA-25331:
   name: "Marc Ecko's Getting Up - Contents Under Pressure"
   region: "NTSC-K"
@@ -27520,6 +27568,8 @@ SLKA-25338:
   name: "Godfather, The"
   region: "NTSC-K"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLKA-25339:
@@ -27547,6 +27597,10 @@ SLKA-25343:
 SLKA-25344:
   name: "Tom Clancy's Ghost Recon - Advanced Warfighter"
   region: "NTSC-K"
+  gsHWFixes:
+    recommendedBlendingLevel: 4 # Fixes building and ground colours.
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
 SLKA-25345:
   name: "Disney's Chicken Little"
   region: "NTSC-K"
@@ -29843,8 +29897,10 @@ SLPM-61157:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLPM-61158:
   name: "Saint Seiya - Meiou Hades Juunikyuu-hen"
@@ -33452,6 +33508,27 @@ SLPM-65267:
 SLPM-65268:
   name: "Initial D - Special Stage"
   region: "NTSC-J"
+  patches:
+    A62EBC2C:
+      content: |-
+        author=refraction
+        // Fixes bad clip flag COP2 ordering.
+        patch=1,EE,0017D88C,word,48439000
+        patch=1,EE,0017D890,word,4BC319FF
+        patch=1,EE,0017D8B8,word,48439000
+        patch=1,EE,0017D8BC,word,4BC421FF
+        patch=1,EE,0017D8E8,word,48439000
+        patch=1,EE,0017D8EC,word,4BC529FF
+        patch=1,EE,0017D918,word,48439000
+        patch=1,EE,0017D91C,word,4BC631FF
+        patch=1,EE,0017D948,word,48439000
+        patch=1,EE,0017D94C,word,4BC739FF
+        patch=1,EE,0017D978,word,48439000
+        patch=1,EE,0017D97C,word,4BC841FF
+        patch=1,EE,0017D9A8,word,48439000
+        patch=1,EE,0017D9AC,word,4BC949FF
+        patch=1,EE,0017D9D8,word,48439000
+        patch=1,EE,0017D9DC,word,4BCA51FF
 SLPM-65269:
   name: "NBA 2K3"
   region: "NTSC-J"
@@ -34439,7 +34516,7 @@ SLPM-65551:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SLPM-65552:
   name: "Metal Wolf Rev [Limited Edition]"
@@ -38035,6 +38112,10 @@ SLPM-66460:
 SLPM-66461:
   name: "Tom Clancy's Ghost Recon - Advanced Warfighter"
   region: "NTSC-J"
+  gsHWFixes:
+    recommendedBlendingLevel: 4 # Fixes  building and ground colours.
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
 SLPM-66462:
   name: "Disney-Pixar's Cars"
   region: "NTSC-J"
@@ -39053,6 +39134,8 @@ SLPM-66710:
   name: "Godfather, The"
   region: "NTSC-J"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLPM-66712:
@@ -39453,6 +39536,10 @@ SLPM-66807:
 SLPM-66808:
   name: "Tom Clancy's Ghost Recon - Advanced Warfighter [Ubisoft the Best]"
   region: "NTSC-J"
+  gsHWFixes:
+    recommendedBlendingLevel: 4 # Fixes  building and ground colours.
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
 SLPM-66809:
   name: "Saishu Shiken Kujira - Alive"
   region: "NTSC-J"
@@ -39994,6 +40081,8 @@ SLPM-66966:
   name: "Godfather, The [EA-SY! 1980]"
   region: "NTSC-J"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLPM-66967:
@@ -40410,9 +40499,10 @@ SLPM-68019:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
-    halfPixelOffset: 1 # Corrects post processing position.
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLPM-68020:
   name: "Suzumiya Haruhi no Tomadoi - Uchuu-hatsu! Full CG - Odoru SOS-dan (Chou Eizou-ban)"
@@ -43970,6 +44060,11 @@ SLPS-25350:
 SLPS-25351:
   name: "Burnout 2 - Point of Impact"
   region: "NTSC-J"
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLPS-25352:
@@ -45618,8 +45713,10 @@ SLPS-25768:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLPS-25769:
   name: "Netsu Chu! Pro Baseball 2007"
@@ -45860,9 +45957,10 @@ SLPS-25837:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
-    halfPixelOffset: 1 # Corrects post processing position.
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLPS-25838:
   name: "Taiheiyou no Arashi - Senkan Yamato, Akatsuki ni Shutsugeki su"
@@ -49266,6 +49364,11 @@ SLUS-20497:
   name: "Burnout 2 - Point of Impact"
   region: "NTSC-U"
   compat: 5
+  gsHWFixes:
+    gpuTargetCLUT: 1 # Fixes bloom and sun rendering in front of everything.
+    autoFlush: 1 # Fixes bloom and sun rendering in front of everything.
+    halfPixelOffset: 2 # Aligns bloom effect a little bit better when upscaled.
+    bilinearUpscale: 2 # Reduces color banding of the sun glare.
   roundModes:
     vu1RoundMode: 1 # Bright lights in cars.
 SLUS-20498:
@@ -51119,7 +51222,7 @@ SLUS-20867:
   roundModes:
     eeRoundMode: 0 # Fixes character behaviour.
   gsHWFixes:
-    autoFlush: 2 # Fixes flame bloom.
+    autoFlush: 1 # Fixes flame bloom.
     halfPixelOffset: 2 # Fixes misaligned bloom.
 SLUS-20868:
   name: "MVP Baseball 2004"
@@ -54169,6 +54272,8 @@ SLUS-21385:
   region: "NTSC-U"
   compat: 5
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLUS-21386:
@@ -54283,6 +54388,8 @@ SLUS-21406:
   name: "Godfather, The - Collector's Edition"
   region: "NTSC-U"
   gsHWFixes:
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
     textureInsideRT: 1 # Required for complex offset shuffles.
     halfPixelOffset: 2 # Fixes center line in post processing.
 SLUS-21407:
@@ -54390,6 +54497,10 @@ SLUS-21422:
   name: "Tom Clancy's Ghost Recon - Advanced Warfighter"
   region: "NTSC-U"
   compat: 5
+  gsHWFixes:
+    recommendedBlendingLevel: 4 # Fixes  building and ground colours.
+    mipmap: 2 # Mipmap + trilinear, improves building textures to match sw renderer.
+    trilinearFiltering: 1
 SLUS-21423:
   name: "Grand Theft Auto - Liberty City Stories"
   region: "NTSC-U"
@@ -55907,8 +56018,11 @@ SLUS-21743:
   name: "Code Lyoko - Quest for Infinity"
   region: "NTSC-U"
   compat: 5
+  gameFixes:
+    - FpuNegDivHack # Fixes missing texts on in-game textboxes.
   gsHWFixes:
     deinterlace: 9 # Game requires adaptive bff de-interlacing instead of auto for the UI at native.
+    halfPixelOffset: 1 # Reduces ghosting effects.
 SLUS-21744:
   name: "NASCAR '09"
   region: "NTSC-U"
@@ -56443,8 +56557,10 @@ SLUS-21862:
   gameFixes:
     - SoftwareRendererFMVHack # Fixes vertical lines in FMVs.
   gsHWFixes:
+    roundSprite: 2 # Corrects post processing position + fixes subsequent runs of starter FMV vertical lines.
     cpuCLUTRender: 1 # Reduces the bloomy blur of characters.
   clampModes:
+    vu0ClampMode: 3 # Fixes bad dialog backgrounds.
     vu1ClampMode: 3 # Fixes SPS on characters.
 SLUS-21863:
   name: "Suzuki TT Superbikes - Real Road Racing Championship"

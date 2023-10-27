@@ -1006,13 +1006,23 @@ GSTextureCache::Source* GSTextureCache::LookupSource(const GIFRegTEX0& TEX0, con
 							}
 						}
 						else
-							dst = t;
+						{
+							// We don't have a shader for this.
+							if (!possible_shuffle && TEX0.PSM == PSMT8 && GSLocalMemory::m_psm[t->m_TEX0.PSM].bpp != 32)
+							{
+								continue;
+							}
+							else
+							{
+								dst = t;
 
-						found_t = true;
-						tex_merge_rt = false;
-						x_offset = 0;
-						y_offset = 0;
-						break;
+								found_t = true;
+								tex_merge_rt = false;
+								x_offset = 0;
+								y_offset = 0;
+								break;
+							}
+						}
 					}
 				}
 				else if (t_clean && (t->m_TEX0.TBW >= 16) && GSUtil::HasSharedBits(bp, psm, t->m_TEX0.TBP0 + t->m_TEX0.TBW * 0x10, t->m_TEX0.PSM))
@@ -1242,7 +1252,12 @@ GSTextureCache::Source* GSTextureCache::LookupSource(const GIFRegTEX0& TEX0, con
 					}
 					else
 					{
-						return LookupDepthSource(TEX0, TEXA, CLAMP, r, possible_shuffle, linear, frame_fbp, true);
+						if (!possible_shuffle && TEX0.PSM == PSMT8 && GSLocalMemory::m_psm[t->m_TEX0.PSM].bpp != 32)
+						{
+							continue;
+						}
+						else
+							return LookupDepthSource(TEX0, TEXA, CLAMP, r, possible_shuffle, linear, frame_fbp, true);
 					}
 				}
 			}
@@ -1344,7 +1359,7 @@ GSTextureCache::Target* GSTextureCache::LookupTarget(GIFRegTEX0 TEX0, const GSVe
 				// if It's an old target and it's being completely overwritten, kill it.
 				if (!preserve_rgb && !preserve_alpha && TEX0.TBW != t->m_TEX0.TBW && TEX0.TBW > 1 && t->m_age >= 1)
 				{
-					GL_INS("TC: Deleting RT BP 0x%x BW %d PSM %s due to width change to %d", t->m_TEX0.TBP0, t->m_TEX0.TBW, t->m_TEX0.PSM, TEX0.TBW);
+					GL_INS("TC: Deleting RT BP 0x%x BW %d PSM %s due to width change to %d", t->m_TEX0.TBP0, t->m_TEX0.TBW, psm_str(t->m_TEX0.PSM), TEX0.TBW);
 					InvalidateSourcesFromTarget(t);
 					i = list.erase(i);
 					delete t;
@@ -1828,7 +1843,7 @@ void GSTextureCache::PreloadTarget(GIFRegTEX0 TEX0, const GSVector2i& size, cons
 			auto j = i;
 			Target* t = *j;
 
-			if (dst != t && t->m_TEX0.TBW == dst->m_TEX0.TBW && t->m_TEX0.PSM == dst->m_TEX0.PSM)
+			if (dst != t && t->m_TEX0.TBW == dst->m_TEX0.TBW && t->m_TEX0.PSM == dst->m_TEX0.PSM && t->m_TEX0.TBW > 4)
 				if(t->Overlaps(dst->m_TEX0.TBP0, dst->m_TEX0.TBW, dst->m_TEX0.PSM, dst->m_valid))
 				{
 					// could be overwriting a double buffer, so if it's the second half of it, just reduce the size down to half.
@@ -1857,15 +1872,28 @@ void GSTextureCache::PreloadTarget(GIFRegTEX0 TEX0, const GSVector2i& size, cons
 							continue;
 						}
 
-						const int copy_width = (t->m_texture->GetWidth()) > (dst->m_texture->GetWidth()) ? (dst->m_texture->GetWidth()) : t->m_texture->GetWidth();
-						const int copy_height = y_reduction * t->m_scale;
-						const int old_height = (dst->m_valid.w - y_reduction) * dst->m_scale;
-						GL_INS("RT double buffer copy from FBP 0x%x, %dx%d => %d,%d", t->m_TEX0.TBP0, copy_width, copy_height, 0, old_height);
+						if (preserve_target || preload)
+						{
+							const int copy_width = (t->m_texture->GetWidth()) > (dst->m_texture->GetWidth()) ? (dst->m_texture->GetWidth()) : t->m_texture->GetWidth();
+							const int copy_height = y_reduction * t->m_scale;
+							const int old_height = (dst->m_valid.w - y_reduction) * dst->m_scale;
+							GL_INS("RT double buffer copy from FBP 0x%x, %dx%d => %d,%d", t->m_TEX0.TBP0, copy_width, copy_height, 0, old_height);
 
-						// Clear the dirty first
-						dst->Update();
-						// Invalidate has been moved to after DrawPrims(), because we might kill the current sources' backing.
-						g_gs_device->CopyRect(t->m_texture, dst->m_texture, GSVector4i(0, 0, copy_width, copy_height), 0, old_height);
+							// Clear the dirty first
+							dst->Update();
+							// Invalidate has been moved to after DrawPrims(), because we might kill the current sources' backing.
+							if (!t->m_valid_rgb || !(t->m_valid_alpha_high || t->m_valid_alpha_low))
+							{
+								const GSVector4 src_rect = GSVector4(0, 0, copy_width, copy_height) / (GSVector4(t->m_texture->GetSize()).xyxy());
+								const GSVector4 dst_rect = GSVector4(0, old_height, copy_width, copy_height);
+								g_gs_device->StretchRect(t->m_texture, src_rect, dst->m_texture, dst_rect, t->m_valid_rgb, t->m_valid_rgb, t->m_valid_rgb, t->m_valid_alpha_high || t->m_valid_alpha_low);
+							}
+							else
+							{
+								// Invalidate has been moved to after DrawPrims(), because we might kill the current sources' backing.
+								g_gs_device->CopyRect(t->m_texture, dst->m_texture, GSVector4i(0, 0, copy_width, copy_height), 0, old_height);
+							}
+						}
 						if (src && src->m_target && src->m_from_target == t)
 						{
 							// This should never happen as we're making a new target so the src should never be something it overlaps, but just incase..

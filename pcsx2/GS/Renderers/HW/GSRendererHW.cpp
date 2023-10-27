@@ -352,7 +352,7 @@ void GSRendererHW::ConvertSpriteTextureShuffle(bool& write_ba, bool& read_ba, GS
 	int tex_pos = (PRIM->FST) ? first_vert.U : static_cast<int>(tw * first_vert.ST.S);
 	tex_pos &= 0xFF;
 	// "same group" means it can read blue and write alpha using C32 tricks
-	read_ba = (tex_pos > 112 && tex_pos < 144) || (m_same_group_texture_shuffle && (m_cached_ctx.FRAME.FBMSK & 0xFFFF0000) != 0xFFFF00000);
+	read_ba = (tex_pos > 112 && tex_pos < 144) || (m_same_group_texture_shuffle && (m_cached_ctx.FRAME.FBMSK & 0xFFFF0000) != 0xFFFF0000);
 
 	// Another way of selecting whether to read RG/BA is to use region repeat.
 	// Ace Combat 04 reads RG, writes to RGBA by setting a MINU of 1015.
@@ -2339,13 +2339,20 @@ void GSRendererHW::Draw()
 	if (process_texture)
 	{
 		GIFRegCLAMP MIP_CLAMP = m_cached_ctx.CLAMP;
-		const u32 draw_end = GSLocalMemory::GetEndBlockAddress(m_cached_ctx.FRAME.Block(), m_cached_ctx.FRAME.FBW, m_cached_ctx.FRAME.PSM, m_r)+1;
-		const bool draw_uses_target = src->m_from_target && ((src->m_from_target_TEX0.TBP0 <= m_cached_ctx.FRAME.Block() && 
-									src->m_from_target->UnwrappedEndBlock() > m_cached_ctx.FRAME.Block()) || 
-									(m_cached_ctx.FRAME.Block() < src->m_from_target_TEX0.TBP0 && draw_end > src->m_from_target_TEX0.TBP0));
-		
+		const GSVertex* v = &m_vertex.buff[0];
+
 		if (rt)
 		{
+			// Hypothesis: texture shuffle is used as a postprocessing effect so texture will be an old target.
+			// Initially code also tested the RT but it gives too much false-positive
+			const int first_x = ((v[0].XYZ.X - m_context->XYOFFSET.OFX) + 8) >> 4;
+			const int first_u = PRIM->FST ? ((v[0].U + 8) >> 4) : static_cast<int>(((1 << m_cached_ctx.TEX0.TW) * (v[0].ST.S / v[1].RGBAQ.Q)) + 0.5f);
+			const bool shuffle_coords = (first_x ^ first_u) & 8;
+			const u32 draw_end = GSLocalMemory::GetEndBlockAddress(m_cached_ctx.FRAME.Block(), m_cached_ctx.FRAME.FBW, m_cached_ctx.FRAME.PSM, m_r) + 1;
+			const bool draw_uses_target = src->m_from_target && ((src->m_from_target_TEX0.TBP0 <= m_cached_ctx.FRAME.Block() &&
+				src->m_from_target->UnwrappedEndBlock() > m_cached_ctx.FRAME.Block()) ||
+				(m_cached_ctx.FRAME.Block() < src->m_from_target_TEX0.TBP0 && draw_end > src->m_from_target_TEX0.TBP0));
+
 			// copy of a 16bit source in to this target, make sure it's opaque and not bilinear to reduce false positives.
 			m_copy_16bit_to_target_shuffle = m_cached_ctx.TEX0.TBP0 != m_cached_ctx.FRAME.Block() && rt->m_32_bits_fmt == true && IsOpaque()
 											&& !(context->TEX1.MMIN & 1) && !src->m_32_bits_fmt && m_cached_ctx.FRAME.FBMSK;
@@ -2353,22 +2360,13 @@ void GSRendererHW::Draw()
 			// It's not actually possible to do a C16->C16 texture shuffle of B to A as they are the same group
 			// However you can do it by using C32 and offsetting the target verticies to point to B A, then mask as appropriate.
 			m_same_group_texture_shuffle = draw_uses_target && (m_cached_ctx.TEX0.PSM & 0xE) == PSMCT32 && (m_cached_ctx.FRAME.PSM & 0x7) == PSMCT16 && (m_vt.m_min.p.x == 8.0f);
-		}
-		const GSVertex* v = &m_vertex.buff[0];
-		// Hypothesis: texture shuffle is used as a postprocessing effect so texture will be an old target.
-		// Initially code also tested the RT but it gives too much false-positive
-		const int first_x = (v[0].XYZ.X + 8) >> 4;
-		const int first_u = PRIM->FST ? ((v[0].U + 8) >> 4) : static_cast<int>(((1 << m_cached_ctx.TEX0.TW) * (v[0].ST.S / v[1].RGBAQ.Q)) + 0.5f);
-		const bool shuffle_coords = (first_x ^ first_u) & 8;
-		// Both input and output are 16 bits and texture was initially 32 bits! Same for the target, Sonic Unleash makes a new target which really is 16bit.
-		m_texture_shuffle = ((m_same_group_texture_shuffle || (tex_psm.bpp == 16)) && (GSLocalMemory::m_psm[m_cached_ctx.FRAME.PSM].bpp == 16) &&
-			(shuffle_coords || rt->m_32_bits_fmt))
-			&& draw_sprite_tex && (src->m_32_bits_fmt || m_copy_16bit_to_target_shuffle);
-	/*	const bool old_shuffle = ((m_same_group_texture_shuffle || (tex_psm.bpp == 16)) && (GSLocalMemory::m_psm[m_cached_ctx.FRAME.PSM].bpp == 16))
-			&& draw_sprite_tex && (src->m_32_bits_fmt || m_copy_16bit_to_target_shuffle);
 
-		if (old_shuffle && !m_texture_shuffle)
-			DevCon.Warning("Here draw %d", s_n);*/
+			// Both input and output are 16 bits and texture was initially 32 bits! Same for the target, Sonic Unleash makes a new target which really is 16bit.
+			m_texture_shuffle = ((m_same_group_texture_shuffle || (tex_psm.bpp == 16)) && (GSLocalMemory::m_psm[m_cached_ctx.FRAME.PSM].bpp == 16) &&
+				(shuffle_coords || rt->m_32_bits_fmt))
+				&& draw_sprite_tex && (src->m_32_bits_fmt || m_copy_16bit_to_target_shuffle);
+		};
+
 		// Okami mustn't call this code
 		if (m_texture_shuffle && m_vertex.next < 3 && PRIM->FST && ((m_cached_ctx.FRAME.FBMSK & fm_mask) == 0))
 		{
@@ -2573,7 +2571,7 @@ void GSRendererHW::Draw()
 		// We need to adjust the size if it's a texture shuffle as we could end up making the RT twice the size.
 		if (rt && m_texture_shuffle && m_split_texture_shuffle_pages == 0)
 		{
-			if (new_size.x > rt->m_valid.z || new_size.y > rt->m_valid.w)
+			if ((new_size.x > rt->m_valid.z && m_vt.m_max.p.x == new_size.x) || (new_size.y > rt->m_valid.w && m_vt.m_max.p.y == new_size.y))
 			{
 				if (new_size.y <= rt->m_valid.w && (rt->m_TEX0.TBW != m_cached_ctx.FRAME.FBW))
 					new_size.x /= 2;
@@ -3468,21 +3466,23 @@ __ri bool GSRendererHW::EmulateChannelShuffle(GSTextureCache::Target* src, bool 
 
 void GSRendererHW::EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DATE_PRIMID, bool& DATE_BARRIER, bool& blending_alpha_pass)
 {
-	// AA1: Don't enable blending on AA1, not yet implemented on hardware mode,
-	// it requires coverage sample so it's safer to turn it off instead.
-	const bool AA1 = PRIM->AA1 && (m_vt.m_primclass == GS_LINE_CLASS || m_vt.m_primclass == GS_TRIANGLE_CLASS);
-	// PABE: Check condition early as an optimization.
-	const bool PABE = PRIM->ABE && m_draw_env->PABE.PABE && (GetAlphaMinMax().max < 128);
-	// FBMASK: Color is not written, no need to do blending.
-	const u32 temp_fbmask = m_conf.ps.dfmt == 2 ? 0x00F8F8F8 : 0x00FFFFFF;
-	const bool FBMASK = (m_cached_ctx.FRAME.FBMSK & temp_fbmask) == temp_fbmask;
-
-	// No blending or coverage anti-aliasing so early exit
-	if (FBMASK || PABE || !(PRIM->ABE || AA1))
 	{
-		m_conf.blend = {};
-		m_conf.ps.no_color1 = true;
-		return;
+		// AA1: Don't enable blending on AA1, not yet implemented on hardware mode,
+		// it requires coverage sample so it's safer to turn it off instead.
+		const bool AA1 = PRIM->AA1 && (m_vt.m_primclass == GS_LINE_CLASS || m_vt.m_primclass == GS_TRIANGLE_CLASS);
+		// PABE: Check condition early as an optimization.
+		const bool PABE = PRIM->ABE && m_draw_env->PABE.PABE && (GetAlphaMinMax().max < 128);
+		// FBMASK: Color is not written, no need to do blending.
+		const u32 temp_fbmask = m_conf.ps.dfmt == 2 ? 0x00F8F8F8 : 0x00FFFFFF;
+		const bool FBMASK = (m_cached_ctx.FRAME.FBMSK & temp_fbmask) == temp_fbmask;
+
+		// No blending or coverage anti-aliasing so early exit
+		if (FBMASK || PABE || !(PRIM->ABE || AA1))
+		{
+			m_conf.blend = {};
+			m_conf.ps.no_color1 = true;
+			return;
+		}
 	}
 
 	// Compute the blending equation to detect special case
@@ -3512,11 +3512,20 @@ void GSRendererHW::EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DAT
 		m_conf.ps.fixed_one_a = 1;
 		m_conf.ps.blend_c = 0;
 	}
-	// 24 bits doesn't have an alpha channel so use 128 (1.0f) fix factor as equivalent.
-	else if (m_conf.ps.dfmt == 1 && m_conf.ps.blend_c == 1)
+	else if (m_conf.ps.blend_c == 1)
 	{
-		AFIX = 128;
-		m_conf.ps.blend_c = 2;
+		// When both rt alpha min and max are equal replace Ad with Af, easier to manage.
+		if (rt_alpha_min == rt_alpha_max)
+		{
+			AFIX = rt_alpha_min;
+			m_conf.ps.blend_c = 2;
+		}
+		// 24 bits doesn't have an alpha channel so use 128 (1.0f) fix factor as equivalent.
+		else if (m_conf.ps.dfmt == 1)
+		{
+			AFIX = 128;
+			m_conf.ps.blend_c = 2;
+		}
 	}
 
 	// Get alpha value
@@ -3524,12 +3533,10 @@ void GSRendererHW::EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DAT
 	const bool alpha_c0_one = (m_conf.ps.blend_c == 0 && (GetAlphaMinMax().min == 128) && (GetAlphaMinMax().max == 128));
 	const bool alpha_c0_high_min_one = (m_conf.ps.blend_c == 0 && GetAlphaMinMax().min > 128);
 	const bool alpha_c0_high_max_one = (m_conf.ps.blend_c == 0 && GetAlphaMinMax().max > 128);
-	const bool alpha_c1_zero = (m_conf.ps.blend_c == 1 && rt_alpha_min == 0 && rt_alpha_max == 0);
-	const bool alpha_c1_one = (m_conf.ps.blend_c == 1 && rt_alpha_min == 128 && rt_alpha_max == 128);
 	const bool alpha_c2_zero = (m_conf.ps.blend_c == 2 && AFIX == 0u);
 	const bool alpha_c2_one = (m_conf.ps.blend_c == 2 && AFIX == 128u);
 	const bool alpha_c2_high_one = (m_conf.ps.blend_c == 2 && AFIX > 128u);
-	const bool alpha_one = alpha_c0_one || alpha_c1_one || alpha_c2_one;
+	const bool alpha_one = alpha_c0_one || alpha_c2_one;
 
 	// Optimize blending equations, must be done before index calculation
 	if ((m_conf.ps.blend_a == m_conf.ps.blend_b) || ((m_conf.ps.blend_b == m_conf.ps.blend_d) && alpha_one))
@@ -3548,7 +3555,7 @@ void GSRendererHW::EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DAT
 		m_conf.ps.blend_b = 0;
 		m_conf.ps.blend_c = 0;
 	}
-	else if (alpha_c0_zero || alpha_c1_zero || alpha_c2_zero)
+	else if (alpha_c0_zero || alpha_c2_zero)
 	{
 		// C == 0.0f
 		// (A - B) * C, result will be 0.0f so set A B to Cs
@@ -4019,7 +4026,7 @@ void GSRendererHW::EmulateBlending(int rt_alpha_min, int rt_alpha_max, bool& DAT
 		{
 			m_conf.ps.blend_hw = 1;
 		}
-		else if (blend_flag & (BLEND_HW_CLR2))
+		else if (blend_flag & BLEND_HW_CLR2)
 		{
 			if (m_conf.ps.blend_c == 2)
 				m_conf.cb_ps.TA_MaxDepth_Af.a = static_cast<float>(AFIX) / 128.0f;
