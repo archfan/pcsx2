@@ -3,26 +3,41 @@ name: 🎮 Windows WinRT Builds
 on:
   push:
     branches:
-      - '*'
+      - dev
+      - main
   pull_request:
     branches:
-      - master
+      - main
+  workflow_call:
+    inputs:
+      patchesUrl:
+        required: false
+        type: string
+        default: https://github.com/PCSX2/pcsx2_patches/releases/latest/download
+      os:
+        required: false
+        type: string
+        default: windows-2022
+      platform:
+        required: false
+        type: string
+        default: x64
 
 jobs:
   # MSBUILD
   lint_vs_proj_files:
     name: Lint VS Project Files
-    runs-on: windows-latest
+    runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Verify VS Project Files
-        run: .github\workflows\scripts\windows\validate-vs-filters.ps1
+        run: .github\workflows\scripts\winrt\validate-vs-filters.ps1
 
   winrt-build-avx2:
     name: Building WinRT (AVX2)
     needs: lint_vs_proj_files
-    runs-on: windows-latest
+    runs-on: ${{ inputs.os }}
 
     steps:
       - name: Checkout Repository
@@ -38,11 +53,24 @@ jobs:
         with:
           nuget-version: latest  
 
-      - name: Download Patches
+      - name: Download patches
         shell: cmd
         run: |
           cd bin/resources
-          aria2c -Z "https://github.com/PCSX2/pcsx2_patches/releases/tag/latest/download/patches.zip"
+          aria2c -Z "${{ inputs.patchesUrl }}/patches.zip"
+  
+      - name: Cache Dependencies
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: deps
+          key: ${{ inputs.os }} ${{ inputs.platform }} deps ${{ hashFiles('.github/workflows/scripts/winrt/build-dependencies.bat') }}
+  
+      - name: Build Dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        env:
+          DEBUG: 0
+        run: .github/workflows/scripts/winrt/build-dependencies.bat
 
       - name: Build project
         run: |
