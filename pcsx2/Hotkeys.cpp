@@ -153,18 +153,10 @@ DEFINE_HOTKEY("OpenLeaderboardsList", TRANSLATE_NOOP("Hotkeys", "System"),
 		if (!pressed)
 			FullscreenUI::OpenLeaderboardsWindow();
 	})
-<<<<<<< HEAD
-#endif
-		DEFINE_HOTKEY(
-			"TogglePause", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Pause"), [](s32 pressed) {
-				if (!pressed && VMManager::HasValidVM())
-					Host::RunOnCPUThread([]() { VMManager::SetPaused(VMManager::GetState() != VMState::Paused); });
-=======
 DEFINE_HOTKEY(
 	"TogglePause", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Pause"), [](s32 pressed) {
 		if (!pressed && VMManager::HasValidVM())
 			VMManager::SetPaused(VMManager::GetState() != VMState::Paused);
->>>>>>> v1.7.5164
 	})
 DEFINE_HOTKEY("ToggleFullscreen", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Fullscreen"),
 	[](s32 pressed) {

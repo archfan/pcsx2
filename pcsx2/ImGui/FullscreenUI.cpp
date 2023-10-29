@@ -1040,7 +1040,7 @@ void FullscreenUI::DrawLandingWindow()
 		ImGui::Image(s_app_icon_texture->GetNativeHandle(), ImVec2(image_size, image_size));
 	}
 
-	const char version_txt[] = "v2.0.6";
+	const char version_txt[] = "v2.0.7";
 	ImGui::PushFont(g_medium_font);
 	ImGui::SetCursorPos(
 		ImVec2(LayoutScale(10.0f), ImGui::GetWindowHeight() - LayoutScale(20.0f)));
@@ -1070,23 +1070,13 @@ void FullscreenUI::DrawLandingWindow()
 			DoStartBIOS();
 		}
 
-<<<<<<< HEAD
 #ifndef WINRT_XBOX
-		if (MenuButton(ICON_FA_COMPACT_DISC " Start Disc", "Start a game from a disc in your PC's DVD drive."))
-		{
-			DoStartDisc();
-		}
-#endif
-		
-		if (MenuButton(ICON_FA_SLIDERS_H " Settings", "Change settings for the emulator."))
-=======
 		if (MenuButton(FSUI_ICONSTR(ICON_FA_COMPACT_DISC, "Start Disc"), FSUI_CSTR("Start a game from a disc in your PC's DVD drive.")))
 		{
 			DoStartDisc();
 		}
-
+#endif
 		if (MenuButton(FSUI_ICONSTR(ICON_FA_SLIDERS_H, "Settings"), FSUI_CSTR("Change settings for the emulator.")))
->>>>>>> v1.7.5164
 			SwitchToSettings();
 
 		if (MenuButton(FSUI_ICONSTR(ICON_FA_SIGN_OUT_ALT, "Exit"), FSUI_CSTR("Exits the program.")))
@@ -2678,42 +2668,20 @@ void FullscreenUI::DrawInterfaceSettingsPage()
 
 	MenuHeading(FSUI_CSTR("Behaviour"));
 
-<<<<<<< HEAD
-	
-#ifdef WITH_DISCORD_PRESENCE
-	DrawToggleSetting(bsi, "Enable Discord Presence", "Shows the game you are currently playing as part of your profile on Discord.", "UI",
-		"DiscordPresence", false);
-#endif
-	DrawToggleSetting(bsi, ICON_FA_PAUSE " Pause On Start", "Pauses the emulator when a game is started.", "UI", "StartPaused", false);
-
 #ifndef WINRT_XBOX
-	DrawToggleSetting(bsi, ICON_FA_MAGIC " Inhibit Screensaver",
-		"Prevents the screen saver from activating and the host from sleeping while emulation is running.", "EmuCore", "InhibitScreensaver",
-		true);
-	DrawToggleSetting(bsi, ICON_FA_VIDEO " Pause On Focus Loss",
-		"Pauses the emulator when you minimize the window or switch to another application, and unpauses when you switch back.", "UI",
-		"PauseOnFocusLoss", false);
-#endif
-
-	DrawToggleSetting(bsi, ICON_FA_WINDOW_MAXIMIZE " Pause On Menu",
-		"Pauses the emulator when you open the quick menu, and unpauses when you close it.", "UI", "PauseOnMenu", true);
-	DrawToggleSetting(bsi, ICON_FA_POWER_OFF " Confirm Shutdown",
-		"Determines whether a prompt will be displayed to confirm shutting down the emulator/game when the hotkey is pressed.", "UI",
-		"ConfirmShutdown", true);
-	DrawToggleSetting(bsi, ICON_FA_SAVE " Save State On Shutdown",
-		"Automatically saves the emulator state when powering down or exiting. You can then resume directly from where you left off next "
-		"time.",
-=======
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_MAGIC, "Inhibit Screensaver"),
 		FSUI_CSTR("Prevents the screen saver from activating and the host from sleeping while emulation is running."), "EmuCore",
 		"InhibitScreensaver", true);
+#endif
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_CHARGING_STATION, "Enable Discord Presence"),
 		FSUI_CSTR("Shows the game you are currently playing as part of your profile on Discord."), "UI", "DiscordPresence", false);
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_PAUSE, "Pause On Start"), FSUI_CSTR("Pauses the emulator when a game is started."), "UI",
 		"StartPaused", false);
+#ifndef WINRT_XBOX
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_VIDEO, "Pause On Focus Loss"),
 		FSUI_CSTR("Pauses the emulator when you minimize the window or switch to another application, and unpauses when you switch back."),
 		"UI", "PauseOnFocusLoss", false);
+#endif
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_WINDOW_MAXIMIZE, "Pause On Menu"),
 		FSUI_CSTR("Pauses the emulator when you open the quick menu, and unpauses when you close it."), "UI", "PauseOnMenu", true);
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_POWER_OFF, "Confirm Shutdown"),
@@ -2722,7 +2690,6 @@ void FullscreenUI::DrawInterfaceSettingsPage()
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_SAVE, "Save State On Shutdown"),
 		FSUI_CSTR("Automatically saves the emulator state when powering down or exiting. You can then resume directly from where you left "
 				  "off next time."),
->>>>>>> v1.7.5164
 		"EmuCore", "SaveStateOnShutdown", false);
 	if (DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_WRENCH, "Enable Per-Game Settings"),
 			FSUI_CSTR("When enabled, custom per-game settings will be applied. Disable to always use the global configuration."), "EmuCore", "EnablePerGameSettings",
@@ -2736,22 +2703,7 @@ void FullscreenUI::DrawInterfaceSettingsPage()
 		ImGuiFullscreen::SetTheme(bsi->GetBoolValue("UI", "UseLightFullscreenUITheme", false));
 	}
 
-<<<<<<< HEAD
 #ifndef WINRT_XBOX
-	MenuHeading("Game Display");
-	DrawToggleSetting(bsi, ICON_FA_TV " Start Fullscreen", "Automatically switches to fullscreen mode when the program is started.", "UI",
-		"StartFullscreen", false);
-	DrawToggleSetting(bsi, ICON_FA_MOUSE " Double-Click Toggles Fullscreen",
-		"Switches between full screen and windowed when the window is double-clicked.", "UI", "DoubleClickTogglesFullscreen", true);
-	DrawToggleSetting(bsi, ICON_FA_MOUSE_POINTER " Hide Cursor In Fullscreen",
-		"Hides the mouse pointer/cursor when the emulator is in fullscreen mode.", "UI", "HideMouseCursor", false);
-#endif
-	MenuHeading("On-Screen Display");
-	DrawIntSpinBoxSetting(bsi, ICON_FA_SEARCH " OSD Scale", "Determines how large the on-screen messages and monitor are.", "EmuCore/GS",
-		"OsdScale", 200, 100, 500, 25, "%d%%");
-	DrawToggleSetting(bsi, ICON_FA_LIST " Show Messages",
-		"Shows on-screen-display messages when events occur such as save states being created/loaded, screenshots being taken, etc.",
-=======
 	MenuHeading(FSUI_CSTR("Game Display"));
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_TV, "Start Fullscreen"),
 		FSUI_CSTR("Automatically switches to fullscreen mode when a game is started."), "UI", "StartFullscreen", false);
@@ -2760,14 +2712,13 @@ void FullscreenUI::DrawInterfaceSettingsPage()
 		true);
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_MOUSE_POINTER, "Hide Cursor In Fullscreen"),
 		FSUI_CSTR("Hides the mouse pointer/cursor when the emulator is in fullscreen mode."), "UI", "HideMouseCursor", false);
-
+#endif
 	MenuHeading(FSUI_CSTR("On-Screen Display"));
 	DrawIntSpinBoxSetting(bsi, FSUI_ICONSTR(ICON_FA_SEARCH, "OSD Scale"),
 		FSUI_CSTR("Determines how large the on-screen messages and monitor are."), "EmuCore/GS", "OsdScale", 100, 25, 500, 1, FSUI_CSTR("%d%%"));
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_LIST, "Show Messages"),
 		FSUI_CSTR(
 			"Shows on-screen-display messages when events occur such as save states being created/loaded, screenshots being taken, etc."),
->>>>>>> v1.7.5164
 		"EmuCore/GS", "OsdShowMessages", true);
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_CLOCK, "Show Speed"),
 		FSUI_CSTR("Shows the current emulation speed of the system in the top-right corner of the display as a percentage."), "EmuCore/GS",
@@ -3590,25 +3541,16 @@ void FullscreenUI::DrawAudioSettingsPage()
 		FSUI_NSTR("Surround 7.1"),
 	};
 	static constexpr const char* output_entries[] = {
-<<<<<<< HEAD
-		"No Sound (Emulate SPU2 only)",
-#ifdef SPU2X_CUBEB
-		"Cubeb (Cross-platform)",
-#endif
-#if _WIN32 && !WINRT_XBOX
-		"XAudio2",
-=======
 		FSUI_NSTR("No Sound (Emulate SPU2 only)"),
 		FSUI_NSTR("Cubeb (Cross-platform)"),
-#ifdef _WIN32
+#ifndef WINRT_XBOX
 		FSUI_NSTR("XAudio2"),
->>>>>>> v1.7.5164
 #endif
 	};
 	static constexpr const char* output_values[] = {
 		"nullout",
 		"cubeb",
-#ifdef _WIN32
+#ifndef WINRT_XBOX
 		"xaudio2",
 #endif
 	};
@@ -4020,12 +3962,8 @@ void FullscreenUI::DrawControllerSettingsPage()
 		DoSaveInputProfile();
 	}
 
-<<<<<<< HEAD
 #ifndef WINRT_XBOX
-	MenuHeading("Input Sources");
-=======
 	MenuHeading(FSUI_CSTR("Input Sources"));
->>>>>>> v1.7.5164
 
 	DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_COG, "Enable SDL Input Source"),
 		FSUI_CSTR("The SDL input source supports most controllers."), "InputSources", "SDL", true, true, false);
@@ -6196,29 +6134,19 @@ void FullscreenUI::DrawAboutWindow()
 {
 	ImGui::SetNextWindowSize(LayoutScale(1000.0f, 535.0f));
 	ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-<<<<<<< HEAD
-	ImGui::OpenPopup("About XBSX2.0");
-=======
-	ImGui::OpenPopup(FSUI_CSTR("About PCSX2"));
->>>>>>> v1.7.5164
+	ImGui::OpenPopup(FSUI_CSTR("About XBSX2.0"));
 
 	ImGui::PushFont(g_large_font);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, LayoutScale(20.0f, 20.0f));
 
-<<<<<<< HEAD
-	if (ImGui::BeginPopupModal("About XBSX2.0", &s_about_window_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
+	if (ImGui::BeginPopupModal(FSUI_CSTR("About XBSX2.0"), &s_about_window_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
 	{
-		ImGui::TextWrapped(
-			"XBSX2.0 is a fork of PCSX2 developed by SirMangler, TRW and Reverie introducing Xbox/UWP support. Please support the original creators.");
+		ImGui::TextWrapped( FSUI_CSTR(
+			"XBSX2.0 is a fork of PCSX2 developed by SirMangler, TRW, Reverie and Archfan introducing Xbox/UWP support. Please support the original creators."));
 		ImGui::NewLine();
 
-		ImGui::TextWrapped(
-=======
-	if (ImGui::BeginPopupModal(FSUI_CSTR("About PCSX2"), &s_about_window_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
-	{
 		ImGui::TextWrapped("%s", FSUI_CSTR(
->>>>>>> v1.7.5164
 			"PCSX2 is a free and open-source PlayStation 2 (PS2) emulator. Its purpose is to emulate the PS2's hardware, using a "
 			"combination of MIPS CPU Interpreters, Recompilers and a Virtual Machine which manages hardware states and PS2 system memory. "
 			"This allows you to play PS2 games on your PC, with many additional features and benefits."));
@@ -6233,20 +6161,10 @@ void FullscreenUI::DrawAboutWindow()
 
 		BeginMenuButtons();
 
-<<<<<<< HEAD
-		if (ActiveButton(ICON_FA_PERSON_BOOTH " Discord", false))
+		if (ActiveButton(FSUI_ICONSTR(ICON_FA_PERSON_BOOTH " Discord"), false))
 			ExitFullscreenAndOpenURL(PCSX2_DISCORD_URL);
 
-		if (ActiveButton(ICON_FA_BUG " XBSX2.0 GitHub Repository", false))
-=======
-		if (ActiveButton(FSUI_ICONSTR(ICON_FA_GLOBE, "Website"), false))
-			ExitFullscreenAndOpenURL(PCSX2_WEBSITE_URL);
-
-		if (ActiveButton(FSUI_ICONSTR(ICON_FA_PERSON_BOOTH, "Support Forums"), false))
-			ExitFullscreenAndOpenURL(PCSX2_FORUMS_URL);
-
-		if (ActiveButton(FSUI_ICONSTR(ICON_FA_BUG, "GitHub Repository"), false))
->>>>>>> v1.7.5164
+		if (ActiveButton(FSUI_ICONSTR(ICON_FA_BUG " XBSX2.0 GitHub Repository"), false))
 			ExitFullscreenAndOpenURL(PCSX2_GITHUB_URL);
 
 		if (ActiveButton(FSUI_ICONSTR(ICON_FA_NEWSPAPER, "License"), false))
