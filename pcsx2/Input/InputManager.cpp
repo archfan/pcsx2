@@ -445,15 +445,10 @@ static std::array<const char*, static_cast<u32>(InputSourceType::Count)> s_input
 #ifndef WINRT_XBOX
 	"Keyboard",
 	"Mouse",
-<<<<<<< HEAD
-#endif
-#ifdef _WIN32
-#ifndef WINRT_XBOX
 	"DInput",
 	"SDL",
 #endif
 	"XInput",
-#endif
 }};
 
 InputSource* InputManager::GetInputSourceInterface(InputSourceType type)
@@ -476,8 +471,7 @@ bool InputManager::GetInputSourceDefaultEnabled(InputSourceType type)
 		case InputSourceType::SDL:
 			return true;
 #endif
-#ifdef _WIN32
-#ifndef WINRT_XBOX
+#if defined(WIN32) && !defined(WINRT_XBOX)
 		case InputSourceType::DInput:
 			return false;
 #endif

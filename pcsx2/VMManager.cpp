@@ -404,13 +404,9 @@ void VMManager::Internal::CPUThreadShutdown()
 
 	MTGS::ShutdownThread();
 
-<<<<<<< HEAD
-#if _WIN32 && !WINRT_XBOX
-=======
 	SysMemory::Release();
 
-#ifdef _WIN32
->>>>>>> v1.7.5164
+#if defined(WIN32) && !defined(WINRT_XBOX)
 	CoUninitialize();
 #endif
 }

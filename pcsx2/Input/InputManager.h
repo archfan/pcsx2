@@ -31,15 +31,13 @@
 /// Class, or source of an input event.
 enum class InputSourceType : u32
 {
+#ifndef WINRT_XBOX
 	Keyboard,
 	Pointer,
-#ifdef _WIN32
-#ifndef WINRT_XBOX
 	DInput,
 	SDL,
 #endif
 	XInput,
-#endif
 	Count,
 };
 
