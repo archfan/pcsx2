@@ -442,9 +442,9 @@ InputBindingKey InputManager::MakePointerAxisKey(u32 index, InputPointerAxis axi
 // ------------------------------------------------------------------------
 
 static std::array<const char*, static_cast<u32>(InputSourceType::Count)> s_input_class_names = {{
-#ifndef WINRT_XBOX
 	"Keyboard",
 	"Mouse",
+#ifndef WINRT_XBOX
 	"DInput",
 	"SDL",
 #endif
