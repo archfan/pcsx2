@@ -6161,10 +6161,10 @@ void FullscreenUI::DrawAboutWindow()
 
 		BeginMenuButtons();
 
-		if (ActiveButton(FSUI_ICONSTR(ICON_FA_PERSON_BOOTH " Discord"), false))
+		if (ActiveButton(FSUI_ICONSTR(ICON_FA_PERSON_BOOTH, " Discord"), false))
 			ExitFullscreenAndOpenURL(PCSX2_DISCORD_URL);
 
-		if (ActiveButton(FSUI_ICONSTR(ICON_FA_BUG " XBSX2.0 GitHub Repository"), false))
+		if (ActiveButton(FSUI_ICONSTR(ICON_FA_BUG, " XBSX2.0 GitHub Repository"), false))
 			ExitFullscreenAndOpenURL(PCSX2_GITHUB_URL);
 
 		if (ActiveButton(FSUI_ICONSTR(ICON_FA_NEWSPAPER, "License"), false))
