@@ -156,19 +156,11 @@ void ImGuiManager::DrawPerformanceOverlay(float& position_y)
 		{
 			fmt::format_to(std::back_inserter(text), " ({}%)", static_cast<u32>(std::round(speed)));
 
-<<<<<<< HEAD
-			// We read the main config here, since MTGS doesn't get updated with speed toggles.
-			/* if (EmuConfig.GS.LimitScalar == 0.0f)
-				text += " (Max)";
-			else
-				fmt::format_to(std::back_inserter(text), " ({:.0f}%)", EmuConfig.GS.LimitScalar * 100.0f); */
-=======
 			const float target_speed = VMManager::GetTargetSpeed();
 			if (target_speed == 0.0f)
 				text += " (Max)";
 			else
 				fmt::format_to(std::back_inserter(text), " ({:.0f}%)", target_speed * 100.0f);
->>>>>>> v1.7.5164
 		}
 		if (!text.empty())
 		{
