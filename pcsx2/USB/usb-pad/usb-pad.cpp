@@ -20,7 +20,7 @@
 #include "Host.h"
 #include "StateWrapper.h"
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 #include "USB/usb-pad/usb-pad-sdl-ff.h"
 #endif
 
@@ -173,14 +173,14 @@ namespace usb_pad
 	{
 		if (wt <= WT_GT_FORCE)
 		{
-			static constexpr const char* SteeringCurveExponentOptions[] = {"Off", "Low", "Medium", "High", nullptr};
+			static constexpr const char* SteeringCurveExponentOptions[] = {TRANSLATE_NOOP("USB", "Off"), TRANSLATE_NOOP("USB", "Low"), TRANSLATE_NOOP("USB", "Medium"), TRANSLATE_NOOP("USB", "High"), nullptr};
 			static constexpr const SettingInfo info[] = {
 				{SettingInfo::Type::Integer, "SteeringSmoothing", TRANSLATE_NOOP("USB", "Steering Smoothing"),
 					TRANSLATE_NOOP("USB", "Smooths out changes in steering to the specified percentage per poll. Needed for using keyboards."),
-					"0", "0", "100", "1", "%d%%", nullptr, nullptr, 1.0f},
+					"0", "0", "100", "1", TRANSLATE_NOOP("USB", "%d%%"), nullptr, nullptr, 1.0f},
 				{SettingInfo::Type::Integer, "SteeringDeadzone", TRANSLATE_NOOP("USB", "Steering Deadzone"),
 					TRANSLATE_NOOP("USB", "Steering axis deadzone for pads or non self centering wheels."),
-					"0", "0", "100", "1", "%d%%", nullptr, nullptr, 1.0f},
+					"0", "0", "100", "1", TRANSLATE_NOOP("USB", "%d%%"), nullptr, nullptr, 1.0f},
 				{SettingInfo::Type::StringList, "SteeringCurveExponent", TRANSLATE_NOOP("USB", "Steering Damping"),
 					TRANSLATE_NOOP("USB", "Applies power curve filter to steering axis values. Dampens small inputs."),
 					"Off", nullptr, nullptr, nullptr, nullptr, SteeringCurveExponentOptions}
@@ -628,7 +628,7 @@ namespace usb_pad
 
 		mFFdev.reset();
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 		mFFdev = SDLFFDevice::Create(mFFdevName);
 #endif
 	}
@@ -1042,7 +1042,7 @@ namespace usb_pad
 
 	const char* KeyboardmaniaDevice::Name() const
 	{
-		return TRANSLATE_NOOP("USB", "Keyboardmania");
+		return TRANSLATE_NOOP("USB", "KeyboardMania");
 	}
 
 	const char* KeyboardmaniaDevice::TypeName() const

@@ -1,6 +1,14 @@
-updater/
-pcsx2-qt/
+# ignore useless directories for UWP builds
 pcsx2-gsrunner/
+pcsx2-qt/
+updater/
+.github/workflows/linux_*
+.github/workflows/macos_*
+.github/workflows/windows_*
+.github/workflows/cron_publish_flatpak.yml
+.github/workflows/scripts/macos/
+.github/workflows/scripts/linux/
+
 .*.swp
 .*.swn
 .*.swo
@@ -25,13 +33,6 @@ pcsx2-gsrunner/
 
 *.VC.db
 *.VC.VC.opendb
-
-**/Win32/Release*
-**/Win32/Debug*
-**/Win32/Devel*
-**/x64/Release*
-**/x64/Debug*
-**/x64/Devel*
 
 _ReSharper.*
 pcsx2.snapshot_*

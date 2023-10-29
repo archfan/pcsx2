@@ -144,38 +144,6 @@ bool GSHwHack::GSC_SacredBlaze(GSRendererHW& r, int& skip)
 	return true;
 }
 
-bool GSHwHack::GSC_SakuraTaisen(GSRendererHW& r, int& skip)
-{
-	if (skip == 0)
-	{
-		if (!RTME && (RFBP == 0x0 || RFBP == 0x1180) && (RTBP0 != 0x3fc0 && RTBP0 != 0x3c9a && RTBP0 != 0x3dec /*GSC_TBP0 ==0x38d0 || GSC_TBP0==0x3912 ||GSC_TBP0==0x3bdc ||GSC_TBP0==0x3ab3 ||GSC_TBP0<=0x3a92*/) && RFPSM == PSMCT32 && (RTPSM == PSMT8 || RTPSM == PSMT4) && (RFBMSK == 0x00FFFFFF || !RFBMSK))
-		{
-			skip = 0; //3dec 3fc0 3c9a
-		}
-		if (!RTME && (RFBP | RTBP0) != 0 && (RFBP | RTBP0) != 0x1180 && (RFBP | RTBP0) != 0x3be0 && (RFBP | RTBP0) != 0x3c80 && RTBP0 != 0x3c9a && (RFBP | RTBP0) != 0x3d80 && RTBP0 != 0x3dec && RFPSM == PSMCT32 && (RFBMSK == 0))
-		{
-			skip = 0; //3dec 3fc0 3c9a
-		}
-		if (!RTME && (RFBP | RTBP0) != 0 && (RFBP | RTBP0) != 0x1180 && (RFBP | RTBP0) != 0x3be0 && (RFBP | RTBP0) != 0x3c80 && (RFBP | RTBP0) != 0x3d80 && RTBP0 != 0x3c9a && RTBP0 != 0x3de && RFPSM == PSMCT32 && (RFBMSK == 0))
-		{
-			skip = 1; //3dec 3fc0 3c9a
-		}
-		else if (RTME && (RFBP == 0 || RFBP == 0x1180) && RTBP0 == 0x35B8 && RTPSM == PSMT4)
-		{
-			skip = 1;
-		}
-		else
-		{
-			if (!RTME && (RFBP | RTBP0) == 0x38d0 && RFPSM == PSMCT32)
-			{
-				skip = 1; //3dec 3fc0 3c9a
-			}
-		}
-	}
-
-	return true;
-}
-
 bool GSHwHack::GSC_SFEX3(GSRendererHW& r, int& skip)
 {
 	if (skip == 0)
@@ -754,7 +722,7 @@ bool GSHwHack::GSC_BlueTongueGames(GSRendererHW& r, int& skip)
 		r.m_r.x = r.m_vt.m_min.p.x;
 		r.m_r.y = r.m_vt.m_min.p.y;
 		r.m_r.z = r.PCRTCDisplays.GetResolution().x;
-		r.m_r.w = r.m_vt.m_max.p.y;
+		r.m_r.w = r.PCRTCDisplays.GetResolution().y;
 
 		for (int vert = 32; vert < 40; vert+=2)
 		{
@@ -763,9 +731,9 @@ bool GSHwHack::GSC_BlueTongueGames(GSRendererHW& r, int& skip)
 			r.m_vertex.buff[vert].U = (vert * 16) << 4;
 			r.m_vertex.buff[vert].V = 0;
 			r.m_vertex.buff[vert+1].XYZ.X = context->XYOFFSET.OFX + ((((vert * 16) + 32) << 4) - 8);
-			r.m_vertex.buff[vert+1].XYZ.Y = context->XYOFFSET.OFY + 8184; //511.5
+			r.m_vertex.buff[vert+1].XYZ.Y = context->XYOFFSET.OFY + (r.PCRTCDisplays.GetResolution().y << 4) + 8;
 			r.m_vertex.buff[vert+1].U = ((vert * 16) + 32) << 4;
-			r.m_vertex.buff[vert+1].V = 512 << 4;
+			r.m_vertex.buff[vert+1].V = r.PCRTCDisplays.GetResolution().y << 4;
 		}
 
 		/*r.m_vertex.head = r.m_vertex.tail = r.m_vertex.next = 2;
@@ -831,8 +799,8 @@ bool GSHwHack::GSC_MetalGearSolid3(GSRendererHW& r, int& skip)
 	// For some reason, instead of being sensible and masking Z, they set up AFAIL instead.
 	if (!RZMSK)
 	{
-		u32 fm = 0, fm_mask = 0, zm = 0;
-		if (!r.m_cached_ctx.TEST.ATE || !r.TryAlphaTest(fm, fm_mask, zm) || zm == 0)
+		u32 fm = 0, zm = 0;
+		if (!r.m_cached_ctx.TEST.ATE || !r.TryAlphaTest(fm, zm) || zm == 0)
 			return false;
 	}
 
@@ -976,22 +944,6 @@ bool GSHwHack::OI_DBZBTGames(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTe
 	return false; // Skip current draw
 }
 
-bool GSHwHack::OI_FFX(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
-{
-	const u32 FBP = RFRAME.Block();
-	const u32 ZBP = RZBUF.Block();
-	const u32 TBP = RTEX0.TBP0;
-
-	if (ds && (FBP == 0x00d00 || FBP == 0x00000) && ZBP == 0x02100 && RPRIM->TME && TBP == 0x01a00 && RTEX0.PSM == PSMCT16S)
-	{
-		// random battle transition (z buffer written directly, clear it now)
-		GL_INS("OI_FFX ZB clear");
-		g_gs_device->ClearDepth(ds, 0.0f);
-	}
-
-	return true;
-}
-
 bool GSHwHack::OI_RozenMaidenGebetGarden(GSRendererHW& r, GSTexture* rt, GSTexture* ds, GSTextureCache::Source* t)
 {
 	if (!RPRIM->TME)
@@ -1081,8 +1033,8 @@ bool GSHwHack::OI_SonicUnleashed(GSRendererHW& r, GSTexture* rt, GSTexture* ds, 
 									std::max(rt_again->m_unscaled_size.y, src->m_unscaled_size.y));
 			rt_again->ResizeTexture(new_size.x, new_size.y);
 			rt = rt_again->m_texture;
-			rt_size = new_size;
-			rt_again->UpdateDrawn(GSVector4i::loadh(rt_size));
+			rt_size = new_size * GSVector2i(src->GetScale());
+			rt_again->UpdateDrawn(GSVector4i::loadh(new_size));
 		}
 	}
 
@@ -1343,7 +1295,6 @@ static bool GetMoveTargetPair(GSRendererHW& r, GSTextureCache::Target** src, GIF
 	return true;
 }
 
-// Disabled to avoid compiler warnings, enable when it is needed.
 static bool GetMoveTargetPair(GSRendererHW& r, GSTextureCache::Target** src, GSTextureCache::Target** dst,
 	bool req_target = false, bool preserve_target = false)
 {
@@ -1415,17 +1366,23 @@ bool GSHwHack::MV_Ico(GSRendererHW& r)
 	// Store B -> A using a channel shuffle.
 	u32 pal[256];
 	for (u32 i = 0; i < std::size(pal); i++)
-		pal[i] = i << 24;	
+		pal[i] = i << 24;
 	std::shared_ptr<GSTextureCache::Palette> palette = g_texture_cache->LookupPaletteObject(pal, 256, true);
 	if (!palette)
 		return false;
 
-	const GSVector4i draw_rc = GSVector4i(0, 0, RWIDTH, RHEIGHT);
+	if (dst->GetUnscaledWidth() < static_cast<int>(RWIDTH) || dst->GetUnscaledHeight() < static_cast<int>(RHEIGHT))
+	{
+		if (!dst->ResizeTexture(dst->GetUnscaledWidth(), static_cast<int>(RWIDTH), std::max(dst->GetUnscaledHeight(), static_cast<int>(RHEIGHT))))
+			return false;
+	}
+
+	const GSVector4i draw_rc = GSVector4i(0, 0, RWIDTH, RHEIGHT).rintersect(dst->GetUnscaledRect());
 	dst->UpdateValidChannels(PSMCT32, 0);
 	dst->UpdateValidity(draw_rc);
 
-	GSHWDrawConfig& config = GSRendererHW::GetInstance()->BeginHLEHardwareDraw(dst->GetTexture(), nullptr,
-		dst->GetScale(), src->GetTexture(), src->GetScale(), draw_rc);
+	GSHWDrawConfig& config = GSRendererHW::GetInstance()->BeginHLEHardwareDraw(
+		dst->GetTexture(), nullptr, dst->GetScale(), src->GetTexture(), src->GetScale(), draw_rc);
 	config.pal = palette->GetPaletteGSTexture();
 	config.ps.channel = ChannelFetch_BLUE;
 	config.ps.depth_fmt = 1;
@@ -1461,7 +1418,6 @@ const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_function
 	CRC_F(GSC_Manhunt2),
 	CRC_F(GSC_MidnightClub3),
 	CRC_F(GSC_SacredBlaze),
-	CRC_F(GSC_SakuraTaisen),
 	CRC_F(GSC_SakuraWarsSoLongMyLove),
 	CRC_F(GSC_Simple2000Vol114),
 	CRC_F(GSC_SFEX3),
@@ -1501,7 +1457,6 @@ const GSHwHack::Entry<GSRendererHW::GSC_Ptr> GSHwHack::s_get_skip_count_function
 const GSHwHack::Entry<GSRendererHW::OI_Ptr> GSHwHack::s_before_draw_functions[] = {
 	CRC_F(OI_PointListPalette),
 	CRC_F(OI_DBZBTGames),
-	CRC_F(OI_FFX),
 	CRC_F(OI_RozenMaidenGebetGarden),
 	CRC_F(OI_SonicUnleashed),
 	CRC_F(OI_ArTonelico2),

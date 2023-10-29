@@ -336,7 +336,6 @@ void Host::RequestVMShutdown(bool allow_confirm, bool allow_save_state, bool def
 	VMManager::Shutdown(allow_save_state && default_save_state);
 }
 
-#ifdef ENABLE_ACHIEVEMENTS
 void Host::OnAchievementsLoginRequested(Achievements::LoginRequestReason reason)
 {
 }
@@ -344,7 +343,7 @@ void Host::OnAchievementsLoginRequested(Achievements::LoginRequestReason reason)
 void Host::OnAchievementsRefreshed()
 {
 }
-#endif
+
 
 std::optional<u32> InputManager::ConvertHostKeyboardStringToCode(const std::string_view& str)
 {

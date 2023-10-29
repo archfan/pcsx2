@@ -504,7 +504,6 @@ Pcsx2Config::GSOptions::GSOptions()
 	PCRTCOverscan = false;
 	IntegerScaling = false;
 	LinearPresent = GSPostBilinearMode::BilinearSmooth;
-	SyncToHostRefreshRate = false;
 	UseDebugDevice = false;
 	UseBlitSwapChain = false;
 	DisableShaderCache = false;
@@ -567,9 +566,6 @@ bool Pcsx2Config::GSOptions::operator==(const GSOptions& right) const
 		OpEqu(SynchronousMTGS) &&
 		OpEqu(VsyncQueueSize) &&
 
-		OpEqu(FrameLimitEnable) &&
-
-		OpEqu(LimitScalar) &&
 		OpEqu(FramerateNTSC) &&
 		OpEqu(FrameratePAL) &&
 
@@ -690,14 +686,11 @@ void Pcsx2Config::GSOptions::LoadSave(SettingsWrapper& wrap)
 #endif
 	SettingsWrapEntry(VsyncQueueSize);
 
-	SettingsWrapEntry(FrameLimitEnable);
 	wrap.EnumEntry(CURRENT_SETTINGS_SECTION, "VsyncEnable", VsyncEnable, NULL, VsyncEnable);
 
-	// LimitScalar is set at runtime.
 	SettingsWrapEntry(FramerateNTSC);
 	SettingsWrapEntry(FrameratePAL);
 
-	SettingsWrapBitBool(SyncToHostRefreshRate);
 	SettingsWrapEnumEx(AspectRatio, "AspectRatio", AspectRatioNames);
 	SettingsWrapEnumEx(FMVAspectRatioSwitch, "FMVAspectRatioSwitch", FMVAspectRatioSwitchNames);
 	SettingsWrapIntEnumEx(ScreenshotSize, "ScreenshotSize");
@@ -1100,7 +1093,6 @@ void Pcsx2Config::DEV9Options::LoadSave(SettingsWrapper& wrap)
 		SettingsWrapSection("DEV9/Hdd");
 		SettingsWrapEntry(HddEnable);
 		SettingsWrapEntry(HddFile);
-		SettingsWrapEntry(HddSizeSectors);
 	}
 }
 
@@ -1274,7 +1266,15 @@ void Pcsx2Config::FilenameOptions::LoadSave(SettingsWrapper& wrap)
 	wrap.Entry(CURRENT_SETTINGS_SECTION, "BIOS", Bios, Bios);
 }
 
-void Pcsx2Config::FramerateOptions::SanityCheck()
+Pcsx2Config::EmulationSpeedOptions::EmulationSpeedOptions()
+{
+	bitset = 0;
+
+	FrameLimitEnable = true;
+	SyncToHostRefreshRate = false;
+}
+
+void Pcsx2Config::EmulationSpeedOptions::SanityCheck()
 {
 	// Ensure Conformation of various options...
 
@@ -1283,13 +1283,29 @@ void Pcsx2Config::FramerateOptions::SanityCheck()
 	SlomoScalar = std::clamp(SlomoScalar, 0.05f, 10.0f);
 }
 
-void Pcsx2Config::FramerateOptions::LoadSave(SettingsWrapper& wrap)
+void Pcsx2Config::EmulationSpeedOptions::LoadSave(SettingsWrapper& wrap)
 {
 	SettingsWrapSection("Framerate");
 
 	SettingsWrapEntry(NominalScalar);
 	SettingsWrapEntry(TurboScalar);
 	SettingsWrapEntry(SlomoScalar);
+
+	// This was in the wrong place... but we can't change it without breaking existing configs.
+	//SettingsWrapBitBool(FrameLimitEnable);
+	//SettingsWrapBitBool(SyncToHostRefreshRate);
+	FrameLimitEnable = wrap.EntryBitBool("EmuCore/GS", "FrameLimitEnable", FrameLimitEnable, FrameLimitEnable);
+	SyncToHostRefreshRate = wrap.EntryBitBool("EmuCore/GS", "SyncToHostRefreshRate", SyncToHostRefreshRate, SyncToHostRefreshRate);
+}
+
+bool Pcsx2Config::EmulationSpeedOptions::operator==(const EmulationSpeedOptions& right) const
+{
+	return OpEqu(bitset) && OpEqu(NominalScalar) && OpEqu(TurboScalar) && OpEqu(SlomoScalar);
+}
+
+bool Pcsx2Config::EmulationSpeedOptions::operator!=(const EmulationSpeedOptions& right) const
+{
+	return !this->operator==(right);
 }
 
 Pcsx2Config::USBOptions::USBOptions()
@@ -1415,20 +1431,17 @@ bool Pcsx2Config::PadOptions::Port::operator!=(const PadOptions::Port& right) co
 	return !this->operator==(right);
 }
 
-#ifdef ENABLE_ACHIEVEMENTS
-
 Pcsx2Config::AchievementsOptions::AchievementsOptions()
 {
 	Enabled = false;
-	TestMode = false;
+	HardcoreMode = false;
+	EncoreMode = false;
+	SpectatorMode = false;
 	UnofficialTestMode = false;
-	RichPresence = true;
-	ChallengeMode = false;
-	Leaderboards = true;
 	Notifications = true;
+	LeaderboardNotifications = true;
 	SoundEffects = true;
-	PrimedIndicators = true;
-	NotificationsDuration = 5;
+	Overlays = true;
 }
 
 void Pcsx2Config::AchievementsOptions::LoadSave(SettingsWrapper& wrap)
@@ -1436,24 +1449,34 @@ void Pcsx2Config::AchievementsOptions::LoadSave(SettingsWrapper& wrap)
 	SettingsWrapSection("Achievements");
 
 	SettingsWrapBitBool(Enabled);
-	SettingsWrapBitBool(TestMode);
+	SettingsWrapBitBoolEx(HardcoreMode, "ChallengeMode");
+	SettingsWrapBitBool(EncoreMode);
+	SettingsWrapBitBool(SpectatorMode);
 	SettingsWrapBitBool(UnofficialTestMode);
-	SettingsWrapBitBool(RichPresence);
-	SettingsWrapBitBool(ChallengeMode);
-	SettingsWrapBitBool(Leaderboards);
 	SettingsWrapBitBool(Notifications);
+	SettingsWrapBitBool(LeaderboardNotifications);
 	SettingsWrapBitBool(SoundEffects);
-	SettingsWrapBitBool(PrimedIndicators);
-	SettingsWrapBitfield(NotificationsDuration);
+	SettingsWrapBitBool(Overlays);
+	SettingsWrapEntry(NotificationsDuration);
+	SettingsWrapEntry(LeaderboardsDuration);
 
 	if (wrap.IsLoading())
 	{
 		//Clamp in case setting was updated manually using the INI
-		NotificationsDuration = std::clamp(NotificationsDuration, 3, 10);
+		NotificationsDuration = std::clamp(NotificationsDuration, MINIMUM_NOTIFICATION_DURATION, MAXIMUM_NOTIFICATION_DURATION);
+		LeaderboardsDuration = std::clamp(LeaderboardsDuration, MINIMUM_NOTIFICATION_DURATION, MAXIMUM_NOTIFICATION_DURATION);
 	}
 }
 
-#endif
+bool Pcsx2Config::AchievementsOptions::operator==(const AchievementsOptions& right) const
+{
+	return OpEqu(bitset) && OpEqu(NotificationsDuration) && OpEqu(LeaderboardsDuration);
+}
+
+bool Pcsx2Config::AchievementsOptions::operator!=(const AchievementsOptions& right) const
+{
+	return !this->operator==(right);
+}
 
 Pcsx2Config::Pcsx2Config()
 {
@@ -1489,7 +1512,7 @@ Pcsx2Config::Pcsx2Config()
 	PINESlot = 28011;
 }
 
-void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
+void Pcsx2Config::LoadSaveCore(SettingsWrapper& wrap)
 {
 	// Switch the rounding mode back to the system default for loading settings.
 	// That way, we'll get exactly the same values as what we loaded when we first started.
@@ -1535,12 +1558,8 @@ void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
 
 	Debugger.LoadSave(wrap);
 	Trace.LoadSave(wrap);
-	USB.LoadSave(wrap);
-	Pad.LoadSave(wrap);
 
-#ifdef ENABLE_ACHIEVEMENTS
 	Achievements.LoadSave(wrap);
-#endif
 
 	SettingsWrapEntry(GzipIsoIndexTemplate);
 	SettingsWrapEntry(PINESlot);
@@ -1549,7 +1568,7 @@ void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
 	SettingsWrapEntryEx(CurrentBlockdump, "BlockDumpSaveDirectory");
 
 	BaseFilenames.LoadSave(wrap);
-	Framerate.LoadSave(wrap);
+	EmulationSpeed.LoadSave(wrap);
 	LoadSaveMemcards(wrap);
 
 #ifdef _WIN32
@@ -1562,6 +1581,13 @@ void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
 	}
 
 	SSE_MXCSR::SetCurrent(prev_mxcsr);
+}
+
+void Pcsx2Config::LoadSave(SettingsWrapper& wrap)
+{
+	LoadSaveCore(wrap);
+	USB.LoadSave(wrap);
+	Pad.LoadSave(wrap);
 }
 
 void Pcsx2Config::LoadSaveMemcards(SettingsWrapper& wrap)
@@ -1599,44 +1625,37 @@ std::string Pcsx2Config::FullpathToMcd(uint slot) const
 	return Path::Combine(EmuFolders::MemoryCards, Mcd[slot].Filename);
 }
 
-bool Pcsx2Config::operator==(const Pcsx2Config& right) const
-{
-	bool equal =
-		OpEqu(bitset) &&
-		OpEqu(Cpu) &&
-		OpEqu(GS) &&
-		OpEqu(DEV9) &&
-		OpEqu(Speedhacks) &&
-		OpEqu(Gamefixes) &&
-		OpEqu(Profiler) &&
-		OpEqu(Debugger) &&
-		OpEqu(Framerate) &&
-		OpEqu(Trace) &&
-		OpEqu(BaseFilenames) &&
-		OpEqu(GzipIsoIndexTemplate) &&
-		OpEqu(PINESlot);
-	for (u32 i = 0; i < sizeof(Mcd) / sizeof(Mcd[0]); i++)
-	{
-		equal &= OpEqu(Mcd[i].Enabled);
-		equal &= OpEqu(Mcd[i].Filename);
-	}
-
-	return equal;
-}
-
 void Pcsx2Config::CopyRuntimeConfig(Pcsx2Config& cfg)
 {
-	GS.LimitScalar = cfg.GS.LimitScalar;
 	CurrentBlockdump = std::move(cfg.CurrentBlockdump);
 	CurrentIRX = std::move(cfg.CurrentIRX);
 	CurrentGameArgs = std::move(cfg.CurrentGameArgs);
 	CurrentAspectRatio = cfg.CurrentAspectRatio;
-	LimiterMode = cfg.LimiterMode;
 
 	for (u32 i = 0; i < sizeof(Mcd) / sizeof(Mcd[0]); i++)
 	{
 		Mcd[i].Type = cfg.Mcd[i].Type;
 	}
+}
+
+void Pcsx2Config::CopyConfiguration(SettingsInterface* dest_si, SettingsInterface& src_si)
+{
+	Pcsx2Config temp;
+	{
+		SettingsLoadWrapper wrapper(src_si);
+		temp.LoadSaveCore(wrapper);
+	}
+	{
+		SettingsSaveWrapper wrapper(*dest_si);
+		temp.LoadSaveCore(wrapper);
+	}
+}
+
+void Pcsx2Config::ClearConfiguration(SettingsInterface* dest_si)
+{
+	Pcsx2Config temp;
+	SettingsClearWrapper wrapper(*dest_si);
+	temp.LoadSaveCore(wrapper);
 }
 
 bool EmuFolders::InitializeCriticalFolders()
@@ -1728,16 +1747,12 @@ void EmuFolders::SetDataDirectory()
 		const char* home_dir = getenv("HOME");
 		if (home_dir)
 		{
-#ifdef USE_LEGACY_USER_DIRECTORY
-			DataRoot = Path::Combine(home_dir, "PCSX2");
-#else
 			// ~/.config should exist, but just in case it doesn't and this is a fresh profile..
 			const std::string config_dir(Path::Combine(home_dir, ".config"));
 			if (!FileSystem::DirectoryExists(config_dir.c_str()))
 				FileSystem::CreateDirectoryPath(config_dir.c_str(), false);
 
 			DataRoot = Path::Combine(config_dir, "PCSX2");
-#endif
 		}
 	}
 #elif defined(__APPLE__)

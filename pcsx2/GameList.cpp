@@ -1,5 +1,5 @@
 /*  PCSX2 - PS2 Emulator for PCs
- *  Copyright (C) 2002-2023  PCSX2 Dev Team
+ *  Copyright (C) 2002-2023 PCSX2 Dev Team
  *
  *  PCSX2 is free software: you can redistribute it and/or modify it under the terms
  *  of the GNU Lesser General Public License as published by the Free Software Found-
@@ -25,6 +25,7 @@
 #include "common/Assertions.h"
 #include "common/Console.h"
 #include "common/FileSystem.h"
+#include "common/Error.h"
 #include "common/HTTPDownloader.h"
 #include "common/HeterogeneousContainers.h"
 #include "common/Path.h"
@@ -49,7 +50,7 @@ namespace GameList
 	enum : u32
 	{
 		GAME_LIST_CACHE_SIGNATURE = 0x45434C47,
-		GAME_LIST_CACHE_VERSION = 33,
+		GAME_LIST_CACHE_VERSION = 34,
 
 
 		PLAYED_TIME_SERIAL_LENGTH = 32,
@@ -171,10 +172,15 @@ void GameList::FillBootParametersForEntry(VMBootParameters* params, const Entry*
 
 bool GameList::GetIsoSerialAndCRC(const std::string& path, s32* disc_type, std::string* serial, u32* crc)
 {
+	Error error;
+
 	// This isn't great, we really want to make it all thread-local...
 	CDVD = &CDVDapi_Iso;
-	if (CDVD->open(path.c_str()) != 0)
+	if (!CDVD->open(path, &error))
+	{
+		Console.Error(fmt::format("(GameList::GetIsoSerialAndCRC) CDVD open of '{}' failed: {}", path, error.GetDescription()));
 		return false;
+	}
 
 	// TODO: we could include the version in the game list?
 	*disc_type = DoCDVDdetectDiskType();
@@ -334,6 +340,8 @@ bool GameList::GetIsoListEntry(const std::string& path, GameList::Entry* entry)
 	if (const GameDatabaseSchema::GameEntry* db_entry = GameDatabase::findGame(entry->serial))
 	{
 		entry->title = std::move(db_entry->name);
+		entry->title_sort = std::move(db_entry->name_sort);
+		entry->title_en = std::move(db_entry->name_en);
 		entry->compatibility_rating = db_entry->compat;
 		entry->region = ParseDatabaseRegion(db_entry->region);
 	}
@@ -437,10 +445,11 @@ bool GameList::LoadEntriesFromCache(std::FILE* stream)
 		u8 compatibility_rating;
 		u64 last_modified_time;
 
-		if (!ReadString(stream, &path) || !ReadString(stream, &ge.serial) || !ReadString(stream, &ge.title) || !ReadU8(stream, &type) ||
-			!ReadU8(stream, &region) || !ReadU64(stream, &ge.total_size) || !ReadU64(stream, &last_modified_time) ||
-			!ReadU32(stream, &ge.crc) || !ReadU8(stream, &compatibility_rating) || region >= static_cast<u8>(Region::Count) ||
-			type >= static_cast<u8>(EntryType::Count) || compatibility_rating > static_cast<u8>(CompatibilityRating::Perfect))
+		if (!ReadString(stream, &path) || !ReadString(stream, &ge.serial) || !ReadString(stream, &ge.title) || !ReadString(stream, &ge.title_sort) ||
+			!ReadString(stream, &ge.title_en) || !ReadU8(stream, &type) || !ReadU8(stream, &region) || !ReadU64(stream, &ge.total_size) ||
+			!ReadU64(stream, &last_modified_time) || !ReadU32(stream, &ge.crc) || !ReadU8(stream, &compatibility_rating) ||
+			region >= static_cast<u8>(Region::Count) || type >= static_cast<u8>(EntryType::Count) ||
+			compatibility_rating > static_cast<u8>(CompatibilityRating::Perfect))
 		{
 			Console.Warning("Game list cache entry is corrupted");
 			return false;
@@ -532,6 +541,8 @@ bool GameList::WriteEntryToCache(const Entry* entry)
 	result &= WriteString(s_cache_write_stream, entry->path);
 	result &= WriteString(s_cache_write_stream, entry->serial);
 	result &= WriteString(s_cache_write_stream, entry->title);
+	result &= WriteString(s_cache_write_stream, entry->title_sort);
+	result &= WriteString(s_cache_write_stream, entry->title_en);
 	result &= WriteU8(s_cache_write_stream, static_cast<u8>(entry->type));
 	result &= WriteU8(s_cache_write_stream, static_cast<u8>(entry->region));
 	result &= WriteU64(s_cache_write_stream, entry->total_size);
@@ -1075,12 +1086,11 @@ std::time_t GameList::GetCachedPlayedTimeForSerial(const std::string& serial)
 
 std::string GameList::FormatTimestamp(std::time_t timestamp)
 {
-	// TODO: All these strings should be translateable.
 	std::string ret;
 
 	if (timestamp == 0)
 	{
-		ret = "Never";
+		ret = TRANSLATE_STR("GameList", "Never");
 	}
 	else
 	{
@@ -1097,12 +1107,12 @@ std::string GameList::FormatTimestamp(std::time_t timestamp)
 
 		if (ctime.tm_year == ttime.tm_year && ctime.tm_yday == ttime.tm_yday)
 		{
-			ret = "Today";
+			ret = TRANSLATE_STR("GameList", "Today");
 		}
 		else if ((ctime.tm_year == ttime.tm_year && ctime.tm_yday == (ttime.tm_yday + 1)) ||
 				 (ctime.tm_yday == 0 && (ctime.tm_year - 1) == ttime.tm_year))
 		{
-			ret = "Yesterday";
+			ret = TRANSLATE_STR("GameList", "Yesterday");
 		}
 		else
 		{
@@ -1125,22 +1135,22 @@ std::string GameList::FormatTimespan(std::time_t timespan, bool long_format)
 	if (!long_format)
 	{
 		if (hours >= 100)
-			ret = fmt::format("{}h {}m", hours, minutes);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{}h {}m"), hours, minutes);
 		else if (hours > 0)
-			ret = fmt::format("{}h {}m {}s", hours, minutes, seconds);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{}h {}m {}s"), hours, minutes, seconds);
 		else if (minutes > 0)
-			ret = fmt::format("{}m {}s", minutes, seconds);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{}m {}s"), minutes, seconds);
 		else if (seconds > 0)
-			ret = fmt::format("{}s", seconds);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{}s"), seconds);
 		else
 			ret = "None";
 	}
 	else
 	{
 		if (hours > 0)
-			ret = fmt::format("{} hours", hours);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{} hours"), hours);
 		else
-			ret = fmt::format("{} minutes", minutes);
+			ret = fmt::format(TRANSLATE_FS("GameList", "{} minutes"), minutes);
 	}
 
 	return ret;
@@ -1297,7 +1307,7 @@ bool GameList::DownloadCovers(const std::vector<std::string>& url_templates, boo
 				continue;
 			}
 
-			progress->SetFormattedStatusText("Downloading cover for %s [%s]...", entry->title.c_str(), entry->serial.c_str());
+			progress->SetStatusText(fmt::format(TRANSLATE_FS("GameList","Downloading cover for {0} [{1}]..."), entry->title, entry->serial).c_str());
 		}
 
 		// we could actually do a few in parallel here...

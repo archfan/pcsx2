@@ -63,9 +63,10 @@ private:
 	u32 GetConstantDirectWriteMemClearColor() const;
 	u32 GetConstantDirectWriteMemClearDepth() const;
 	bool IsReallyDithered() const;
+	bool AreAnyPixelsDiscarded() const;
 	bool IsDiscardingDstColor();
 	bool IsDiscardingDstRGB();
-	bool IsDiscardingDstAlpha();
+	bool IsDiscardingDstAlpha() const;
 	bool PrimitiveCoversWithoutGaps();
 
 	enum class CLUTDrawTestResult
@@ -108,7 +109,7 @@ private:
 
 	bool IsPossibleChannelShuffle() const;
 	bool NextDrawMatchesShuffle() const;
-	bool IsSplitTextureShuffle(u32 rt_tbw);
+	bool IsSplitTextureShuffle(GSTextureCache::Target* rt);
 	GSVector4i GetSplitTextureShuffleDrawRect() const;
 	u32 GetEffectiveTextureShuffleFbmsk() const;
 

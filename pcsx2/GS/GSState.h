@@ -164,7 +164,7 @@ protected:
 	bool IsAutoFlushDraw(u32 prim);
 	template<u32 prim, bool index_swap>
 	void HandleAutoFlush();
-	void CLUTAutoFlush(u32 prim);
+	void CheckCLUTValidity(u32 prim);
 
 	template <u32 prim, bool auto_flush, bool index_swap>
 	void VertexKick(u32 skip);
@@ -193,7 +193,7 @@ protected:
 		u8 uses_boundary;    ///< Whether or not the usage touches the left, top, right, or bottom edge (and therefore needs wrap modes preserved)
 	};
 	TextureMinMaxResult GetTextureMinMax(GIFRegTEX0 TEX0, GIFRegCLAMP CLAMP, bool linear, bool clamp_to_tsize);
-	bool TryAlphaTest(u32& fm, const u32 fm_mask, u32& zm);
+	bool TryAlphaTest(u32& fm, u32& zm);
 	bool IsOpaque();
 	bool IsMipMapDraw();
 	bool IsMipMapActive();
