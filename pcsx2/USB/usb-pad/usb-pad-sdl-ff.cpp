@@ -24,7 +24,7 @@
 
 #include <algorithm>
 
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 
 namespace usb_pad
 {

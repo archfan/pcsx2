@@ -52,7 +52,7 @@ namespace Pad
 	static std::unique_ptr<PadBase> CreatePad(u8 unifiedSlot, Pad::ControllerType controllerType);
 	static PadBase* ChangePadType(u8 unifiedSlot, Pad::ControllerType controllerType);
 
-	void LoadMacroButtonConfig(
+	static void LoadMacroButtonConfig(
 		const SettingsInterface& si, u32 pad, const ControllerInfo* ci, const std::string& section);
 	static void ApplyMacroButton(u32 controller, const MacroButton& mb);
 
@@ -150,7 +150,7 @@ void Pad::SetDefaultControllerConfig(SettingsInterface& si)
 			InputManager::InputSourceToString(static_cast<InputSourceType>(i)),
 			InputManager::GetInputSourceDefaultEnabled(static_cast<InputSourceType>(i)));
 	}
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 	si.SetBoolValue("InputSources", "SDLControllerEnhancedMode", false);
 #endif
 	si.SetBoolValue("Pad", "MultitapPort1", false);
@@ -354,7 +354,7 @@ void Pad::CopyConfiguration(SettingsInterface* dest_si, const SettingsInterface&
 			dest_si->CopyBoolValue(src_si, "InputSources",
 				InputManager::InputSourceToString(static_cast<InputSourceType>(i)));
 		}
-#ifdef SDL_BUILD
+#ifndef WINRT_XBOX
 		dest_si->CopyBoolValue(src_si, "InputSources", "SDLControllerEnhancedMode");
 #endif
 	}
@@ -576,8 +576,8 @@ bool Pad::Freeze(StateWrapper& sw)
 				const auto& [port, slot] = sioConvertPadToPortAndSlot(unifiedSlot);
 				Host::AddIconOSDMessage(fmt::format("UnfreezePad{}Changed", unifiedSlot), ICON_FA_GAMEPAD,
 					fmt::format(TRANSLATE_FS("Pad",
-									"Controller port {}, slot {} has a {} connected, but the save state has a "
-									"{}.\nLeaving the original controller type connected, but this may cause issues."),
+									"Controller port {0}, slot {1} has a {2} connected, but the save state has a "
+									"{3}.\nLeaving the original controller type connected, but this may cause issues."),
 						port, slot,
 						GetControllerTypeName(pad ? pad->GetType() : Pad::ControllerType::NotConnected),
 						GetControllerTypeName(type)));

@@ -707,7 +707,7 @@ bool GSDevice12::Create()
 		return false;
 
 	{
-		std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/dx11/tfx.fx");
+		std::optional<std::string> shader = ReadShaderSource("shaders/dx11/tfx.fx");
 		if (!shader.has_value())
 		{
 			Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/tfx.fxf.");
@@ -1886,7 +1886,7 @@ bool GSDevice12::CompileCASPipelines()
 	if (!m_cas_root_signature)
 		return false;
 
-	std::optional<std::string> cas_source(Host::ReadResourceFileToString("shaders/dx11/cas.hlsl"));
+	std::optional<std::string> cas_source = ReadShaderSource("shaders/dx11/cas.hlsl");
 	if (!cas_source.has_value() || !GetCASShaderSource(&cas_source.value()))
 		return false;
 
@@ -1914,7 +1914,7 @@ bool GSDevice12::CompileCASPipelines()
 
 bool GSDevice12::CompileImGuiPipeline()
 {
-	const std::optional<std::string> hlsl = Host::ReadResourceFileToString("shaders/dx11/imgui.fx");
+	const std::optional<std::string> hlsl = ReadShaderSource("shaders/dx11/imgui.fx");
 	if (!hlsl.has_value())
 	{
 		Console.Error("Failed to read imgui.fx");
@@ -2383,7 +2383,7 @@ bool GSDevice12::CreateRootSignatures()
 
 bool GSDevice12::CompileConvertPipelines()
 {
-	std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/dx11/convert.fx");
+	std::optional<std::string> shader = ReadShaderSource("shaders/dx11/convert.fx");
 	if (!shader)
 	{
 		Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/convert.fx.");
@@ -2534,7 +2534,7 @@ bool GSDevice12::CompileConvertPipelines()
 
 bool GSDevice12::CompilePresentPipelines()
 {
-	std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/dx11/present.fx");
+	const std::optional<std::string> shader = ReadShaderSource("shaders/dx11/present.fx");
 	if (!shader)
 	{
 		Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/present.fx.");
@@ -2578,7 +2578,7 @@ bool GSDevice12::CompilePresentPipelines()
 
 bool GSDevice12::CompileInterlacePipelines()
 {
-	std::optional<std::string> source = Host::ReadResourceFileToString("shaders/dx11/interlace.fx");
+	const std::optional<std::string> source = ReadShaderSource("shaders/dx11/interlace.fx");
 	if (!source)
 	{
 		Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/interlace.fx.");
@@ -2614,7 +2614,7 @@ bool GSDevice12::CompileInterlacePipelines()
 
 bool GSDevice12::CompileMergePipelines()
 {
-	std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/dx11/merge.fx");
+	const std::optional<std::string> shader = ReadShaderSource("shaders/dx11/merge.fx");
 	if (!shader)
 	{
 		Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/merge.fx.");
@@ -2661,7 +2661,7 @@ bool GSDevice12::CompilePostProcessingPipelines()
 	gpb.SetVertexShader(m_convert_vs.get());
 
 	{
-		std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/common/fxaa.fx");
+		const std::optional<std::string> shader = ReadShaderSource("shaders/common/fxaa.fx");
 		if (!shader)
 		{
 			Host::ReportErrorAsync("GS", "Failed to read shaders/common/fxaa.fx.");
@@ -2684,7 +2684,7 @@ bool GSDevice12::CompilePostProcessingPipelines()
 	}
 
 	{
-		std::optional<std::string> shader = Host::ReadResourceFileToString("shaders/dx11/shadeboost.fx");
+		const std::optional<std::string> shader = ReadShaderSource("shaders/dx11/shadeboost.fx");
 		if (!shader)
 		{
 			Host::ReportErrorAsync("GS", "Failed to read shaders/dx11/shadeboost.fx.");
@@ -2834,7 +2834,7 @@ const ID3DBlob* GSDevice12::GetTFXPixelShader(const GSHWDrawConfig::PSSelector& 
 	sm.AddMacro("PS_CHANNEL_FETCH", sel.channel);
 	sm.AddMacro("PS_TALES_OF_ABYSS_HLE", sel.tales_of_abyss_hle);
 	sm.AddMacro("PS_URBAN_CHAOS_HLE", sel.urban_chaos_hle);
-	sm.AddMacro("PS_DFMT", sel.dfmt);
+	sm.AddMacro("PS_DST_FMT", sel.dst_fmt);
 	sm.AddMacro("PS_DEPTH_FMT", sel.depth_fmt);
 	sm.AddMacro("PS_PAL_FMT", sel.pal_fmt);
 	sm.AddMacro("PS_HDR", sel.hdr);

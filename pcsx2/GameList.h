@@ -90,10 +90,24 @@ namespace GameList
 		std::string path;
 		std::string serial;
 		std::string title;
+		std::string title_sort;
+		std::string title_en;
 		u64 total_size = 0;
 		std::time_t last_modified_time = 0;
 		std::time_t last_played_time = 0;
 		std::time_t total_played_time = 0;
+
+		const std::string& GetTitle(bool force_en = false) const
+		{
+			return title_en.empty() || !force_en ? title : title_en;
+		}
+		const std::string& GetTitleSort(bool force_en = false) const
+		{
+			// If there's a separate EN title, then title_sort is in the wrong language and we can't use it
+			if (force_en && !title_en.empty())
+				return title_en;
+			return title_sort.empty() ? title : title_sort;
+		}
 
 		u32 crc = 0;
 
@@ -161,3 +175,9 @@ namespace GameList
 	void SaveCustomRegionForPath(const std::string& path, int custom_region);
 	std::string GetCustomTitleForPath(const std::string& path);
 } // namespace GameList
+
+namespace Host
+{
+/// Called by Big Picture UI to begin cover download.
+void OnCoverDownloaderOpenRequested();
+}

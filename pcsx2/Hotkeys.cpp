@@ -40,13 +40,16 @@ void VMManager::Internal::ResetVMHotkeyState()
 
 static void HotkeyAdjustTargetSpeed(double delta)
 {
-	const double min_speed = Achievements::ChallengeModeActive() ? 1.0 : 0.1;
-	EmuConfig.Framerate.NominalScalar = std::max(min_speed, EmuConfig.Framerate.NominalScalar + delta);
-	EmuConfig.LimiterMode = LimiterModeType::Unlimited; // force update
-	VMManager::SetLimiterMode(LimiterModeType::Nominal);
+	const double min_speed = Achievements::IsHardcoreModeActive() ? 1.0 : 0.1;
+	EmuConfig.EmulationSpeed.NominalScalar = std::max(min_speed, EmuConfig.EmulationSpeed.NominalScalar + delta);
+	if (VMManager::GetLimiterMode() != LimiterModeType::Nominal)
+		VMManager::SetLimiterMode(LimiterModeType::Nominal);
+	else
+		VMManager::UpdateTargetSpeed();
+
 	Host::AddIconOSDMessage("SpeedChanged", ICON_FA_CLOCK,
 		fmt::format(TRANSLATE_FS("Hotkeys", "Target speed set to {:.0f}%."),
-			std::round(EmuConfig.Framerate.NominalScalar * 100.0)),
+			std::round(EmuConfig.EmulationSpeed.NominalScalar * 100.0)),
 		Host::OSD_QUICK_DURATION);
 }
 
@@ -103,7 +106,7 @@ static void HotkeyCycleSaveSlot(s32 delta)
 
 		Host::AddIconOSDMessage("CycleSaveSlot", ICON_FA_SEARCH,
 			fmt::format(
-				TRANSLATE_FS("Hotkeys", "Save slot {} selected (last save: {})."), s_current_save_slot, date_buf),
+				TRANSLATE_FS("Hotkeys", "Save slot {0} selected (last save: {1})."), s_current_save_slot, date_buf),
 			Host::OSD_QUICK_DURATION);
 	}
 	else
@@ -140,7 +143,6 @@ DEFINE_HOTKEY("OpenPauseMenu", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NO
 		if (!pressed && VMManager::HasValidVM())
 			FullscreenUI::OpenPauseMenu();
 	})
-#ifdef ENABLE_ACHIEVEMENTS
 DEFINE_HOTKEY("OpenAchievementsList", TRANSLATE_NOOP("Hotkeys", "System"),
 	TRANSLATE_NOOP("Hotkeys", "Open Achievements List"), [](s32 pressed) {
 		if (!pressed)
@@ -151,11 +153,18 @@ DEFINE_HOTKEY("OpenLeaderboardsList", TRANSLATE_NOOP("Hotkeys", "System"),
 		if (!pressed)
 			FullscreenUI::OpenLeaderboardsWindow();
 	})
+<<<<<<< HEAD
 #endif
 		DEFINE_HOTKEY(
 			"TogglePause", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Pause"), [](s32 pressed) {
 				if (!pressed && VMManager::HasValidVM())
 					Host::RunOnCPUThread([]() { VMManager::SetPaused(VMManager::GetState() != VMState::Paused); });
+=======
+DEFINE_HOTKEY(
+	"TogglePause", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Pause"), [](s32 pressed) {
+		if (!pressed && VMManager::HasValidVM())
+			VMManager::SetPaused(VMManager::GetState() != VMState::Paused);
+>>>>>>> v1.7.5164
 	})
 DEFINE_HOTKEY("ToggleFullscreen", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Fullscreen"),
 	[](s32 pressed) {
@@ -166,7 +175,7 @@ DEFINE_HOTKEY("ToggleFrameLimit", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE
 	[](s32 pressed) {
 		if (!pressed && VMManager::HasValidVM())
 		{
-			VMManager::SetLimiterMode((EmuConfig.LimiterMode != LimiterModeType::Unlimited) ?
+			VMManager::SetLimiterMode((VMManager::GetLimiterMode() != LimiterModeType::Unlimited) ?
 										  LimiterModeType::Unlimited :
 										  LimiterModeType::Nominal);
 		}
@@ -176,7 +185,7 @@ DEFINE_HOTKEY("ToggleTurbo", TRANSLATE_NOOP("Hotkeys", "System"),
 		if (!pressed && VMManager::HasValidVM())
 		{
 			VMManager::SetLimiterMode(
-				(EmuConfig.LimiterMode != LimiterModeType::Turbo) ? LimiterModeType::Turbo : LimiterModeType::Nominal);
+				(VMManager::GetLimiterMode() != LimiterModeType::Turbo) ? LimiterModeType::Turbo : LimiterModeType::Nominal);
 		}
 	})
 DEFINE_HOTKEY("ToggleSlowMotion", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE_NOOP("Hotkeys", "Toggle Slow Motion"),
@@ -184,7 +193,7 @@ DEFINE_HOTKEY("ToggleSlowMotion", TRANSLATE_NOOP("Hotkeys", "System"), TRANSLATE
 		if (!pressed && VMManager::HasValidVM())
 		{
 			VMManager::SetLimiterMode(
-				(EmuConfig.LimiterMode != LimiterModeType::Slomo) ? LimiterModeType::Slomo : LimiterModeType::Nominal);
+				(VMManager::GetLimiterMode() != LimiterModeType::Slomo) ? LimiterModeType::Slomo : LimiterModeType::Nominal);
 		}
 	})
 DEFINE_HOTKEY("HoldTurbo", TRANSLATE_NOOP("Hotkeys", "System"),
