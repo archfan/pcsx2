@@ -1,3 +1,11 @@
+pcsx2-qt/* merge=ignoreChanges
+pcsx2-gsrunner/* merge=ignoreChanges
+updater/* merge=ignoreChanges
+
+[merge "ignoreChanges"]
+    name = keep ours merge driver
+    driver = true
+
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto
 
