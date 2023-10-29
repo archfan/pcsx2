@@ -1,3 +1,6 @@
+updater/
+pcsx2-qt/
+pcsx2-gsrunner/
 .*.swp
 .*.swn
 .*.swo
