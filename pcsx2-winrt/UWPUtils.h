@@ -35,6 +35,6 @@ namespace UWP
 		}
 
 		// If E:\xbsx2 doesn't exist or if there's an exception, fall back to default LocalFolder path.
-		return winrt::to_string(Windows::Storage::ApplicationData::Current().LocalFolder().Path());
+		return winrt::to_string(winrt::Windows::Storage::ApplicationData::Current().LocalFolder().Path());
 	}
 }
