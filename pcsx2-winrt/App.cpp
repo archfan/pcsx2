@@ -92,9 +92,66 @@ bool WinRTHost::InitializeConfig()
 	if (!EmuFolders::InitializeCriticalFolders())
 		return false;
 
-	const std::string path(Path::Combine(EmuFolders::Settings, "PCSX2.ini"));
-	Console.WriteLn("Loading config from %s.", path.c_str());
-	s_settings_interface = std::make_unique<INISettingsInterface>(std::move(path));
+    std::string basePath = "E:/XBSX2"; // TODO: external drive is assumed. not the best practice.
+
+    // Define default folder paths
+    EmuFolders::AppRoot = basePath;
+    EmuFolders::DataRoot = Path::Combine(basePath, "data");
+    EmuFolders::Settings = Path::Combine(basePath, "settings");
+    EmuFolders::Bios = Path::Combine(basePath, "bios");
+    EmuFolders::Snapshots = Path::Combine(basePath, "snapshots");
+    EmuFolders::Savestates = Path::Combine(basePath, "savestates");
+    EmuFolders::MemoryCards = Path::Combine(basePath, "memorycards");
+    EmuFolders::Langs = Path::Combine(basePath, "langs");
+    EmuFolders::Logs = Path::Combine(basePath, "logs");
+    EmuFolders::Cheats = Path::Combine(basePath, "cheats");
+    EmuFolders::Patches = Path::Combine(basePath, "patches");
+    EmuFolders::Resources = Path::Combine(basePath, "resources");
+    EmuFolders::Cache = Path::Combine(basePath, "cache");
+    EmuFolders::Covers = Path::Combine(basePath, "covers");
+    EmuFolders::GameSettings = Path::Combine(basePath, "gamesettings");
+    EmuFolders::Textures = Path::Combine(basePath, "textures");
+    EmuFolders::InputProfiles = Path::Combine(basePath, "inputprofiles");
+    EmuFolders::Videos = Path::Combine(basePath, "videos");
+
+    std::string configFile = Path::Combine(basePath, "xbsx2.ini");
+
+    // Check if "E:/XBSX2/xbsx2.ini" exists
+    if (!std::filesystem::exists(configFile)) {
+        // If the directory doesn't exist, create it
+        if (!std::filesystem::exists(basePath)) {
+            std::filesystem::create_directory(basePath);
+        }
+
+        // Create and set default settings in "E:/XBSX2/xbsx2.ini"
+        std::ofstream outFile(configFile);
+        outFile.close();
+
+        auto tempSettingsInterface = std::make_unique<INISettingsInterface>(configFile);
+        // Setting default values for each path
+		tempSettingsInterface->SetStringValue("Paths", "AppRoot", EmuFolders::AppRoot.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "DataRoot", EmuFolders::DataRoot.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Settings", EmuFolders::Settings.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Bios", EmuFolders::Bios.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Snapshots", EmuFolders::Snapshots.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Savestates", EmuFolders::Savestates.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "MemoryCards", EmuFolders::MemoryCards.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Langs", EmuFolders::Langs.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Logs", EmuFolders::Logs.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Cheats", EmuFolders::Cheats.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Patches", EmuFolders::Patches.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Resources", EmuFolders::Resources.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Cache", EmuFolders::Cache.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Covers", EmuFolders::Covers.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "GameSettings", EmuFolders::GameSettings.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Textures", EmuFolders::Textures.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "InputProfiles", EmuFolders::InputProfiles.c_str());
+        tempSettingsInterface->SetStringValue("Paths", "Videos", EmuFolders::Videos.c_str());
+        tempSettingsInterface->Save();
+    }
+
+	Console.WriteLn("Loading config from %s.", configFile.c_str());
+	s_settings_interface = std::make_unique<INISettingsInterface>(configFile);
 	Host::Internal::SetBaseSettingsLayer(s_settings_interface.get());
 
 	if (!s_settings_interface->Load() || !VMManager::Internal::CheckSettingsVersion())
