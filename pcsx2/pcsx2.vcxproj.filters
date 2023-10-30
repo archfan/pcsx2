@@ -1251,9 +1251,6 @@
     <ClCompile Include="USB\deviceproxy.cpp">
       <Filter>System\Ps2\USB</Filter>
     </ClCompile>
-    <ClCompile Include="USB\usb-pad\usb-pad-sdl-ff.cpp">
-      <Filter>System\Ps2\USB\usb-pad</Filter>
-    </ClCompile>
     <ClCompile Include="SPU2\Debug.cpp">
       <Filter>System\Ps2\SPU2</Filter>
     </ClCompile>
