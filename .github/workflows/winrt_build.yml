@@ -6,7 +6,7 @@ on:
       - '*'
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   # MSBUILD
@@ -52,4 +52,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: XBSX2.0 Nightly Build (AVX2)
-          path: AppPackages/xbsx2
+          path: |
+            AppPackages/xbsx2
+            !AppPackages/xbsx2/*.appxsym
+            !AppPackages/xbsx2/TelemetryDependencies
+            !AppPackages/xbsx2/Add-AppDevPackage.resources
+            !AppPackages/xbsx2/Add-AppDevPackage.ps1
+            !AppPackages/xbsx2/Add-AppDevPackage.resources
+            !AppPackages/xbsx2/Dependencies/ARM*
