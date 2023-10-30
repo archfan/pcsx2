@@ -253,14 +253,8 @@
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Host.cpp" />
-    <ClCompile Include="Input\DInputSource.cpp">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Input\InputSource.cpp" />
-    <ClCompile Include="Input\SDLInputSource.cpp">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Input\XInputSource.cpp" />
     <ClCompile Include="IopGte.cpp" />
     <ClCompile Include="LayeredSettingsInterface.cpp" />
@@ -640,14 +634,8 @@
       <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Host.h" />
-    <ClInclude Include="Input\DInputSource.h">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Input\InputSource.h" />
-    <ClInclude Include="Input\SDLInputSource.h">
-      <ExcludedFromBuild Condition="$(Configuration.Contains(WinRT))">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Input\XInputSource.h" />
     <ClInclude Include="IopGte.h" />
     <ClInclude Include="IPU\mpeg2_vlc.h" />
@@ -777,7 +765,6 @@
     <ClInclude Include="USB\usb-mic\usb-mic-singstar.h" />
     <ClInclude Include="USB\usb-msd\usb-msd.h" />
     <ClInclude Include="USB\usb-pad\lg\lg_ff.h" />
-    <ClInclude Include="USB\usb-pad\usb-pad-sdl-ff.h" />
     <ClInclude Include="USB\usb-pad\usb-pad.h" />
     <ClInclude Include="USB\usb-pad\usb-turntable.h" />
     <ClInclude Include="USB\usb-printer\usb-printer.h" />

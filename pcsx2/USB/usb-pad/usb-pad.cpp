@@ -20,10 +20,6 @@
 #include "Host.h"
 #include "StateWrapper.h"
 
-#ifndef WINRT_XBOX
-#include "USB/usb-pad/usb-pad-sdl-ff.h"
-#endif
-
 namespace usb_pad
 {
 	static const USBDescStrings df_desc_strings = {

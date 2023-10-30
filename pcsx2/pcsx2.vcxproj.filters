@@ -1335,13 +1335,7 @@
     <ClCompile Include="Input\InputSource.cpp">
       <Filter>Misc\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Input\SDLInputSource.cpp">
-      <Filter>Misc\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Input\InputManager.cpp">
-      <Filter>Misc\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\DInputSource.cpp">
       <Filter>Misc\Input</Filter>
     </ClCompile>
     <ClCompile Include="Input\XInputSource.cpp">
@@ -2187,9 +2181,6 @@
     <ClInclude Include="USB\usb-mic\audiodev-cubeb.h">
       <Filter>System\Ps2\USB\usb-mic</Filter>
     </ClInclude>
-    <ClInclude Include="USB\usb-pad\usb-pad-sdl-ff.h">
-      <Filter>System\Ps2\USB\usb-pad</Filter>
-    </ClInclude>
     <ClInclude Include="SPU2\Debug.h">
       <Filter>System\Ps2\SPU2</Filter>
     </ClInclude>
@@ -2269,12 +2260,6 @@
       <Filter>Misc\Input</Filter>
     </ClInclude>
     <ClInclude Include="Input\InputSource.h">
-      <Filter>Misc\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\SDLInputSource.h">
-      <Filter>Misc\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\DInputSource.h">
       <Filter>Misc\Input</Filter>
     </ClInclude>
     <ClInclude Include="Input\XInputSource.h">
