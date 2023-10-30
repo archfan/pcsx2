@@ -74,6 +74,14 @@ namespace WinRTHost
 	static void ProcessEventQueue();
 } // namespace WinRTHost
 
+namespace Host
+{
+	static bool loginPopupOpen = false; // Keeps track of whether login window is open
+	static char username[100] = "";     // Input buffer for the username
+	static char password[100] = "";     // Input buffer for the password
+	static char debugMessage[256] = ""; // Buffer for debug messages
+}
+
 static std::unique_ptr<INISettingsInterface> s_settings_interface;
 
 BEGIN_HOTKEY_LIST(g_host_hotkeys)
