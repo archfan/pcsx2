@@ -46,7 +46,7 @@ jobs:
 
       - name: Build project
         run: |
-          msbuild PCSX2_winrt.sln /m /p:Platform=x64 /p:Configuration="Release WinRT AVX2" /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="xbsx2_TemporaryKey.pfx" /t:restore,build /p:RestorePackagesConfig=true /p:DebugType=none
+          msbuild PCSX2_winrt.sln /m /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration="Release WinRT AVX2" /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="xbsx2_TemporaryKey.pfx" /t:restore,build /p:RestorePackagesConfig=true /p:DebugType=none 
 
       - name: Upload Builds
         uses: actions/upload-artifact@v3
