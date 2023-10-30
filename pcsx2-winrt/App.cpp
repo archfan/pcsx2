@@ -310,6 +310,25 @@ void Host::RequestVMShutdown(bool allow_confirm, bool allow_save_state, bool def
 
 void Host::OnAchievementsLoginRequested(Achievements::LoginRequestReason reason)
 {
+    loginPopupOpen = true;  // Open the login popup
+
+    if (!loginPopupOpen) return;
+
+    ImGui::OpenPopup("Login to RetroAchievements");
+
+    if (ImGui::BeginPopupModal("Login to RetroAchievements", &loginPopupOpen))
+    {
+        ImGui::InputText("Username", username, IM_ARRAYSIZE(username));
+        ImGui::InputText("Password", password, IM_ARRAYSIZE(password), ImGuiInputTextFlags_Password);
+
+        if (ImGui::Button("Login"))
+        {
+            // If successful:
+            // loginPopupOpen = false;
+        }
+
+        ImGui::EndPopup();
+    }
 }
 
 void Host::OnAchievementsLoginSuccess(const char* username, u32 points, u32 sc_points, u32 unread_messages)
