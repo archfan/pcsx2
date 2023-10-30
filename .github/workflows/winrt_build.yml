@@ -53,7 +53,8 @@ jobs:
         with:
           name: XBSX2.0 Nightly Build (AVX2)
           path: |
-            AppPackages/xbsx2
+            AppPackages/xbsx2/*.appx
+            AppPackages/xbsx2/Dependencies/x64/
             !AppPackages/xbsx2/*.appxsym
             !AppPackages/xbsx2/TelemetryDependencies
             !AppPackages/xbsx2/Add-AppDevPackage.resources
